@@ -9,8 +9,8 @@ namespace Marain.Operations.Tasks
     using System.Linq;
     using System.Runtime.Serialization;
     using Corvus.Tenancy;
-    using Menes;
     using Marain.Operations.Domain;
+    using Menes;
 
     /// <summary>
     /// Exception indicating that an attempt was made to move an Operation into a state that is not
