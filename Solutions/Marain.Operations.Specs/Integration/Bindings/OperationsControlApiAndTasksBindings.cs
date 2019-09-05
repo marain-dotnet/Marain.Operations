@@ -6,8 +6,11 @@ namespace Marain.Operations.Specs.Integration.Bindings
 {
     using System.Collections.Generic;
     using Corvus.SpecFlow.Extensions;
+    using Corvus.Tenancy;
+    using Marain.Operations.OpenApi;
     using Marain.Operations.Storage;
     using Marain.Operations.Tasks;
+    using Menes;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using TechTalk.SpecFlow;
@@ -33,11 +36,11 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddLogging();
 
                     serviceCollection.AddSingleton<IOpenApiDocumentProvider, OpenApiDocumentProvider>();
+                    serviceCollection.AddSingleton<ITenantProvider, FakeTenantProvider>();
 
                     serviceCollection.AddTransient<OperationsControlOpenApiService>();
                     serviceCollection.AddExternalServicesForOperationsControlApi();
                     serviceCollection.AddTransient<IOperationsControlTasks, OperationsControlTasks>();
-
                     var repository = new FakeOperationsRepository();
                     serviceCollection.AddSingleton<IOperationsRepository>(repository);
                     serviceCollection.AddSingleton(repository);

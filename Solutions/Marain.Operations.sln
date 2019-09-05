@@ -8,11 +8,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D29CAB
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Abstractions", "Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj", "{56C80859-3883-4376-B1B3-40550143DE6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Abstractions", "Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj", "{56C80859-3883-4376-B1B3-40550143DE6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Azure.Storage", "Marain.Operations.Azure.Storage\Marain.Operations.Azure.Storage.csproj", "{0DA469E7-74B2-445D-A533-A08241B9C88E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Azure.Storage", "Marain.Operations.Azure.Storage\Marain.Operations.Azure.Storage.csproj", "{0DA469E7-74B2-445D-A533-A08241B9C88E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Specs", "Marain.Operations.Specs\Marain.Operations.Specs.csproj", "{C4577041-7449-4339-9768-A466C4999AC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Specs", "Marain.Operations.Specs\Marain.Operations.Specs.csproj", "{C4577041-7449-4339-9768-A466C4999AC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.OpenApi", "Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj", "{9A733580-3BB9-4A33-90A5-95C685CF69B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{C4577041-7449-4339-9768-A466C4999AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4577041-7449-4339-9768-A466C4999AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4577041-7449-4339-9768-A466C4999AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

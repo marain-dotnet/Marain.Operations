@@ -25,7 +25,7 @@ namespace Marain.Operations.Storage.Blob
             this IServiceCollection services,
             IConfiguration rootTenantDefaultConfiguration)
         {
-            services.SetRootTenantDefaultStorageConfiguration(rootTenantDefaultConfiguration);
+            services.AddTenantCloudBlobContainerFactory(rootTenantDefaultConfiguration);
             services.AddSingleton<IOperationsRepository, OperationsRepository>();
 
             return services;

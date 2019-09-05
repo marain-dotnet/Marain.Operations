@@ -1,0 +1,107 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Endjin Operations
+  license:
+    name: Endjin Limited
+servers:
+  - url: http://localhost:7077/api
+paths:
+  '/api/operations/{operationId}':
+    get:
+      tags:
+        - Operations
+      summary: Operations - Retrieve operation
+      operationId: GetOperationById
+      parameters:
+        - name: operationId
+          in: path
+          description: Id of the Operation.
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operation'
+              # Sadly, the OpenApiDocument.SerializeAsJson incorrectly serializes any example data in the format 'date-time'
+              # by failing to wrap it in quotes, causing our Swagger endpoint to attempt to return invalid JSON. So
+              # we can't actually produce an example.
+              #example:
+              #  createdDateTime:
+              #    dateTimeOffset: '2016-10-23T13:44:28.8183211+00:00'
+              #    unixTime: 1234
+              #  id: '0f70fbad-2c48-48d6-8ce8-043fdc07156a'
+              #  lastActionDateTime:
+              #    dateTimeOffset: '2016-10-23T13:44:29.6046585+00:00'
+              #    unixTime: 1235
+              #  contentId: '8b9fb498-c5af-4237-a0a3-dabcd932fd56'
+              #  percentComplete: 100
+              #  resourceLocation: >-
+              #    /api/text/extract?OperationId=0f70fbad-2c48-48d6-8ce8-043fdc07156a
+              #  status: Succeeded
+              #  clientData: "{ data: 'Arbitrary data in any format' }"
+              #  tenantId: 'c3952b2e-be67-4a33-a620-10b3957ba6fc'
+        '404':
+          description: An operation with the specified id was not found.
+components:
+  schemas:
+    Operation:
+      description: A long-running operation
+      type: object
+      required: ["createdDateTime", "id", "lastActionDateTime", "contentId", "percentComplete", "resourceLocation", "status", "tenantId"]
+      additionalProperties: false
+      properties:
+        createdDateTime:
+          $ref: '#/components/schemas/DateTimeInstant'
+        id:
+          description: This operation's unique identifier
+          format: uuid
+          type: string
+        lastActionDateTime:
+          $ref: '#/components/schemas/DateTimeInstant'
+        contentId:
+          description: The unique id for content describing the operation's current state
+          type: string
+        percentComplete:
+          description: A number from 0 to 100 indicating how much of the operation's work is complete
+          format: int32
+          type: integer
+          nullable: true
+        resourceLocation:
+          description: The resource that this long-running operation is producing or has produced
+          type: string
+        status:
+          description: The operation's current state
+          enum:
+            - NotStarted
+            - Running
+            - Succeeded
+            - Failed
+          type: string
+        clientData:
+          description: A small amount of arbitrary data provided by the operation being tracked.
+          type: string
+          nullable: true
+        tenantId:
+          description: The id of the tenant to which this operation belongs
+          format: uuid
+          type: string
+    DateTimeInstant:
+      description: Represents a particular moment in time
+      type: object
+      required: ["dateTimeOffset", "unixTime"]
+      additionalProperties: false
+      properties:
+        dateTimeOffset:
+          description: The instant represented as a date and time with optional offset
+          format: date-time
+          type: string
+        unixTime:
+          description: The instance represented as the number of seconds that have elapsed since midnight (UTC) 1st January 1970
+          format: int64
+          type: integer

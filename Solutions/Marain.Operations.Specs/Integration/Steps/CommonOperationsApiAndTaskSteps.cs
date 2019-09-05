@@ -9,6 +9,7 @@ namespace Marain.Operations.Specs.Integration.Steps
     using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
+    using Menes;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using TechTalk.SpecFlow;

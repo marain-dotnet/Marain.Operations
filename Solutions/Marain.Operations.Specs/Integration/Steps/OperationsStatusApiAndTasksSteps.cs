@@ -12,6 +12,8 @@ namespace Marain.Operations.Specs.Integration.Steps
     using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
+    using Marain.Operations.OpenApi;
+    using Menes;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using TechTalk.SpecFlow;
@@ -50,7 +52,7 @@ namespace Marain.Operations.Specs.Integration.Steps
                 TenantId = TenantId,
             };
 
-            await this.repository.PersistAsync(OperationsTenant, op).ConfigureAwait(false);
+            await this.repository.PersistAsync(this.OperationsTenant, op).ConfigureAwait(false);
         }
 
         [Given("There is a running operation in the store with id '(.*)' and a percentComplete of (.*)")]
@@ -66,7 +68,7 @@ namespace Marain.Operations.Specs.Integration.Steps
                 TenantId = TenantId,
             };
 
-            await this.repository.PersistAsync(OperationsTenant, op).ConfigureAwait(false);
+            await this.repository.PersistAsync(this.OperationsTenant, op).ConfigureAwait(false);
         }
 
         [When(@"I call OperationsStatusOpenApiService\.GetOperationById with id '(.*)'")]

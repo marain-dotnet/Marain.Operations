@@ -7,6 +7,8 @@ namespace Marain.Operations.Specs.Integration.Steps
     using System;
     using System.Threading.Tasks;
     using Corvus.SpecFlow.Extensions;
+    using Marain.Operations.OpenApi;
+    using Menes;
     using Microsoft.Extensions.DependencyInjection;
     using TechTalk.SpecFlow;
 
