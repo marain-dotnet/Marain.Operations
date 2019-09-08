@@ -1,6 +1,6 @@
 # Marain.Operations
 [![Build Status](https://dev.azure.com/endjin-labs/Marain.Operations/_apis/build/status/marain-dotnet.Marain.Operations?branchName=master)](https://dev.azure.com/endjin-labs/Marain.Operations/_build/latest?definitionId=4&branchName=master)
-[![GitHub license](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://raw.githubusercontent.com/marain-dotnet/Marain.Operations/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://raw.githubusercontent.com/marain-dotnet/Marain.Operations/master/LICENSE)
 [![IMM](https://endimmfuncdev.azurewebsites.net/api/imm/github/marain-dotnet/Marain.Operations/total?cache=false)](https://endimmfuncdev.azurewebsites.net/api/imm/github/marain-dotnet/Marain.Operations/total?cache=false)
 
 This provides a long-running operations API.
@@ -27,7 +27,7 @@ We produce two free weekly newsletters; [Azure Weekly](https://azureweekly.info)
 
 Keep up with everything that's going on at endjin via our [blog](https://blogs.endjin.com/), follow us on [Twitter](https://twitter.com/endjin), or [LinkedIn](https://www.linkedin.com/company/1671851/).
 
-Our other Open Source projects can be found on [GitHub](https://github.com/endjin)
+Our other Open Source projects can be found on [GitHub](https://endjin.com/open-source)
 
 ## Code of conduct
 
