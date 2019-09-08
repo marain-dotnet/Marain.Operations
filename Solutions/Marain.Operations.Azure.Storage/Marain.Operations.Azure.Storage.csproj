@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageLicenseExpression>GPL-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <PackageDescription></PackageDescription>
     <PackageTags></PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
