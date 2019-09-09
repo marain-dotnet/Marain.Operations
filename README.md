@@ -1,6 +1,6 @@
 # Marain.Operations
 [![Build Status](https://dev.azure.com/endjin-labs/Marain.Operations/_apis/build/status/marain-dotnet.Marain.Operations?branchName=master)](https://dev.azure.com/endjin-labs/Marain.Operations/_build/latest?definitionId=4&branchName=master)
-[![GitHub license](https://img.shields.io/badge/License-Apache%202-blue.svg)](https://raw.githubusercontent.com/marain-dotnet/Marain.Operations/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://raw.githubusercontent.com/marain-dotnet/Marain.Operations/master/LICENSE)
 [![IMM](https://endimmfuncdev.azurewebsites.net/api/imm/github/marain-dotnet/Marain.Operations/total?cache=false)](https://endimmfuncdev.azurewebsites.net/api/imm/github/marain-dotnet/Marain.Operations/total?cache=false)
 
 This provides a long-running operations API.
@@ -11,9 +11,9 @@ It is built for netstandard2.0.
 
 ## Licenses
 
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 
-Marain.Operations is available under the GPL V2 open source license. Commercial licenses are also available.
+Marain.Operations is available under the AGPL v3 open source license. Commercial licenses are also available.
 
 For any licensing questions, please email [&#108;&#105;&#99;&#101;&#110;&#115;&#105;&#110;&#103;&#64;&#101;&#110;&#100;&#106;&#105;&#110;&#46;&#99;&#111;&#109;](&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#105;&#99;&#101;&#110;&#115;&#105;&#110;&#103;&#64;&#101;&#110;&#100;&#106;&#105;&#110;&#46;&#99;&#111;&#109;)
 
@@ -27,7 +27,7 @@ We produce two free weekly newsletters; [Azure Weekly](https://azureweekly.info)
 
 Keep up with everything that's going on at endjin via our [blog](https://blogs.endjin.com/), follow us on [Twitter](https://twitter.com/endjin), or [LinkedIn](https://www.linkedin.com/company/1671851/).
 
-Our other Open Source projects can be found on [GitHub](https://github.com/endjin)
+Our other Open Source projects can be found on [GitHub](https://endjin.com/open-source)
 
 ## Code of conduct
 
