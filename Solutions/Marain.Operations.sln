@@ -14,7 +14,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Azure.Sto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Specs", "Marain.Operations.Specs\Marain.Operations.Specs.csproj", "{C4577041-7449-4339-9768-A466C4999AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.OpenApi", "Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj", "{9A733580-3BB9-4A33-90A5-95C685CF69B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.OpenApi", "Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj", "{9A733580-3BB9-4A33-90A5-95C685CF69B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{F4D3CF09-810E-486E-93F7-8B83289AE47A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.ControlHost.Functions", "Marain.Operations.ControlHost.Functions\Marain.Operations.ControlHost.Functions.csproj", "{F1CD8273-D993-4452-A3B6-4C0B2744C20B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusHost.Functions", "Marain.Operations.StatusHost.Functions\Marain.Operations.StatusHost.Functions.csproj", "{798886DA-C849-4F9F-AC06-BBCB721F800F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +44,21 @@ Global
 		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A733580-3BB9-4A33-90A5-95C685CF69B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1CD8273-D993-4452-A3B6-4C0B2744C20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1CD8273-D993-4452-A3B6-4C0B2744C20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1CD8273-D993-4452-A3B6-4C0B2744C20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1CD8273-D993-4452-A3B6-4C0B2744C20B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F1CD8273-D993-4452-A3B6-4C0B2744C20B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
+		{798886DA-C849-4F9F-AC06-BBCB721F800F} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A96A87D-1A5F-440A-AE9B-5449358C84D2}

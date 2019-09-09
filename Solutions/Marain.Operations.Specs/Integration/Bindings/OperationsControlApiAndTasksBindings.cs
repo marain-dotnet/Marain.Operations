@@ -10,7 +10,6 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Marain.Operations.OpenApi;
     using Marain.Operations.Storage;
     using Marain.Operations.Tasks;
-    using Menes;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using TechTalk.SpecFlow;
@@ -33,17 +32,10 @@ namespace Marain.Operations.Specs.Integration.Bindings
                 featureContext,
                 serviceCollection =>
                 {
-                    serviceCollection.AddLogging();
-
-                    serviceCollection.AddSingleton<IOpenApiDocumentProvider, OpenApiDocumentProvider>();
+                    serviceCollection.AddSingleton<FakeOperationsRepository>();
+                    serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());
                     serviceCollection.AddSingleton<ITenantProvider, FakeTenantProvider>();
-
-                    serviceCollection.AddTransient<OperationsControlOpenApiService>();
-                    serviceCollection.AddExternalServicesForOperationsControlApi();
-                    serviceCollection.AddTransient<IOperationsControlTasks, OperationsControlTasks>();
-                    var repository = new FakeOperationsRepository();
-                    serviceCollection.AddSingleton<IOperationsRepository>(repository);
-                    serviceCollection.AddSingleton(repository);
+                    serviceCollection.AddOperationsControlApi();
 
                     var configData = new Dictionary<string, string>
                     {

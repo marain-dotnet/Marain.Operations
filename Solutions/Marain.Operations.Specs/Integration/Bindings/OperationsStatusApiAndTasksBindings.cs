@@ -4,6 +4,7 @@
 
 namespace Marain.Operations.Specs.Integration.Bindings
 {
+    using Corvus.Extensions.Json;
     using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
     using Marain.Operations.OpenApi;
@@ -24,24 +25,17 @@ namespace Marain.Operations.Specs.Integration.Bindings
         /// Configures the DI container before tests start.
         /// </summary>
         /// <param name="featureContext">The SpecFlow test context.</param>
-        [BeforeFeature("@status", Order = ContainerBeforeFeatureOrder.PopulateServiceCollection)]
+        [BeforeFeature("@operationsStatus", Order = ContainerBeforeFeatureOrder.PopulateServiceCollection)]
         public static void SetupFeature(FeatureContext featureContext)
         {
             ContainerBindings.ConfigureServices(
                 featureContext,
                 serviceCollection =>
                 {
-                    serviceCollection.AddLogging();
-
+                    serviceCollection.AddSingleton<FakeOperationsRepository>();
+                    serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());
                     serviceCollection.AddSingleton<ITenantProvider, FakeTenantProvider>();
-                    serviceCollection.AddSingleton<IOpenApiDocumentProvider, OpenApiDocumentProvider>();
-
-                    serviceCollection.AddTransient<OperationsStatusOpenApiService>();
-                    serviceCollection.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
-
-                    var repository = new FakeOperationsRepository();
-                    serviceCollection.AddSingleton<IOperationsRepository>(repository);
-                    serviceCollection.AddSingleton(repository);
+                    serviceCollection.AddOperationsStatusApi();
                 });
         }
     }

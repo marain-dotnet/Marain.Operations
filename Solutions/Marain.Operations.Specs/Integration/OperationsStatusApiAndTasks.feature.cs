@@ -19,7 +19,7 @@ namespace Marain.Operations.Specs.Integration
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("OperationsStatusApiAndTasks")]
-    [NUnit.Framework.CategoryAttribute("status")]
+    [NUnit.Framework.CategoryAttribute("operationsStatus")]
     [NUnit.Framework.CategoryAttribute("setupContainer")]
     public partial class OperationsStatusApiAndTasksFeature
     {
@@ -36,7 +36,7 @@ namespace Marain.Operations.Specs.Integration
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OperationsStatusApiAndTasks", "\tIn order to enable observation of long-running operations\r\n\tAs a developer\r\n\tI w" +
                     "ant to verify that the OperationsStatusService and OperationsStatusTasks types w" +
                     "ork together as expected", ProgrammingLanguage.CSharp, new string[] {
-                        "status",
+                        "operationsStatus",
                         "setupContainer"});
             testRunner.OnFeatureStart(featureInfo);
         }

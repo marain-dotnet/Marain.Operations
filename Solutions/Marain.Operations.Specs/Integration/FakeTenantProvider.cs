@@ -6,7 +6,12 @@
 
     class FakeTenantProvider : ITenantProvider
     {
-        public ITenant Root { get; } = new Tenant { Id = "Root" };
+        public FakeTenantProvider(RootTenant rootTenant)
+        {
+            this.Root = rootTenant;
+        }
+
+        public ITenant Root { get; }
 
         public Task<ITenant> CreateChildTenantAsync(string parentTenantId)
         {

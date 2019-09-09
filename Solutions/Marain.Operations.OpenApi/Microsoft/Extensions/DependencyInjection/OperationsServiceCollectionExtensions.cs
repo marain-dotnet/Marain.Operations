@@ -5,6 +5,7 @@
 namespace Marain.Operations.OpenApi
 {
     using System;
+    using System.Linq;
     using Marain.Operations.Tasks;
     using Menes;
     using Microsoft.Extensions.DependencyInjection;
@@ -24,10 +25,18 @@ namespace Marain.Operations.OpenApi
             this IServiceCollection services,
             Action<IOpenApiHostConfiguration> configureHost = null)
         {
-            services.AddSingleton<IOpenApiService, OperationsStatusOpenApiService>();
-            services.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
-            services.AddDefaultJsonSerializerSettings();
+            if (services.Any(s => typeof(IOperationsStatusTasks).IsAssignableFrom(s.ServiceType)))
+            {
+                return services;
+            }
 
+            services.AddLogging();
+            services.AddRootTenant();
+
+            services.AddSingleton<OperationsStatusOpenApiService>();
+            services.AddSingleton<IOpenApiService, OperationsStatusOpenApiService>(s => s.GetRequiredService<OperationsStatusOpenApiService>());
+
+            services.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>((config) =>
             {
                 config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
@@ -47,9 +56,17 @@ namespace Marain.Operations.OpenApi
             this IServiceCollection services,
             Action<IOpenApiHostConfiguration> configureHost = null)
         {
-            services.AddSingleton<IOpenApiService, OperationsControlOpenApiService>();
+            if (services.Any(s => typeof(IOperationsControlTasks).IsAssignableFrom(s.ServiceType)))
+            {
+                return services;
+            }
+
+            services.AddLogging();
+            services.AddRootTenant();
+
+            services.AddSingleton<OperationsControlOpenApiService>();
+            services.AddSingleton<IOpenApiService, OperationsControlOpenApiService>(s => s.GetRequiredService<OperationsControlOpenApiService>());
             services.AddTransient<IOperationsControlTasks, OperationsControlTasks>();
-            services.AddDefaultJsonSerializerSettings();
 
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>(config =>
             {

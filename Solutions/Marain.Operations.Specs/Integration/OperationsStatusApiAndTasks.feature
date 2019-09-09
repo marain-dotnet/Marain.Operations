@@ -1,4 +1,4 @@
-﻿@status
+﻿@operationsStatus
 @setupContainer
 Feature: OperationsStatusApiAndTasks
 	In order to enable observation of long-running operations
