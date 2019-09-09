@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>99F6DADC-FC9A-4060-9D4C-6047D15FECC7</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PrepareForBuildDependsOn>
+    </PrepareForBuildDependsOn>
+  </PropertyGroup>
+  <Import Condition=" Exists('Deployment.targets') " Project="Deployment.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- vertag<:>start tokens<:>maj.min -->
+  <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
+  <!-- vertag<:>end -->
+  <ItemGroup>
+    <Content Include="deploy.json" />
+    <None Include="marain-undeploy.ps1" />
+    <None Include="marain-deploy.ps1" />
+    <None Include="deploy.ps1" />
+    <None Include="Deployment.targets">
+      <Visible>False</Visible>
+    </None>
+    <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="Run-ScriptWithVstsVariables.ps1" />
+    <None Include="Scripts\Create-AzureAdApplications.ps1" />
+    <None Include="Scripts\Create-StorageAccount.ps1" />
+    <None Include="Scripts\Delete-AzureAdApplications.ps1" />
+    <None Include="Templates\app-insights.json" />
+    <None Include="Templates\functions-app-auth-settings.json" />
+    <None Include="Templates\key-vault-secret.json" />
+    <None Include="Templates\storage-account.json" />
+    <None Include="Templates\functions-app-settings-operations-control-host.json" />
+    <None Include="Templates\functions-app-settings-operations-status-host.json" />
+    <None Include="Templates\functions-app.json" />
+    <None Include="Templates\key-vault-access-policy.json" />
+    <None Include="Templates\key-vault.json" />
+  </ItemGroup>
+  <Target Name="GetReferenceAssemblyPaths" />
+</Project>

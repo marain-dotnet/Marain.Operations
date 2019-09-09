@@ -1,0 +1,62 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountConnectionString": {
+      "type": "string"
+    },
+    "functionsAppName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "applicationInsightsInstrumentationKey": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operationsStatusServiceBaseUrl": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageAccountName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keyVaultName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageKeySecretName": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('functionsAppName'),'/appsettings')]",
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2015-08-01",
+      "dependsOn": [
+      ],
+      "tags": {
+        "displayName": "AppSettings"
+      },
+      "properties": {
+        "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[parameters('storageAccountConnectionString')]",
+        "WEBSITE_CONTENTSHARE": "[toLower(parameters('functionsAppName'))]",
+        "APPINSIGHTS_INSTRUMENTATIONKEY": "[parameters('applicationInsightsInstrumentationKey')]",
+        "FUNCTIONS_EXTENSION_VERSION": "~2",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "AzureWebJobsStorage": "[parameters('storageAccountConnectionString')]",
+        "AzureServicesAuthConnectionString": "",
+        "ExternalServices:OperationsStatus": "[parameters('operationsStatusServiceBaseUrl')]",
+        "StorageAccountName": "[parameters('storageAccountName')]",
+        "StorageKeySecretName": "[parameters('storageKeySecretName')]",
+        "KeyVaultName": "[parameters('keyVaultName')]"
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

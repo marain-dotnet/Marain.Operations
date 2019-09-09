@@ -1,0 +1,52 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "storageAccountName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operationsStorageAccountAlreadyExists": {
+      "type": "bool",
+      "defaultValue": false
+    }
+  },
+  "resources": [
+    {
+      "condition": "[not(parameters('operationsStorageAccountAlreadyExists'))]",
+      "name": "[parameters('storageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2018-07-01",
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      },
+      "dependsOn": [],
+      "tags": {
+        "displayName": "storageAccountName"
+      },
+      "kind": "StorageV2"
+    }
+  ],
+  "outputs": {
+    "storageAccountKey": {
+      "type": "string",
+      "value": "[listKeys(parameters('storageAccountName'), '2019-04-01').keys[0].value]"
+    },
+    "storageAccountConnectionString": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageAccountName'),';AccountKey=', listKeys(parameters('storageAccountName'), '2019-04-01').keys[0].value)]"
+    }
+  }
+}

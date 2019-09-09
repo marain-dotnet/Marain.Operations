@@ -1,0 +1,438 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "_artifactsLocation": {
+      "type": "string"
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring"
+    },
+    "statusFunctionsAppName": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "controlFunctionsAppName": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "statusFunctionAnonymousAccessEnabled": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "controlFunctionAnonymousAccessEnabled": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "operationsStorageAccountAlreadyExists": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "operationsStorageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "keyVaultAlreadyExists": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "keyVaultName": {
+      "type": "string"
+    },
+    "operationsStorageAccountSecretName": {
+      "type": "string"
+    },
+    "appInsightsAlreadyExists": {
+      "type": "bool",
+      "defaultValue": false
+    },
+    "appInsightsInstanceName": {
+      "type": "string"
+    },
+    "artifactStagingDirectory": {
+      "type": "string"
+    },
+    "artifactStorageContainerName": {
+      "type": "string"
+    },
+    "controlAadClientId": {
+      "type": "string"
+    },
+    "statusAadClientId": {
+      "type": "string"
+    },
+    "isDeveloperEnvironment": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "If true, only resources needed to support a developer environment will be deployed."
+      }
+    },
+    "diagnosticsStorageAccountName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "tenantId": "[subscription().tenantID]",
+    "subscriptionId": "[subscription().subscriptionID]",
+    "tagValues": {
+    }
+  },
+  "resources": [
+    {
+      "name": "app-insights",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/app-insights.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "appName": {
+            "value": "[parameters('appInsightsInstanceName')]"
+          },
+          "appType": {
+            "value": "web"
+          },
+          "appLocation": {
+            "value": "[resourceGroup().location]"
+          },
+          "tagValues": {
+            "value": "[variables('tagValues')]"
+          },
+          "appInsightsAlreadyExists": {
+            "value": "[parameters('appInsightsAlreadyExists')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('keyVaultAlreadyExists'))]",
+      "name": "key-vault",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [ "diagnostics-storage-account" ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/key-vault.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "tenantId": {
+            "value": "[variables('tenantId')]"
+          },
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "diagnosticsStorageAccountName": {
+            "value": "[parameters('diagnosticsStorageAccountName')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-status-functions-app",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/functions-app.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "functionsAppName": { "value": "[parameters('statusFunctionsAppName')]" },
+          "_artifactsLocation": { "value": "[parameters('_artifactsLocation')]" },
+          "_artifactsLocationSasToken": { "value": "[parameters('_artifactsLocationSasToken')]" }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-status-functions-app-auth-settings",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-status-functions-app"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/functions-app-auth-settings.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "functionsAppName": {
+            "value": "[parameters('statusFunctionsAppName')]"
+          },
+          "aadTenantId": {
+            "value": "[variables('tenantId')]"
+          },
+          "aadClientId": {
+            "value": "[parameters('statusAadClientId')]"
+          },
+          "unauthenticatedClientAction": {
+            "value": "[if(parameters('statusFunctionAnonymousAccessEnabled'), 'AllowAnonymous', 'RedirectToLoginPage')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-status-functions-app-settings",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-status-functions-app",
+        "app-insights"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/functions-app-settings-operations-status-host.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountConnectionString": { "value": "[reference('operations-status-functions-app', '2016-09-01').outputs.storageAccountConnectionString.value]" },
+          "functionsAppName": { "value": "[parameters('statusFunctionsAppName')]" },
+          "applicationInsightsInstrumentationKey": { "value": "[reference('app-insights', '2016-09-01').outputs.instrumentationKey.value]" },
+          "storageAccountName": { "value": "[parameters('operationsStorageAccountName')]" },
+          "keyVaultName": { "value": "[parameters('keyVaultName')]" },
+          "storageKeySecretName": { "value": "[parameters('operationsStorageAccountSecretName')]" }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-status-function-key-vault-access",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-status-functions-app",
+        "key-vault"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/key-vault-access-policy.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "objectName": {
+            "value": "[parameters('statusFunctionsAppName')]"
+          },
+          "objectResourceGroup": {
+            "value": "[resourceGroup().name]"
+          },
+          "objectResourceType": {
+            "value": "Microsoft.Web/sites"
+          },
+          "permissions": {
+            "value": {
+              "secrets": [
+                "get"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-control-functions-app",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/functions-app.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "functionsAppName": { "value": "[parameters('controlFunctionsAppName')]" },
+          "_artifactsLocation": { "value": "[parameters('_artifactsLocation')]" },
+          "_artifactsLocationSasToken": { "value": "[parameters('_artifactsLocationSasToken')]" }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-control-functions-app-auth-settings",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-control-functions-app"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/functions-app-auth-settings.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "functionsAppName": {
+            "value": "[parameters('controlFunctionsAppName')]"
+          },
+          "aadTenantId": {
+            "value": "[variables('tenantId')]"
+          },
+          "aadClientId": {
+            "value": "[parameters('controlAadClientId')]"
+          },
+          "unauthenticatedClientAction": {
+            "value": "[if(parameters('controlFunctionAnonymousAccessEnabled'), 'AllowAnonymous', 'RedirectToLoginPage')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-control-functions-app-settings",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-control-functions-app",
+        "app-insights"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/functions-app-settings-operations-control-host.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountConnectionString": { "value": "[reference('operations-control-functions-app', '2016-09-01').outputs.storageAccountConnectionString.value]" },
+          "functionsAppName": { "value": "[parameters('controlFunctionsAppName')]" },
+          "applicationInsightsInstrumentationKey": { "value": "[reference('app-insights', '2016-09-01').outputs.instrumentationKey.value]" },
+          "operationsStatusServiceBaseUrl": { "value": "[concat('https://', parameters('statusFunctionsAppName'), '.azurewebsites.net/')]" },
+          "storageAccountName": { "value": "[parameters('operationsStorageAccountName')]" },
+          "keyVaultName": { "value": "[parameters('keyVaultName')]" },
+          "storageKeySecretName": { "value": "[parameters('operationsStorageAccountSecretName')]" }
+        }
+      }
+    },
+    {
+      "condition": "[not(parameters('isDeveloperEnvironment'))]",
+      "name": "operations-control-function-key-vault-access",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-control-functions-app",
+        "key-vault"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/key-vault-access-policy.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "objectName": {
+            "value": "[parameters('controlFunctionsAppName')]"
+          },
+          "objectResourceGroup": {
+            "value": "[resourceGroup().name]"
+          },
+          "objectResourceType": {
+            "value": "Microsoft.Web/sites"
+          },
+          "permissions": {
+            "value": {
+              "secrets": [
+                "get"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "operations-storage-account",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/storage-account.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('operationsStorageAccountName')]"
+          },
+          "operationsStorageAccountAlreadyExists": {
+            "value": "[parameters('operationsStorageAccountAlreadyExists')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "diagnostics-storage-account",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/storage-account.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('diagnosticsStorageAccountName')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "operations-storage-account-key-vault-secret",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-09-01",
+      "dependsOn": [
+        "operations-storage-account",
+        "key-vault"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('_artifactsLocation'), '/Templates/key-vault-secret.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "secretName": {
+            "value": "[parameters('operationsStorageAccountSecretName')]"
+          },
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "contentValue": {
+            "value": "[reference('operations-storage-account', '2016-09-01').outputs.storageAccountKey.value]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
+
