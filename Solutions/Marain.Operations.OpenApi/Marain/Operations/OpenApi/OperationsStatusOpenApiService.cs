@@ -44,22 +44,25 @@ namespace Marain.Operations.OpenApi
         /// <summary>
         /// Gets the specified operation.
         /// </summary>
+        /// <param name="tenantId">The tenant ID.</param>
         /// <param name="operationId">The operation's unique identifier.</param>
         /// <returns>A description of the HTTP response to produce.</returns>
         [OperationId(nameof(GetOperationById))]
-        public async Task<OpenApiResult> GetOperationById(Guid operationId)
+        public async Task<OpenApiResult> GetOperationById(string tenantId, Guid operationId)
         {
-            Operation operation = await this.tasks.GetAsync(this.DetermineTenant(), operationId).ConfigureAwait(false);
+            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
+
+            Operation operation = await this.tasks.GetAsync(tenant, operationId).ConfigureAwait(false);
 
             return operation == null
                 ? this.NotFoundResult()
                 : this.OkResult(operation);
         }
 
-        private ITenant DetermineTenant()
+        private Task<ITenant> DetermineTenantAsync(string tenantId)
         {
-            // TODO: determine tenant from the context
-            return this.tenantProvider.Root;
+            // TODO: get the tenant from the context
+            return this.tenantProvider.GetTenantAsync(tenantId);
         }
     }
 }

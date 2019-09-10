@@ -7,6 +7,7 @@ namespace Marain.Operations.Specs.Integration.Steps
     using System;
     using System.Threading.Tasks;
     using Corvus.SpecFlow.Extensions;
+    using Corvus.Tenancy;
     using Marain.Operations.OpenApi;
     using Menes;
     using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         [When(@"I call OperationsControlOpenApiService\.CreateOperation with id '(.*)'")]
         public async Task WhenICallOperationsControlOpenApiService_CreateOperationWithId(Guid operationId)
         {
-            OpenApiResult result = await this.service.CreateOperation(operationId).ConfigureAwait(false);
+            OpenApiResult result = await this.service.CreateOperation(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }
@@ -35,7 +36,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         [When(@"I call OperationsStatusOpenApiService\.SetOperationFailed with id '(.*)'")]
         public async Task WhenICallOperationsStatusOpenApiService_SetOperationFailedWithId(Guid operationId)
         {
-            OpenApiResult result = await this.service.SetOperationFailed(operationId).ConfigureAwait(false);
+            OpenApiResult result = await this.service.SetOperationFailed(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }
@@ -45,6 +46,7 @@ namespace Marain.Operations.Specs.Integration.Steps
             Guid operationId, int percentComplete)
         {
             OpenApiResult result = await this.service.SetOperationRunning(
+                RootTenant.RootTenantId,
                 operationId,
                 percentComplete).ConfigureAwait(false);
 
@@ -54,7 +56,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         [When(@"I call OperationsStatusOpenApiService\.SetOperationSucceeded with id '(.*)'")]
         public async Task WhenICallOperationsStatusOpenApiService_SetOperationSucceededWithIdAsync(Guid operationId)
         {
-            OpenApiResult result = await this.service.SetOperationSucceeded(operationId).ConfigureAwait(false);
+            OpenApiResult result = await this.service.SetOperationSucceeded(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }

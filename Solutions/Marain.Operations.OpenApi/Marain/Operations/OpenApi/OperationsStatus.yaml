@@ -7,13 +7,19 @@ info:
 servers:
   - url: http://localhost:7077/api
 paths:
-  '/api/operations/{operationId}':
+  '/{tenantId}/api/operations/{operationId}':
     get:
       tags:
         - Operations
       summary: Operations - Retrieve operation
       operationId: GetOperationById
       parameters:
+        - name: tenantId
+          in: path
+          description: Id of the Tenant.
+          required: true
+          schema:
+            type: string
         - name: operationId
           in: path
           description: Id of the Operation.

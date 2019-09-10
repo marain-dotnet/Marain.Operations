@@ -31,13 +31,19 @@ info:
 servers:
   - url: http://localhost:7078/api
 paths:
-  '/api/operationscontrol/{operationId}/create':
+  '/{tenantId}/api/operationscontrol/{operationId}/create':
     put:
       tags:
         - Operations
       summary: Create a new operation, which will be in the "Not Started" state
       operationId: CreateOperation
       parameters:
+        - name: tenantId
+          in: path
+          description: Id of the Tenant.
+          required: true
+          schema:
+            type: string
         - name: operationId
           in: path
           description: Id of the Operation.
@@ -75,13 +81,19 @@ paths:
                 type: string
         '409':
           description: Conflict - an operation with this id already exists and has moved out of the "Not Started" state
-  '/api/operationscontrol/{operationId}/failed':
+  '/{tenantId}/api/operationscontrol/{operationId}/failed':
     put:
       tags:
         - Operations
       summary: Set an existing operation into the "Failed" state
       operationId: SetOperationFailed
       parameters:
+        - name: tenantId
+          in: path
+          description: Id of the Tenant.
+          required: true
+          schema:
+            type: string
         - name: operationId
           in: path
           description: Id of the Operation.
@@ -118,13 +130,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProblemDetails"
-  '/api/operationscontrol/{operationId}/running':
+  '/{tenantId}/api/operationscontrol/{operationId}/running':
     put:
       tags:
         - Operations
       summary: Set an operation into the "Running" state
       operationId: SetOperationRunning
       parameters:
+        - name: tenantId
+          in: path
+          description: Id of the Tenant.
+          required: true
+          schema:
+            type: string
         - name: operationId
           in: path
           description: Id of the Operation.
@@ -173,13 +191,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProblemDetails"
-  '/api/operationscontrol/{operationId}/succeeded':
+  '/{tenantId}/api/operationscontrol/{operationId}/succeeded':
     put:
       tags:
         - Operations
       summary: Set an operation into the "Succeeded" state
       operationId: SetOperationSucceeded
       parameters:
+        - name: tenantId
+          in: path
+          description: Id of the Tenant.
+          required: true
+          schema:
+            type: string
         - name: operationId
           in: path
           description: Id of Operation.

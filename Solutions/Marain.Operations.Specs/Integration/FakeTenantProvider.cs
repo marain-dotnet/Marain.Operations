@@ -25,7 +25,12 @@
 
         public Task<ITenant> GetTenantAsync(string tenantId)
         {
-            throw new NotImplementedException();
+            if (tenantId == RootTenant.RootTenantId)
+            {
+                return Task.FromResult(this.Root);
+            }
+
+            return Task.FromResult(default(ITenant));
         }
 
         public Task<ITenant> UpdateTenantAsync(ITenant tenant)

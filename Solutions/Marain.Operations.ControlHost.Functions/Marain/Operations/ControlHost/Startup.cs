@@ -6,8 +6,6 @@
 
 namespace Marain.Operations.ControlHost
 {
-    using Corvus.Azure.Storage.Tenancy;
-    using Marain.Operations.OpenApi;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.Configuration;

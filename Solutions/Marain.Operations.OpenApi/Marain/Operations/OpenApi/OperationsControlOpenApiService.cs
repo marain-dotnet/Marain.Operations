@@ -10,7 +10,6 @@ namespace Marain.Operations.OpenApi
     using Marain.Operations.Domain;
     using Marain.Operations.Tasks;
     using Menes;
-    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// OpenApi service enabling services offering long-running operations to define and update
@@ -42,6 +41,7 @@ namespace Marain.Operations.OpenApi
         /// <summary>
         /// Creates a new operation, which will be in the <see cref="OperationStatus.NotStarted"/> state.
         /// </summary>
+        /// <param name="tenantId">The tenant id.</param>
         /// <param name="operationId">
         /// Client-supplied unique identifier for operation.
         /// </param>
@@ -58,12 +58,13 @@ namespace Marain.Operations.OpenApi
         /// <returns>A description of the HTTP response to produce.</returns>
         [OperationId(nameof(CreateOperation))]
         public async Task<OpenApiResult> CreateOperation(
+            string tenantId,
             Guid operationId,
             string resourceLocation = "",
             long? expireAfter = null,
             string body = null)
         {
-            ITenant tenant = this.DetermineTenant();
+            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.CreateAsync(tenant, operationId, resourceLocation, expireAfter, body).ConfigureAwait(false);
 
@@ -79,12 +80,13 @@ namespace Marain.Operations.OpenApi
             // state. This is to enable successful recovery if an earlier operation succeeded by the
             // client never saw the result. For this reason, we return a 201 Created even if the
             // resource already existed.
-            return this.CreatedResultWithOperationLocationHeader(operationId);
+            return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
         }
 
         /// <summary>
         /// Sets an operation into the <see cref="OperationStatus.Failed"/> state.
         /// </summary>
+        /// <param name="tenantId">The tenant id.</param>
         /// <param name="operationId">
         /// Client-supplied unique identifier for operation.
         /// </param>
@@ -102,11 +104,12 @@ namespace Marain.Operations.OpenApi
         /// <returns>A description of the HTTP response to produce.</returns>
         [OperationId(nameof(SetOperationFailed))]
         public async Task<OpenApiResult> SetOperationFailed(
+            string tenantId,
             Guid operationId,
             long? expireAfter = null,
             string body = null)
         {
-            ITenant tenant = this.DetermineTenant();
+            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.SetFailedAsync(tenant, operationId, expireAfter, body).ConfigureAwait(false);
 
@@ -118,12 +121,13 @@ namespace Marain.Operations.OpenApi
             // created something. (Logically speaking, the thing we've created is a state
             // transition. We don't actually provide any way of retrieving a representation of
             // that transition, but in theory it exists.) So a 201 Created is a suitable response.
-            return this.CreatedResultWithOperationLocationHeader(operationId);
+            return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
         }
 
         /// <summary>
         /// Sets an operation into the <see cref="OperationStatus.Running"/> state.
         /// </summary>
+        /// <param name="tenantId">The tenant id.</param>
         /// <param name="operationId">
         /// Client-supplied unique identifier for operation.
         /// </param>
@@ -147,22 +151,24 @@ namespace Marain.Operations.OpenApi
         /// <returns>A description of the HTTP response to produce.</returns>
         [OperationId(nameof(SetOperationRunning))]
         public async Task<OpenApiResult> SetOperationRunning(
+            string tenantId,
             Guid operationId,
             int? percentComplete = null,
             string contentId = "",
             long? expireAfter = null,
             string body = null)
         {
-            ITenant tenant = this.DetermineTenant();
+            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.SetRunningAsync(tenant, operationId, percentComplete, contentId, expireAfter, body).ConfigureAwait(false);
 
-            return this.CreatedResultWithOperationLocationHeader(operationId);
+            return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
         }
 
         /// <summary>
         /// Sets an operation into the <see cref="OperationStatus.Succeeded"/> state.
         /// </summary>
+        /// <param name="tenantId">The tenant id.</param>
         /// <param name="operationId">
         /// Client-supplied unique identifier for operation.
         /// </param>
@@ -183,28 +189,30 @@ namespace Marain.Operations.OpenApi
         /// <returns>A description of the HTTP response to produce.</returns>
         [OperationId(nameof(SetOperationSucceeded))]
         public async Task<OpenApiResult> SetOperationSucceeded(
+            string tenantId,
             Guid operationId,
             string resourceLocation = "",
             long? expireAfter = null,
             string body = null)
         {
-            ITenant tenant = this.DetermineTenant();
+            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.SetSucceededAsync(tenant, operationId, resourceLocation, expireAfter, body).ConfigureAwait(false);
 
-            return this.CreatedResultWithOperationLocationHeader(operationId);
+            return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
         }
 
-        private ITenant DetermineTenant()
+        private Task<ITenant> DetermineTenantAsync(string tenantId)
         {
             // TODO: get the tenant from the context
-            return this.tenantProvider.Root;
+            return this.tenantProvider.GetTenantAsync(tenantId);
         }
 
-        private OpenApiResult CreatedResultWithOperationLocationHeader(Guid operationId)
+        private OpenApiResult CreatedResultWithOperationLocationHeader(string tenantId, Guid operationId)
         {
             Uri operationUrl = this.externalServiceResolver.ResolveUrl<OperationsStatusOpenApiService>(
                 nameof(OperationsStatusOpenApiService.GetOperationById),
+                ("tenantId", tenantId),
                 ("operationId", operationId));
             return this.CreatedResult(operationUrl.ToString());
         }

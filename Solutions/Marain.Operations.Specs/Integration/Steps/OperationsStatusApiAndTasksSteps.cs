@@ -76,7 +76,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         {
             OperationsStatusOpenApiService service = this.serviceProvider.GetRequiredService<OperationsStatusOpenApiService>();
 
-            OpenApiResult result = await service.GetOperationById(operationId).ConfigureAwait(false);
+            OpenApiResult result = await service.GetOperationById(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }
