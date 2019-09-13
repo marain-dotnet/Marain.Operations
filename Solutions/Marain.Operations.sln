@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusHos
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.deployproj", "{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Menes.Operations.Hosting.AspNetCore", "Menes.Operations.Hosting.AspNetCore\Menes.Operations.Hosting.AspNetCore.csproj", "{45554330-70C1-490C-A6D3-E77E8443793B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45554330-70C1-490C-A6D3-E77E8443793B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45554330-70C1-490C-A6D3-E77E8443793B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45554330-70C1-490C-A6D3-E77E8443793B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45554330-70C1-490C-A6D3-E77E8443793B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{F1CD8273-D993-4452-A3B6-4C0B2744C20B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{798886DA-C849-4F9F-AC06-BBCB721F800F} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
+		{45554330-70C1-490C-A6D3-E77E8443793B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A96A87D-1A5F-440A-AE9B-5449358C84D2}

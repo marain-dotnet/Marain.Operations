@@ -30,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.Azure.Storage\Marain.Operations.Azure.Storage.csproj" />
     <ProjectReference Include="..\Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj" />
+    <ProjectReference Include="..\Menes.Operations.Hosting.AspNetCore\Menes.Operations.Hosting.AspNetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
