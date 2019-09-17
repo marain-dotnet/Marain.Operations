@@ -25,7 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
     <ProjectReference Include="..\Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj" />
-    <ProjectReference Include="..\Menes.Operations.Hosting.AspNetCore\Menes.Operations.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

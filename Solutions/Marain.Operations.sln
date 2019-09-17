@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusHos
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.deployproj", "{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Menes.Operations.Hosting.AspNetCore", "Menes.Operations.Hosting.AspNetCore\Menes.Operations.Hosting.AspNetCore.csproj", "{45554330-70C1-490C-A6D3-E77E8443793B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Hosting.AspNetCore", "Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj", "{45554330-70C1-490C-A6D3-E77E8443793B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
