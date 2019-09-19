@@ -304,6 +304,14 @@ components:
           format: url
         validationErrors: 
           type: array
+          items:
+            oneOf:
+            - type: array
+            - type: boolean
+            - type: integer
+            - type: number
+            - type: object
+            - type: string
       additionalProperties: true
     DateTimeInstant:
       description: Represents a particular moment in time

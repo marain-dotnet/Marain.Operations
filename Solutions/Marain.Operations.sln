@@ -24,7 +24,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusHos
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.deployproj", "{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Hosting.AspNetCore", "Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj", "{45554330-70C1-490C-A6D3-E77E8443793B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Hosting.AspNetCore", "Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj", "{45554330-70C1-490C-A6D3-E77E8443793B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{E418F648-61C8-48AF-8305-D520BAB272B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.ControlClient", "Marain.Operations.ControlClient\Marain.Operations.ControlClient.csproj", "{51815998-4551-477F-B2FB-12A767B39CE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusClient", "Marain.Operations.StatusClient\Marain.Operations.StatusClient.csproj", "{526CE85F-CB03-41ED-B1DA-B65539F83FE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +70,14 @@ Global
 		{45554330-70C1-490C-A6D3-E77E8443793B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45554330-70C1-490C-A6D3-E77E8443793B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45554330-70C1-490C-A6D3-E77E8443793B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51815998-4551-477F-B2FB-12A767B39CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51815998-4551-477F-B2FB-12A767B39CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51815998-4551-477F-B2FB-12A767B39CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51815998-4551-477F-B2FB-12A767B39CE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +87,8 @@ Global
 		{798886DA-C849-4F9F-AC06-BBCB721F800F} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{45554330-70C1-490C-A6D3-E77E8443793B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
+		{51815998-4551-477F-B2FB-12A767B39CE9} = {E418F648-61C8-48AF-8305-D520BAB272B0}
+		{526CE85F-CB03-41ED-B1DA-B65539F83FE8} = {E418F648-61C8-48AF-8305-D520BAB272B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A96A87D-1A5F-440A-AE9B-5449358C84D2}
