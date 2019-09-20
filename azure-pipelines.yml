@@ -12,6 +12,7 @@ resources:
     - repository: recommended_practices
       type: github
       name: endjin/Endjin.RecommendedPractices.AzureDevopsPipelines.GitHub
+      ref: refs/heads/feature/additional-github-release-assets_4
       endpoint: marain-github
 
 jobs:
@@ -23,7 +24,7 @@ jobs:
     solution_to_build: $(Endjin_Solution_To_Build)
     postSpecs:
     - task: ArchiveFiles@2
-      displayName: 'Archive core control host function app'
+      displayName: 'Archive Control Host Function App'
       inputs:
         rootFolderOrFile: 'Solutions/Marain.Operations.ControlHost.Functions/bin/Release/netstandard2.0/'
         includeRootFolder: false
@@ -31,7 +32,7 @@ jobs:
         archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.ControlHost.zip'
         replaceExistingArchive: true
     - task: ArchiveFiles@2
-      displayName: 'Archive core status host function app'
+      displayName: 'Archive Status Host Function App'
       inputs:
         rootFolderOrFile: 'Solutions/Marain.Operations.StatusHost.Functions/bin/Release/netstandard2.0/'
         includeRootFolder: false
@@ -39,7 +40,7 @@ jobs:
         archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.StatusHost.zip'
         replaceExistingArchive: true
     - task: ArchiveFiles@2
-      displayName: 'Archive deployment artifacts'
+      displayName: 'Archive Deployment Artifacts'
       inputs:
         rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Marain.Operations.Deployment'
         includeRootFolder: false
