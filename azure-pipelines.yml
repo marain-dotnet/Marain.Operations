@@ -21,3 +21,28 @@ jobs:
     service_connection_nuget_org: $(Endjin_Service_Connection_NuGet_Org)
     service_connection_github: $(Endjin_Service_Connection_GitHub)
     solution_to_build: $(Endjin_Solution_To_Build)
+    postSpecs:
+    - task: ArchiveFiles@2
+      displayName: 'Archive Control Host Function App'
+      inputs:
+        rootFolderOrFile: 'Solutions/Marain.Operations.ControlHost.Functions/bin/Release/netstandard2.0/'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.ControlHost.zip'
+        replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: 'Archive Status Host Function App'
+      inputs:
+        rootFolderOrFile: 'Solutions/Marain.Operations.StatusHost.Functions/bin/Release/netstandard2.0/'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.StatusHost.zip'
+        replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: 'Archive Deployment Artifacts'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Marain.Operations.Deployment'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.Deployment.zip'
+        replaceExistingArchive: true
