@@ -4,7 +4,9 @@
   Not using normal netstandard2.0 import, because this contains AutoRest-generated code, which makes
   the analyzers we normally bring in unhappy.
   -->
-
+  <Import Project="..\Common.GitHub.proj" />
+  <Import Project="..\Common.NuGet.proj" />
+  
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace />
