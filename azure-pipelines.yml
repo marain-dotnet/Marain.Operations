@@ -12,7 +12,6 @@ resources:
     - repository: recommended_practices
       type: github
       name: endjin/Endjin.RecommendedPractices.AzureDevopsPipelines.GitHub
-      ref: refs/heads/feature/additional-github-release-assets_4
       endpoint: marain-github
 
 jobs:
