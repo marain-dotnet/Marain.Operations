@@ -13,28 +13,3 @@ jobs:
   parameters:
     vmImage: 'windows-latest'
     service_connection_github: $(Endjin_Service_Connection_GitHub)
-    postSpecs:
-    - task: ArchiveFiles@2
-      displayName: 'Archive core control host function app'
-      inputs:
-        rootFolderOrFile: 'Solutions/Marain.Operations.ControlHost.Functions/bin/Release/netstandard2.0/'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/AdditionalReleaseAssets/Marain.Operations.ControlHost.zip'
-        replaceExistingArchive: true
-    - task: ArchiveFiles@2
-      displayName: 'Archive core status host function app'
-      inputs:
-        rootFolderOrFile: 'Solutions/Marain.Operations.StatusHost.Functions/bin/Release/netstandard2.0/'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/AdditionalReleaseAssets/Marain.Operations.StatusHost.zip'
-        replaceExistingArchive: true
-    - task: ArchiveFiles@2
-      displayName: 'Archive deployment artifacts'
-      inputs:
-        rootFolderOrFile: 'Solutions/Marain.Operations.Deployment/bin/Release/staging/'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/Deployments/Marain.Operations.Deployment.zip'
-        replaceExistingArchive: true
