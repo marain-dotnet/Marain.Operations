@@ -24,26 +24,26 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Content Include="deploy.json" />
-    <None Include="marain-undeploy.ps1" />
-    <None Include="marain-deploy.ps1" />
-    <None Include="deploy.ps1" />
+    <Content Include="marain-undeploy.ps1" />
+    <Content Include="marain-deploy.ps1" />
+    <Content Include="deploy.ps1" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <None Include="Run-ScriptWithVstsVariables.ps1" />
-    <None Include="Scripts\Create-AzureAdApplications.ps1" />
-    <None Include="Scripts\Create-StorageAccount.ps1" />
-    <None Include="Scripts\Delete-AzureAdApplications.ps1" />
-    <None Include="Templates\app-insights.json" />
-    <None Include="Templates\functions-app-auth-settings.json" />
-    <None Include="Templates\key-vault-secret.json" />
-    <None Include="Templates\storage-account.json" />
-    <None Include="Templates\functions-app-settings-operations-control-host.json" />
-    <None Include="Templates\functions-app-settings-operations-status-host.json" />
-    <None Include="Templates\functions-app.json" />
-    <None Include="Templates\key-vault-access-policy.json" />
-    <None Include="Templates\key-vault.json" />
+    <Content Include="Run-ScriptWithVstsVariables.ps1" />
+    <Content Include="Scripts\Create-AzureAdApplications.ps1" />
+    <Content Include="Scripts\Create-StorageAccount.ps1" />
+    <Content Include="Scripts\Delete-AzureAdApplications.ps1" />
+    <Content Include="Templates\app-insights.json" />
+    <Content Include="Templates\functions-app-auth-settings.json" />
+    <Content Include="Templates\key-vault-secret.json" />
+    <Content Include="Templates\storage-account.json" />
+    <Content Include="Templates\functions-app-settings-operations-control-host.json" />
+    <Content Include="Templates\functions-app-settings-operations-status-host.json" />
+    <Content Include="Templates\functions-app.json" />
+    <Content Include="Templates\key-vault-access-policy.json" />
+    <Content Include="Templates\key-vault.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
