@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageDescription></PackageDescription>
+    <PackageTags></PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <NoWarn>1701;1702;1591;1573</NoWarn>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
