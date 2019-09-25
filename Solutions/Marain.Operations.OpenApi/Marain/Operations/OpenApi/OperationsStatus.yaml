@@ -59,7 +59,7 @@ components:
     Operation:
       description: A long-running operation
       type: object
-      required: ["createdDateTime", "id", "lastActionDateTime", "contentId", "percentComplete", "resourceLocation", "status", "tenantId"]
+      required: ["createdDateTime", "id", "lastActionDateTime", "contentId", "resourceLocation", "status", "tenantId"]
       additionalProperties: false
       properties:
         createdDateTime:

@@ -10,6 +10,7 @@ namespace Marain.Operations.StatusHost
     using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Startup code for the Function.
@@ -21,7 +22,25 @@ namespace Marain.Operations.StatusHost
         {
             IServiceCollection services = builder.Services;
 
-            services.AddLogging();
+            services.AddLogging(logging =>
+            {
+#if DEBUG
+                // Ensure you enable the required logging level in host.json
+                // e.g:
+                //
+                // "logging": {
+                //    "fileLoggingMode": "debugOnly",
+                //    "logLevel": {
+                //
+                //    // For all functions
+                //    "Function": "Debug",
+                //
+                //    // Default settings, e.g. for host
+                //    "default": "Debug"
+                // }
+                logging.AddConsole();
+#endif
+            });
 
             IConfigurationRoot root = Configure(services);
 
