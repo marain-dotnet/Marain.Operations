@@ -3,10 +3,19 @@
 .EXAMLE
 
 .\deploy.ps1 `
-	-Prefix "mar" `
-	-AppName "operations" `
-	-Environment "dev" `
-	-OperationsStatusHostFunctionsMsDeployPackagePath "..\Marain.Operations.Functions\bin\Debug\package\Marain.Operations.Functions.zip"
+	-ArtifactStorageResourceGroupName "end.operations.dev" `
+	-ArtifactStorageAccountName "endoperationsdevar" `
+	-ResourceGroupName "end.operations.dev" `
+	-StatusFunctionsAppName "endoperationsstatusdev" `
+	-ControlFunctionsAppName "endoperationscontroldev" `
+	-OperationsStorageAccountName "endoperationsdev" `
+	-ResourceGroupLocation "uksouth" `
+	-KeyVaultName "endoperationsdev" `
+	-OperationsStorageAccountSecretName "operationsstorage" `
+	-DiagnosticsStorageAccountName "endoperationsauditdev" `
+	-AppInsightsInstanceName "endoperationsdev" `
+	-ControlAadClientId f870406e-6890-4ebc-998a-6cca50f0fc99 `
+	-StatusAadClientId 65c11237-75ba-4024-a7f5-73580c5b1e9b
 #>
 
 [CmdletBinding(DefaultParametersetName='None')] 

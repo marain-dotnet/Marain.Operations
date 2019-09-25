@@ -5,6 +5,8 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "ExternalServices:OperationsStatus": "http://localhost:7077/",
     "AzureServicesAuthConnectionString": "RunAs=Developer; DeveloperTool=AzureCLI",
-    "APPINSIGHTS_INSTRUMENTATIONKEY": ""
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "RootTenantBlobStorageConfigurationOptions__AccountName": "UseDevelopmentStorage=true",
+    "ExternalServices__OperationsStatus": "http://localhost:7077/"
   }
 }
