@@ -40,6 +40,7 @@ namespace Marain.Operations.OpenApi
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>((config) =>
             {
                 config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
+                OperationsStatusOpenApiService.MapLinks(config.Links);
                 configureHost?.Invoke(config);
             });
 

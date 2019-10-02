@@ -110,7 +110,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I call OperationsStatusOpenApiService.GetOperationById with id \'d306cb37-bc58-40f" +
                     "c-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
- testRunner.Then("the result status should be 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result status should be 202", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 17
     testRunner.And("the operation status in the result should be \'NotStarted\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -132,11 +132,33 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I call OperationsStatusOpenApiService.GetOperationById with id \'d306cb37-bc58-40f" +
                     "c-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 22
- testRunner.Then("the result status should be 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the result status should be 202", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 23
     testRunner.And("the operation status in the result should be \'Running\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 24
     testRunner.And("the percentComplete in the result should be 42", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get completed operation")]
+        public virtual void GetCompletedOperation()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get completed operation", null, ((string[])(null)));
+#line 26
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 27
+ testRunner.Given("There is an operation in the store with id \'d306cb37-bc58-40fc-801c-bce5fb2c3a67\'" +
+                    " and a status of \'Succeeded\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 28
+ testRunner.When("I call OperationsStatusOpenApiService.GetOperationById with id \'d306cb37-bc58-40f" +
+                    "c-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
+ testRunner.Then("the result status should be 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 30
+    testRunner.And("the operation status in the result should be \'Succeeded\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

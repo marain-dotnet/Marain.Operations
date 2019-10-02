@@ -28,6 +28,12 @@ paths:
             type: string
             format: uuid
       responses:
+        '202':
+          description: Accepted. The operation is still running, and you should poll again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operation'
         '200':
           description: OK
           content:

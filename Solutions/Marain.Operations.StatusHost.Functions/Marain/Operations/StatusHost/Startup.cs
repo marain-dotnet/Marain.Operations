@@ -44,7 +44,10 @@ namespace Marain.Operations.StatusHost
 
             IConfigurationRoot root = Configure(services);
 
-            services.AddTenantedOperationsStatusApi(root, config => config.Documents.AddSwaggerEndpoint());
+            services.AddTenantedOperationsStatusApi(root, config =>
+            {
+                config.Documents.AddSwaggerEndpoint();
+            });
         }
 
         private static IConfigurationRoot Configure(IServiceCollection services)
