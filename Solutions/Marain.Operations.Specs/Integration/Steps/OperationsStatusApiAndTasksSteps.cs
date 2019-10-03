@@ -14,6 +14,8 @@ namespace Marain.Operations.Specs.Integration.Steps
     using Marain.Operations.Domain;
     using Marain.Operations.OpenApi;
     using Menes;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using TechTalk.SpecFlow;
@@ -23,6 +25,7 @@ namespace Marain.Operations.Specs.Integration.Steps
     {
         private readonly IServiceProvider serviceProvider;
         private readonly FakeOperationsRepository repository;
+        private readonly IOpenApiHost host;
         private readonly ITenantProvider tenantProvider;
         private readonly ScenarioContext scenarioContext;
 
@@ -30,6 +33,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         {
             this.serviceProvider = ContainerBindings.GetServiceProvider(featureContext);
             this.repository = this.serviceProvider.GetRequiredService<FakeOperationsRepository>();
+            this.host = this.serviceProvider.GetRequiredService<IOpenApiHost<HttpRequest, IActionResult>>();
             this.tenantProvider = this.serviceProvider.GetRequiredService<ITenantProvider>();
             this.OperationsTenant = this.tenantProvider.Root;
             this.TenantId = this.OperationsTenant.Id;

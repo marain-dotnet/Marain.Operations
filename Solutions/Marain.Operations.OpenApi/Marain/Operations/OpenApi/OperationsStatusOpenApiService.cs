@@ -10,6 +10,7 @@ namespace Marain.Operations.OpenApi
     using Marain.Operations.Domain;
     using Marain.Operations.Tasks;
     using Menes;
+    using Menes.Links;
 
     /// <summary>
     /// OpenApi service providing representations of long-running operations.
@@ -26,6 +27,7 @@ namespace Marain.Operations.OpenApi
     public class OperationsStatusOpenApiService : IOpenApiService
     {
         private readonly IOperationsStatusTasks tasks;
+        private readonly IOpenApiWebLinkResolver linkResolver;
         private readonly ITenantProvider tenantProvider;
 
         /// <summary>
@@ -33,12 +35,24 @@ namespace Marain.Operations.OpenApi
         /// </summary>
         /// <param name="tenantProvider">The tenant provider.</param>
         /// <param name="operationalStatusTasks">Underlying tasks.</param>
+        /// <param name="linkResolver">The link resolver.</param>
         public OperationsStatusOpenApiService(
             ITenantProvider tenantProvider,
-            IOperationsStatusTasks operationalStatusTasks)
+            IOperationsStatusTasks operationalStatusTasks,
+            IOpenApiWebLinkResolver linkResolver)
         {
-            this.tenantProvider = tenantProvider;
-            this.tasks = operationalStatusTasks;
+            this.tenantProvider = tenantProvider ?? throw new ArgumentNullException(nameof(tenantProvider));
+            this.tasks = operationalStatusTasks ?? throw new ArgumentNullException(nameof(operationalStatusTasks));
+            this.linkResolver = linkResolver ?? throw new ArgumentNullException(nameof(linkResolver));
+        }
+
+        /// <summary>
+        /// Maps links for the service.
+        /// </summary>
+        /// <param name="links">The link operation map.</param>
+        public static void MapLinks(IOpenApiLinkOperationMap links)
+        {
+            links.Map<Operation>("self", nameof(GetOperationById));
         }
 
         /// <summary>
@@ -54,9 +68,31 @@ namespace Marain.Operations.OpenApi
 
             Operation operation = await this.tasks.GetAsync(tenant, operationId).ConfigureAwait(false);
 
-            return operation == null
-                ? this.NotFoundResult()
-                : this.OkResult(operation);
+            if (operation == null)
+            {
+                return this.NotFoundResult();
+            }
+
+            return IsCompleted(operation)
+                ? this.OkResult(operation)
+                : this.AcceptedResultWithHeader(operation);
+        }
+
+        private static bool IsCompleted(Operation operation)
+        {
+            return operation.Status == OperationStatus.Succeeded || operation.Status == OperationStatus.Failed;
+        }
+
+        private OpenApiResult AcceptedResultWithHeader(Operation operation)
+        {
+            WebLink link = this.linkResolver.Resolve(
+                nameof(this.GetOperationById),
+                "self",
+                ("tenantId", operation.TenantId),
+                ("operationId", operation.Id));
+            OpenApiResult result = this.AcceptedResult(link.Href);
+            result.Results.Add("application/json", operation);
+            return result;
         }
 
         private Task<ITenant> DetermineTenantAsync(string tenantId)
