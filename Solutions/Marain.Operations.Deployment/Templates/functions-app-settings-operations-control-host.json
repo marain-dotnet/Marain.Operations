@@ -5,7 +5,23 @@
     "storageAccountConnectionString": {
       "type": "string"
     },
+    "runFromPackage": {
+      "type": "string",
+      "defaultValue": ""
+    },
     "functionsAppName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keyVaultName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageAccountName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageAccountKeyName": {
       "type": "string",
       "minLength": 1
     },
@@ -14,18 +30,6 @@
       "minLength": 1
     },
     "operationsStatusServiceBaseUrl": {
-      "type": "string",
-      "minLength": 1
-    },
-    "storageAccountName": {
-      "type": "string",
-      "minLength": 1
-    },
-    "keyVaultName": {
-      "type": "string",
-      "minLength": 1
-    },
-    "storageKeySecretName": {
       "type": "string",
       "minLength": 1
     }
@@ -45,15 +49,19 @@
       "properties": {
         "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[parameters('storageAccountConnectionString')]",
         "WEBSITE_CONTENTSHARE": "[toLower(parameters('functionsAppName'))]",
+        "WEBSITE_RUN_FROM_PACKAGE": "[parameters('runFromPackage')]",
+        "AzureConfigurationStorage": "[parameters('storageAccountConnectionString')]",
         "APPINSIGHTS_INSTRUMENTATIONKEY": "[parameters('applicationInsightsInstrumentationKey')]",
         "FUNCTIONS_EXTENSION_VERSION": "~2",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "AzureWebJobsDashboard": "[parameters('storageAccountConnectionString')]",
         "AzureWebJobsStorage": "[parameters('storageAccountConnectionString')]",
         "AzureServicesAuthConnectionString": "",
         "ExternalServices__OperationsStatus": "[parameters('operationsStatusServiceBaseUrl')]",
-        "ROOTTENANTBLOBSTORAGECONFIGURATIONOPTIONS__AccountName": "[parameters('storageAccountName')]",
-        "ROOTTENANTBLOBSTORAGECONFIGURATIONOPTIONS__AccountKeySecretName": "[parameters('storageKeySecretName')]",
-        "ROOTTENANTBLOBSTORAGECONFIGURATIONOPTIONS__KeyVaultName": "[parameters('keyVaultName')]"
+
+        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountName": "[parameters('storageAccountName')]",
+        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:KeyVaultName": "[parameters('storageAccountKeyName')]",
+        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountKeySecretName": "[parameters('keyVaultName')]"
       }
     }
   ],

@@ -26,7 +26,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "[parameters('functionsAppName')]",
+    "storageAccountName": "[substring(concat(parameters('functionsAppName'), 'func', uniqueString(resourceGroup().id)), 0, 24)]",
     "hostingPlanName": "[parameters('functionsAppName')]",
     "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
   },
@@ -65,6 +65,10 @@
           "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
           "appSettings": [
             {
+              "name": "AzureWebJobsDashboard",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+            },
+            {
               "name": "AzureWebJobsStorage",
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
             },
@@ -75,10 +79,6 @@
             {
               "name": "WEBSITE_CONTENTSHARE",
               "value": "[toLower(parameters('functionsAppName'))]"
-            },
-            {
-              "name": "FUNCTIONS_EXTENSION_VERSION",
-              "value": "beta"
             }
           ]
         }
@@ -92,6 +92,10 @@
     "storageAccountConnectionString": {
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+    },
+    "servicePrincipalId": {
+      "type": "string",
+      "value": "[reference(concat(resourceId('Microsoft.Web/sites', parameters('functionsAppName')), '/providers/Microsoft.ManagedIdentity/Identities/default'), '2018-11-30').principalId]"
     }
   }
 }
