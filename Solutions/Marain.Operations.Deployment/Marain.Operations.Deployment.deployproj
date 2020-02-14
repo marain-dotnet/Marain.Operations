@@ -35,7 +35,6 @@
     <Content Include="Scripts\Create-AzureAdApplications.ps1" />
     <Content Include="Scripts\Create-StorageAccount.ps1" />
     <Content Include="Scripts\Delete-AzureAdApplications.ps1" />
-    <Content Include="Templates\app-insights.json" />
     <Content Include="Templates\functions-app-auth-settings.json" />
     <Content Include="Templates\key-vault-secret.json" />
     <Content Include="Templates\storage-account.json" />
@@ -44,6 +43,9 @@
     <Content Include="Templates\functions-app.json" />
     <Content Include="Templates\key-vault-access-policy.json" />
     <Content Include="Templates\key-vault.json" />
+    <Content Include="Marain-PostDeploy.ps1" />
+    <Content Include="Marain-ArmDeploy.ps1" />
+    <Content Include="Marain-PreDeploy.ps1" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

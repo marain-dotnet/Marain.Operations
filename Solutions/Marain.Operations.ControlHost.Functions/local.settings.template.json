@@ -6,7 +6,10 @@
     "ExternalServices:OperationsStatus": "http://localhost:7077/",
     "AzureServicesAuthConnectionString": "RunAs=Developer; DeveloperTool=AzureCLI",
     "APPINSIGHTS_INSTRUMENTATIONKEY": "",
-    "RootTenantBlobStorageConfigurationOptions__AccountName": "UseDevelopmentStorage=true",
-    "ExternalServices__OperationsStatus": "http://localhost:7077/"
+    "ExternalServices__OperationsStatus": "http://localhost:7077/",
+
+    "TenantCloudBlobContainerFactoryOptions__RootTenantBlobStorageConfiguration__AccountName": "UseDevelopmentStorage=true",
+    "TenantCloudBlobContainerFactoryOptions__RootTenantBlobStorageConfiguration__KeyVaultName": "",
+    "TenantCloudBlobContainerFactoryOptions__RootTenantBlobStorageConfiguration__AccountKeySecretName": ""
   }
 }
