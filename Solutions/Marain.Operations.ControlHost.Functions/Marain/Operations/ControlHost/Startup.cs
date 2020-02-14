@@ -6,6 +6,7 @@
 
 namespace Marain.Operations.ControlHost
 {
+    using Corvus.Azure.Storage.Tenancy;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -42,20 +43,16 @@ namespace Marain.Operations.ControlHost
 #endif
             });
 
-            IConfigurationRoot root = Configure(services);
+            // Workaround for https://github.com/menes-dotnet/Menes/issues/34
+            // Menes currently dependson IConfigurationRoot being available through DI for external service URL
+            // resolution to work. Azure Functions does not make it directly available - it only registers
+            // IConfiguration. But since the object in question happens to implement IConfigurationRoot too,
+            // we can just reexpose the same object for this service type.
+            services.AddSingleton(sp => (IConfigurationRoot)sp.GetRequiredService<IConfiguration>());
 
-            services.AddTenantedOperationsControlApi(root, config => config.Documents.AddSwaggerEndpoint());
-        }
+            services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenantCloudBlobContainerFactoryOptions").Get<TenantCloudBlobContainerFactoryOptions>());
 
-        private static IConfigurationRoot Configure(IServiceCollection services)
-        {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
-
-            IConfigurationRoot root = configurationBuilder.Build();
-            services.AddSingleton(root);
-            return root;
+            services.AddTenantedOperationsControlApi(config => config.Documents.AddSwaggerEndpoint());
         }
     }
 }

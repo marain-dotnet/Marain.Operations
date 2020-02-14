@@ -5,6 +5,7 @@
 namespace Microsoft.Extensions.DependencyInjection
 {
     using System;
+    using Corvus.Azure.Storage.Tenancy;
     using Marain.Operations.OpenApi;
     using Marain.Operations.Storage;
     using Marain.Operations.Storage.Blob;
@@ -21,16 +22,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Enable the tenancy repository based operations repository.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="rootTenantDefaultConfiguration">
-        /// Configuration section to read root tenant default repository settings from.
-        /// </param>
         /// <returns>The modified service collection.</returns>
         public static IServiceCollection AddTenancyBlobContainerOperationsRepository(
-            this IServiceCollection services,
-            IConfiguration rootTenantDefaultConfiguration)
+            this IServiceCollection services)
         {
             services.AddTenantProviderBlobStore();
-            services.AddTenantCloudBlobContainerFactory(rootTenantDefaultConfiguration);
+            services.AddTenantCloudBlobContainerFactory(sp => sp.GetRequiredService<TenantCloudBlobContainerFactoryOptions>());
             services.AddSingleton<IOperationsRepository, OperationsRepository>();
 
             return services;
@@ -40,17 +37,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Add the tenanted operations status api.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="rootTenantDefaultConfiguration">
-        /// Configuration section to read root tenant default repository settings from.
-        /// </param>
         /// <param name="configureHost">The optional action to configure the host.</param>
         /// <returns>The modified service collection.</returns>
         public static IServiceCollection AddTenantedOperationsStatusApi(
             this IServiceCollection services,
-            IConfiguration rootTenantDefaultConfiguration,
             Action<IOpenApiHostConfiguration> configureHost = null)
         {
-            services.AddTenancyBlobContainerOperationsRepository(rootTenantDefaultConfiguration);
+            services.AddTenancyBlobContainerOperationsRepository();
             services.AddOperationsStatusApi(configureHost);
             return services;
         }
@@ -59,17 +52,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Add the tenanted operations control api.
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="rootTenantDefaultConfiguration">
-        /// Configuration section to read root tenant default repository settings from.
-        /// </param>
         /// <param name="configureHost">The optional action to configure the host.</param>
         /// <returns>The modified service collection.</returns>
         public static IServiceCollection AddTenantedOperationsControlApi(
             this IServiceCollection services,
-            IConfiguration rootTenantDefaultConfiguration,
             Action<IOpenApiHostConfiguration> configureHost = null)
         {
-            services.AddTenancyBlobContainerOperationsRepository(rootTenantDefaultConfiguration);
+            services.AddTenancyBlobContainerOperationsRepository();
             services.AddOperationsControlApi(configureHost);
             return services;
         }

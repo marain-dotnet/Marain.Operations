@@ -6,6 +6,7 @@
 
 namespace Marain.Operations.StatusHost
 {
+    using Corvus.Azure.Storage.Tenancy;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -42,23 +43,9 @@ namespace Marain.Operations.StatusHost
 #endif
             });
 
-            IConfigurationRoot root = Configure(services);
+            services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenantCloudBlobContainerFactoryOptions").Get<TenantCloudBlobContainerFactoryOptions>());
 
-            services.AddTenantedOperationsStatusApi(root, config =>
-            {
-                config.Documents.AddSwaggerEndpoint();
-            });
-        }
-
-        private static IConfigurationRoot Configure(IServiceCollection services)
-        {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
-
-            IConfigurationRoot root = configurationBuilder.Build();
-            services.AddSingleton(root);
-            return root;
+            services.AddTenantedOperationsStatusApi(config => config.Documents.AddSwaggerEndpoint());
         }
     }
 }
