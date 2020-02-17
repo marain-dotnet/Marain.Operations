@@ -9,6 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
     using Marain.Operations.OpenApi;
     using Marain.Operations.Storage;
     using Marain.Operations.Storage.Blob;
+    using Marain.Tenancy.Client;
     using Menes;
     using Microsoft.Extensions.Configuration;
 
@@ -26,7 +27,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddTenancyBlobContainerOperationsRepository(
             this IServiceCollection services)
         {
-            services.AddTenantProviderBlobStore();
+            services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>());
+            services.AddAzureManagedIdentityBasedTokenSource();
+            services.AddTenantProviderServiceClient();
             services.AddTenantCloudBlobContainerFactory(sp => sp.GetRequiredService<TenantCloudBlobContainerFactoryOptions>());
             services.AddSingleton<IOperationsRepository, OperationsRepository>();
 
