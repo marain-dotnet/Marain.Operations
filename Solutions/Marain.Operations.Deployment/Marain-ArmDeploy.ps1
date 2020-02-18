@@ -6,9 +6,14 @@ script. It is our opportunity to create Azure resources.
 # Marain.Instance expects us to define just this one function.
 Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentContext) {
 
+    [MarainAppService]$TenancyService = $ServiceDeploymentContext.InstanceContext.GetCommonAppService("Marain.Tenancy")
+
+    $OperationsControlAppId = $ServiceDeploymentContext.GetAppId("control")
     $TemplateParameters = @{
         appName="operations"
-        controlFunctionEasyAuthAadClientId=$ServiceDeploymentContext.Variables["OperationsControlAppId"]
+        controlFunctionEasyAuthAadClientId=$OperationsControlAppId
+        tenancyServiceResourceIdForMsiAuthentication=$TenancyService.AuthAppId
+        tenancyServiceBaseUri=$TenancyService.BaseUrl
         appInsightsInstrumentationKey=$ServiceDeploymentContext.InstanceContext.ApplicationInsightsInstrumentationKey
     }
     $InstanceResourceGroupName = $InstanceDeploymentContext.MakeResourceGroupName("operations")
@@ -18,7 +23,7 @@ Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentCon
         $TemplateParameters,
         $InstanceResourceGroupName)
 
-    $ServiceDeploymentContext.Variables["KeyVaultName"] = $DeploymentResult.Outputs.keyVaultName.Value
-    $ServiceDeploymentContext.Variables["StatusFunctionServicePrincipalId"] = $DeploymentResult.Outputs.controlFunctionServicePrincipalId.Value
-    $ServiceDeploymentContext.Variables["ControlFunctionServicePrincipalId"] = $DeploymentResult.Outputs.statusFunctionServicePrincipalId.Value
+    #$ServiceDeploymentContext.Variables["KeyVaultName"] = $DeploymentResult.Outputs.keyVaultName.Value
+    $ServiceDeploymentContext.SetAppServiceDetails($DeploymentResult.Outputs.controlFunctionServicePrincipalId.Value, "status", $null)
+    $ServiceDeploymentContext.SetAppServiceDetails($DeploymentResult.Outputs.statusFunctionServicePrincipalId.Value, "control", $null)
 }

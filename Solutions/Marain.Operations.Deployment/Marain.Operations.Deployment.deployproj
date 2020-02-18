@@ -24,6 +24,7 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Content Include="deploy.json" />
+    <Content Include="Marain-PostDeployAad.ps1" />
     <Content Include="marain-undeploy.ps1" />
     <Content Include="marain-deploy.ps1" />
     <Content Include="deploy.ps1" />

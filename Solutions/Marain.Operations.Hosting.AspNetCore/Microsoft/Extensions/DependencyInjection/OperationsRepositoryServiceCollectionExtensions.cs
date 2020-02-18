@@ -27,6 +27,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddTenancyBlobContainerOperationsRepository(
             this IServiceCollection services)
         {
+            // Work around the fact that the tenancy client currently tries to fetch the root tenant on startup.
+            services.AddRootTenant();
+
             services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>());
             services.AddAzureManagedIdentityBasedTokenSource();
             services.AddTenantProviderServiceClient();

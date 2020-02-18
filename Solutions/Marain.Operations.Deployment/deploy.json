@@ -36,6 +36,12 @@
     "controlFunctionEasyAuthAadClientId": {
       "type": "string"
     },
+    "tenancyServiceBaseUri": {
+      "type": "string"
+    },
+    "tenancyServiceResourceIdForMsiAuthentication": {
+      "type": "string"
+    },
     "_artifactsLocation": {
       "type": "string"
     },
@@ -146,6 +152,8 @@
           "keyVaultName": { "value": "[variables('keyVaultName')]" },
           "storageAccountName": { "value": "[variables('operationsStorageName')]" },
           "storageAccountKeyName": { "value": "[variables('operationsStorageKeySecretName')]" },
+          "tenancyServiceBaseUri": { "value": "[parameters('tenancyServiceBaseUri')]" },
+          "tenancyServiceResourceIdForMsiAuthentication": { "value": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]" }
         }
       }
     },
@@ -251,7 +259,9 @@
           "operationsStatusServiceBaseUrl": { "value": "[concat('https://', variables('statusFunctionsAppName'), '.azurewebsites.net/')]" },
           "keyVaultName": { "value": "[variables('keyVaultName')]" },
           "storageAccountName": { "value": "[variables('operationsStorageName')]" },
-          "storageAccountKeyName": { "value": "[variables('operationsStorageKeySecretName')]" }
+          "storageAccountKeyName": { "value": "[variables('operationsStorageKeySecretName')]" },
+          "tenancyServiceBaseUri": { "value": "[parameters('tenancyServiceBaseUri')]" },
+          "tenancyServiceResourceIdForMsiAuthentication": { "value": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]" }
         }
       }
     },

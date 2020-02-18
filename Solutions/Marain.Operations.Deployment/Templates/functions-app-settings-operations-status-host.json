@@ -28,6 +28,12 @@
     "applicationInsightsInstrumentationKey": {
       "type": "string",
       "minLength": 1
+    },
+    "tenancyServiceBaseUri": {
+      "type": "string"
+    },
+    "tenancyServiceResourceIdForMsiAuthentication": {
+      "type": "string"
     }
   },
   "variables": {
@@ -56,7 +62,10 @@
 
         "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountName": "[parameters('storageAccountName')]",
         "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:KeyVaultName": "[parameters('keyVaultName')]",
-        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountKeySecretName": "[parameters('storageAccountKeyName')]"
+        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountKeySecretName": "[parameters('storageAccountKeyName')]",
+
+        "TenancyClient:TenancyServiceBaseUri": "[parameters('tenancyServiceBaseUri')]",
+        "TenancyClient:ResourceIdForMsiAuthentication": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]"
       }
     }
   ],
