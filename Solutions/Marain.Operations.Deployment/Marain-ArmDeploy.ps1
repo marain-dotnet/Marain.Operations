@@ -23,7 +23,6 @@ Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentCon
         $TemplateParameters,
         $InstanceResourceGroupName)
 
-    #$ServiceDeploymentContext.Variables["KeyVaultName"] = $DeploymentResult.Outputs.keyVaultName.Value
     $ServiceDeploymentContext.SetAppServiceDetails($DeploymentResult.Outputs.controlFunctionServicePrincipalId.Value, "status", $null)
     $ServiceDeploymentContext.SetAppServiceDetails($DeploymentResult.Outputs.statusFunctionServicePrincipalId.Value, "control", $null)
 }
