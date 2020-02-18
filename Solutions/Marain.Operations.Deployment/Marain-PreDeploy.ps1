@@ -13,11 +13,8 @@ use it directly.)
 Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentContext) {
 
     # Don't think we need an app for status, since it is open by design
-    #$StatusApp = $ServiceDeploymentContext.DefineAzureAdAppForAppService("status", "OperationsStatusAppId")
-
-    $ControlApp = $ServiceDeploymentContext.DefineAzureAdAppForAppService(
-        "control",
-         "OperationsControlAppId")
+    #$StatusApp = $ServiceDeploymentContext.DefineAzureAdAppForAppService("status")
+    $ControlApp = $ServiceDeploymentContext.DefineAzureAdAppForAppService("control")
 
     $ControllerAppRoleId = "77d9c620-a258-4f0b-945c-a7128e82f3ec"
     $ControlApp.EnsureAppRolesContain(
