@@ -7,6 +7,8 @@ have been deployed.
 # Marain.Instance expects us to define just this one function.
 Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentContext) {
 
+    $ServiceDeploymentContext.MakeAppServiceCommonService("Marain.Tenancy.Operations.Control", "control")
+
     Write-Host 'Uploading function code packages'
 
     $ServiceDeploymentContext.UploadReleaseAssetAsAppServiceSitePackage(
