@@ -25,7 +25,7 @@ jobs:
     - task: ArchiveFiles@2
       displayName: 'Archive Control Host Function App'
       inputs:
-        rootFolderOrFile: 'Solutions/Marain.Operations.ControlHost.Functions/bin/Release/netstandard2.0/'
+        rootFolderOrFile: 'Solutions/Marain.Operations.ControlHost.Functions/bin/Release/netcore3.1/'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.ControlHost.zip'
@@ -33,7 +33,7 @@ jobs:
     - task: ArchiveFiles@2
       displayName: 'Archive Status Host Function App'
       inputs:
-        rootFolderOrFile: 'Solutions/Marain.Operations.StatusHost.Functions/bin/Release/netstandard2.0/'
+        rootFolderOrFile: 'Solutions/Marain.Operations.StatusHost.Functions/bin/Release/netcore3.1/'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.StatusHost.zip'
