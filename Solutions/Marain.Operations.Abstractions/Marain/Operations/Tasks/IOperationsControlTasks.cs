@@ -41,9 +41,9 @@ namespace Marain.Operations.Tasks
         Task CreateAsync(
             ITenant tenant,
             Guid operationId,
-            string resourceLocation = "",
+            string? resourceLocation = null,
             long? expireAfter = null,
-            string clientData = null);
+            string? clientData = null);
 
         /// <summary>
         /// Put an operation into the Failed state.
@@ -62,7 +62,7 @@ namespace Marain.Operations.Tasks
             ITenant tenant,
             Guid operationId,
             long? expireAfter = null,
-            string clientData = null);
+            string? clientData = null);
 
         /// <summary>
         /// Put an operation into the Running state, or update its status.
@@ -87,9 +87,9 @@ namespace Marain.Operations.Tasks
             ITenant tenant,
             Guid operationId,
             int? percentComplete = null,
-            string contentId = "",
+            string? contentId = null,
             long? expireAfter = null,
-            string clientData = null);
+            string? clientData = null);
 
         /// <summary>
         /// Put an operation into the Succeeded state.
@@ -113,8 +113,8 @@ namespace Marain.Operations.Tasks
         Task SetSucceededAsync(
             ITenant tenant,
             Guid operationId,
-            string resourceLocation = "",
+            string? resourceLocation = null,
             long? expireAfter = null,
-            string clientData = null);
+            string? clientData = null);
     }
 }

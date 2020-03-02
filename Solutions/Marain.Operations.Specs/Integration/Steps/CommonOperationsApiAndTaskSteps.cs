@@ -31,7 +31,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         [Given("There is no operation in the store with id '(.*)'")]
         public async Task GivenThereIsNoOperationInTheStoreWithId(Guid operationId)
         {
-            Operation op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
+            Operation? op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
 
             Assert.IsNull(op);
         }
@@ -41,9 +41,9 @@ namespace Marain.Operations.Specs.Integration.Steps
         {
             var expectedStatus = (OperationStatus)Enum.Parse(typeof(OperationStatus), statusText);
 
-            Operation op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
+            Operation? op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
 
-            Assert.AreEqual(expectedStatus, op.Status);
+            Assert.AreEqual(expectedStatus, op?.Status);
         }
 
         [Then("the percentComplete of the operation in the store with id '(.*)' should be (.*)")]
@@ -51,9 +51,9 @@ namespace Marain.Operations.Specs.Integration.Steps
             Guid operationId,
             int percentComplete)
         {
-            Operation op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
+            Operation? op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
 
-            Assert.AreEqual(percentComplete, op.PercentComplete);
+            Assert.AreEqual(percentComplete, op?.PercentComplete);
         }
 
         [Then("the result status should be (.*)")]
@@ -68,7 +68,7 @@ namespace Marain.Operations.Specs.Integration.Steps
             OpenApiResult result = this.scenarioContext.Get<OpenApiResult>();
 
             Assert.IsTrue(
-                result.Results.TryGetValue(propertyName, out object value),
+                result.Results.TryGetValue(propertyName, out object? value),
                 $"Property '{propertyName}' not found in result");
             if (value is string stringValue)
             {
@@ -76,7 +76,7 @@ namespace Marain.Operations.Specs.Integration.Steps
             }
             else
             {
-                Assert.Fail($"Property '{propertyName}' should be a string, but is of type {value.GetType().FullName}");
+                Assert.Fail($"Property '{propertyName}' should be a string, but is of type {value!.GetType().FullName}");
             }
         }
     }

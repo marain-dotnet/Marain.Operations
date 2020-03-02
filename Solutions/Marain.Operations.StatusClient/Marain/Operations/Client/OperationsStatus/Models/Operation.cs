@@ -27,19 +27,19 @@ namespace Marain.Operations.Client.OperationsStatus.Models
         /// Initializes a new instance of the Operation class.
         /// </summary>
         /// <param name="id">This operation's unique identifier</param>
+        /// <param name="status">The operation's current state. Possible values
+        /// include: 'NotStarted', 'Running', 'Succeeded', 'Failed'</param>
+        /// <param name="tenantId">The id of the tenant to which this operation
+        /// belongs</param>
         /// <param name="contentId">The unique id for content describing the
         /// operation's current state</param>
         /// <param name="percentComplete">A number from 0 to 100 indicating how
         /// much of the operation's work is complete</param>
         /// <param name="resourceLocation">The resource that this long-running
         /// operation is producing or has produced</param>
-        /// <param name="status">The operation's current state. Possible values
-        /// include: 'NotStarted', 'Running', 'Succeeded', 'Failed'</param>
-        /// <param name="tenantId">The id of the tenant to which this operation
-        /// belongs</param>
         /// <param name="clientData">A small amount of arbitrary data provided
         /// by the operation being tracked.</param>
-        public Operation(DateTimeInstant createdDateTime, System.Guid id, DateTimeInstant lastActionDateTime, string contentId, int percentComplete, string resourceLocation, string status, System.Guid tenantId, string clientData = default(string))
+        public Operation(DateTimeInstant createdDateTime, System.Guid id, DateTimeInstant lastActionDateTime, string status, System.Guid tenantId, string contentId = default(string), int? percentComplete = default(int?), string resourceLocation = default(string), string clientData = default(string))
         {
             CreatedDateTime = createdDateTime;
             Id = id;
@@ -86,7 +86,7 @@ namespace Marain.Operations.Client.OperationsStatus.Models
         /// operation's work is complete
         /// </summary>
         [JsonProperty(PropertyName = "percentComplete")]
-        public int PercentComplete { get; set; }
+        public int? PercentComplete { get; set; }
 
         /// <summary>
         /// Gets or sets the resource that this long-running operation is
@@ -130,14 +130,6 @@ namespace Marain.Operations.Client.OperationsStatus.Models
             if (LastActionDateTime == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "LastActionDateTime");
-            }
-            if (ContentId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ContentId");
-            }
-            if (ResourceLocation == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "ResourceLocation");
             }
             if (Status == null)
             {

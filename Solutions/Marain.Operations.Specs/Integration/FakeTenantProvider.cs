@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using Corvus.Tenancy;
 
-    class FakeTenantProvider : ITenantProvider
+    internal class FakeTenantProvider : ITenantProvider
     {
         public FakeTenantProvider(RootTenant rootTenant)
         {
@@ -15,32 +15,32 @@
 
         public Task<ITenant> CreateChildTenantAsync(string parentTenantId)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Tests should not hit this code path");
         }
 
         public Task DeleteTenantAsync(string tenantId)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Tests should not hit this code path");
         }
 
-        public Task<TenantCollectionResult> GetChildrenAsync(string tenantId, int limit = 20, string continuationToken = null)
+        public Task<TenantCollectionResult> GetChildrenAsync(string tenantId, int limit = 20, string? continuationToken = null)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Tests should not hit this code path");
         }
 
-        public Task<ITenant> GetTenantAsync(string tenantId, string eTag = null)
+        public Task<ITenant> GetTenantAsync(string tenantId, string? eTag = null)
         {
-            if (tenantId == RootTenant.RootTenantId)
+            if (tenantId != RootTenant.RootTenantId)
             {
-                return Task.FromResult(this.Root);
+                throw new InvalidOperationException("Tests should not hit this code path");
             }
 
-            return Task.FromResult(default(ITenant));
+            return Task.FromResult(this.Root);
         }
 
         public Task<ITenant> UpdateTenantAsync(ITenant tenant)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Tests should not hit this code path");
         }
     }
 }

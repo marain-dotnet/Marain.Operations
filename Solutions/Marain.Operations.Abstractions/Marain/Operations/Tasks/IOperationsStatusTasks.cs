@@ -20,6 +20,6 @@ namespace Marain.Operations.Tasks
         /// <param name="tenant">The owning tenant.</param>
         /// <param name="operationId">The operation id.</param>
         /// <returns>A task that completes when the data has been stored.</returns>
-        Task<Operation> GetAsync(ITenant tenant, Guid operationId);
+        Task<Operation?> GetAsync(ITenant tenant, Guid operationId);
     }
 }

@@ -66,7 +66,7 @@ namespace Marain.Operations.OpenApi
         {
             ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
-            Operation operation = await this.tasks.GetAsync(tenant, operationId).ConfigureAwait(false);
+            Operation? operation = await this.tasks.GetAsync(tenant, operationId).ConfigureAwait(false);
 
             if (operation == null)
             {

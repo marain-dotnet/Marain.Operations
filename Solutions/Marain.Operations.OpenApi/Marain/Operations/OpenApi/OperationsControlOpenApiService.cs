@@ -60,9 +60,9 @@ namespace Marain.Operations.OpenApi
         public async Task<OpenApiResult> CreateOperation(
             string tenantId,
             Guid operationId,
-            string resourceLocation = "",
+            string? resourceLocation = null,
             long? expireAfter = null,
-            string body = null)
+            string? body = null)
         {
             ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
@@ -107,11 +107,11 @@ namespace Marain.Operations.OpenApi
             string tenantId,
             Guid operationId,
             long? expireAfter = null,
-            string body = null)
+            string? body = null)
         {
             ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
-            await this.tasks.SetFailedAsync(tenant, operationId, expireAfter, body).ConfigureAwait(false);
+            await this.tasks.SetFailedAsync(tenant, operationId, expireAfter, clientData: body).ConfigureAwait(false);
 
             // For this and all the remaining methods, the reason we return a 201 Created is
             // subtly different from the reason we do it in CreateOperation. With CreateOperation
@@ -154,13 +154,13 @@ namespace Marain.Operations.OpenApi
             string tenantId,
             Guid operationId,
             int? percentComplete = null,
-            string contentId = "",
+            string? contentId = null,
             long? expireAfter = null,
-            string body = null)
+            string? body = null)
         {
             ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
-            await this.tasks.SetRunningAsync(tenant, operationId, percentComplete, contentId, expireAfter, body).ConfigureAwait(false);
+            await this.tasks.SetRunningAsync(tenant, operationId, percentComplete, contentId, expireAfter, clientData: body).ConfigureAwait(false);
 
             return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
         }
@@ -191,13 +191,13 @@ namespace Marain.Operations.OpenApi
         public async Task<OpenApiResult> SetOperationSucceeded(
             string tenantId,
             Guid operationId,
-            string resourceLocation = "",
+            string? resourceLocation = null,
             long? expireAfter = null,
-            string body = null)
+            string? body = null)
         {
             ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
 
-            await this.tasks.SetSucceededAsync(tenant, operationId, resourceLocation, expireAfter, body).ConfigureAwait(false);
+            await this.tasks.SetSucceededAsync(tenant, operationId, resourceLocation, expireAfter, clientData: body).ConfigureAwait(false);
 
             return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
         }

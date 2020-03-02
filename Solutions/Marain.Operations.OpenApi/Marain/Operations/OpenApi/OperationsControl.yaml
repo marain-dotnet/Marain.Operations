@@ -250,7 +250,7 @@ components:
     Operation:
       description: A long-running operation
       type: object
-      required: ["createdDateTime", "id", "lastActionDateTime", "contentId", "percentComplete", "resourceLocation", "status", "tenantId"]
+      required: ["createdDateTime", "id", "lastActionDateTime", "status", "tenantId"]
       additionalProperties: false
       properties:
         createdDateTime:
@@ -264,6 +264,7 @@ components:
         contentId:
           description: The unique id for content describing the operation's current state
           type: string
+          nullable: true
         percentComplete:
           description: A number from 0 to 100 indicating how much of the operation's work is complete
           format: int32
@@ -272,6 +273,7 @@ components:
         resourceLocation:
           description: The resource that this long-running operation is producing or has produced
           type: string
+          nullable: true
         status:
           description: The operation's current state
           enum:
@@ -280,6 +282,10 @@ components:
             - Succeeded
             - Failed
           type: string
+        clientData:
+          description: A small amount of arbitrary data provided by the operation being tracked.
+          type: string
+          nullable: true
         tenantId:
           description: The id of the tenant to which this operation belongs
           format: uuid

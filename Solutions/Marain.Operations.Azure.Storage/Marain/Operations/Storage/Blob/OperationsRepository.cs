@@ -35,7 +35,7 @@ namespace Marain.Operations.Storage.Blob
         }
 
         /// <inheritdoc />
-        public async Task<Operation> GetAsync(ITenant tenant, Guid operationId)
+        public async Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
         {
             CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, this.containerDefinition).ConfigureAwait(false);
 

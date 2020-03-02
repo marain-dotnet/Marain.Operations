@@ -23,7 +23,7 @@ namespace Marain.Operations.OpenApi
         /// <returns>The service collection, to enable chaining.</returns>
         public static IServiceCollection AddOperationsStatusApi(
             this IServiceCollection services,
-            Action<IOpenApiHostConfiguration> configureHost = null)
+            Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             if (services.Any(s => typeof(IOperationsStatusTasks).IsAssignableFrom(s.ServiceType)))
             {
@@ -55,7 +55,7 @@ namespace Marain.Operations.OpenApi
         /// <returns>The service collection, to enable chaining.</returns>
         public static IServiceCollection AddOperationsControlApi(
             this IServiceCollection services,
-            Action<IOpenApiHostConfiguration> configureHost = null)
+            Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             if (services.Any(s => typeof(IOperationsControlTasks).IsAssignableFrom(s.ServiceType)))
             {
