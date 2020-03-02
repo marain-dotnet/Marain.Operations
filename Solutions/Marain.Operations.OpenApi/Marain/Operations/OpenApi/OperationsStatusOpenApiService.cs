@@ -52,7 +52,7 @@ namespace Marain.Operations.OpenApi
         /// <param name="links">The link operation map.</param>
         public static void MapLinks(IOpenApiLinkOperationMap links)
         {
-            links.Map<Operation>("self", nameof(GetOperationById));
+            links.MapByContentTypeAndRelationTypeAndOperationId<Operation>("self", nameof(GetOperationById));
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Marain.Operations.OpenApi
 
         private OpenApiResult AcceptedResultWithHeader(Operation operation)
         {
-            WebLink link = this.linkResolver.Resolve(
+            WebLink link = this.linkResolver.ResolveByOperationIdAndRelationType(
                 nameof(this.GetOperationById),
                 "self",
                 ("tenantId", operation.TenantId),
