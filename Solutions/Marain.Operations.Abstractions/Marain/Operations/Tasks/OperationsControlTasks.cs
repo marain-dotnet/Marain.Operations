@@ -27,25 +27,45 @@ namespace Marain.Operations.Tasks
         }
 
         /// <inheritdoc />
-        public Task CreateAsync(ITenant tenant, Guid operationId, string resourceLocation, long? expireAfter, string clientData)
+        public Task CreateAsync(
+            ITenant tenant,
+            Guid operationId,
+            string? resourceLocation,
+            long? expireAfter,
+            string? clientData)
         {
             return this.SetStatusAsync(OperationStatus.NotStarted, tenant, operationId, resourceLocation: resourceLocation, clientData: clientData);
         }
 
         /// <inheritdoc />
-        public Task SetRunningAsync(ITenant tenant, Guid operationId, int? percentComplete, string contentId, long? expireAfter, string clientData)
+        public Task SetRunningAsync(
+            ITenant tenant,
+            Guid operationId,
+            int? percentComplete,
+            string? contentId,
+            long? expireAfter,
+            string? clientData)
         {
             return this.SetStatusAsync(OperationStatus.Running, tenant, operationId, percentComplete, contentId: contentId, clientData: clientData);
         }
 
         /// <inheritdoc />
-        public Task SetSucceededAsync(ITenant tenant, Guid operationId, string resourceLocation, long? expireAfter, string clientData)
+        public Task SetSucceededAsync(
+            ITenant tenant,
+            Guid operationId,
+            string? resourceLocation,
+            long? expireAfter,
+            string? clientData)
         {
-            return this.SetStatusAsync(OperationStatus.Succeeded, tenant, operationId, 100, resourceLocation, clientData: clientData);
+            return this.SetStatusAsync(OperationStatus.Succeeded, tenant, operationId, 100, resourceLocation: resourceLocation, clientData: clientData);
         }
 
         /// <inheritdoc />
-        public Task SetFailedAsync(ITenant tenant, Guid operationId, long? expireAfter, string clientData)
+        public Task SetFailedAsync(
+            ITenant tenant,
+            Guid operationId,
+            long? expireAfter,
+            string? clientData)
         {
             return this.SetStatusAsync(OperationStatus.Failed, tenant, operationId, clientData: clientData);
         }
@@ -55,24 +75,20 @@ namespace Marain.Operations.Tasks
             ITenant tenant,
             Guid operationId,
             int? percentComplete = null,
-            string resourceLocation = "",
-            string contentId = "",
-            string clientData = null)
+            string? resourceLocation = null,
+            string? contentId = null,
+            string? clientData = null)
         {
-            Operation currentStatus = await this.operationRepository.GetAsync(tenant, operationId).ConfigureAwait(false);
+            Operation? currentStatus = await this.operationRepository.GetAsync(tenant, operationId).ConfigureAwait(false);
 
             if (currentStatus == null)
             {
-                currentStatus = new Operation
+                currentStatus = new Operation(
+                    operationId, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow, status, tenant.Id)
                 {
-                    CreatedDateTime = DateTimeOffset.UtcNow,
-                    Id = operationId,
-                    LastActionDateTime = DateTimeOffset.UtcNow,
                     ContentId = contentId,
                     PercentComplete = percentComplete,
                     ResourceLocation = resourceLocation,
-                    Status = status,
-                    TenantId = tenant.Id,
                     ClientData = clientData,
                 };
             }

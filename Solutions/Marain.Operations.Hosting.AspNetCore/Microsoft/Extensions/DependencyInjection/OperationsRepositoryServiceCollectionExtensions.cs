@@ -47,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The modified service collection.</returns>
         public static IServiceCollection AddTenantedOperationsStatusApi(
             this IServiceCollection services,
-            Action<IOpenApiHostConfiguration> configureHost = null)
+            Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             services.AddTenancyBlobContainerOperationsRepository();
             services.AddOperationsStatusApi(configureHost);
@@ -62,7 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The modified service collection.</returns>
         public static IServiceCollection AddTenantedOperationsControlApi(
             this IServiceCollection services,
-            Action<IOpenApiHostConfiguration> configureHost = null)
+            Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             services.AddTenancyBlobContainerOperationsRepository();
             services.AddOperationsControlApi(configureHost);

@@ -25,7 +25,10 @@ namespace Marain.Operations.Specs.Integration.Steps
     {
         private readonly IServiceProvider serviceProvider;
         private readonly FakeOperationsRepository repository;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0052:Remove unread private members", Justification = "It can be useful when debugging tests to be able to see the host. It's also important that we ask DI for it, to ensure that all normal initialiation has occurred")]
         private readonly IOpenApiHost host;
+
         private readonly ITenantProvider tenantProvider;
         private readonly ScenarioContext scenarioContext;
 
@@ -47,14 +50,12 @@ namespace Marain.Operations.Specs.Integration.Steps
         [Given("There is an operation in the store with id '(.*)' and a status of '(.*)'")]
         public async Task GivenThereIsAnOperationInTheStoreWithIdAndAStatusOf(Guid operationId, string status)
         {
-            var op = new Operation
-            {
-                CreatedDateTime = DateTimeOffset.UtcNow,
-                Id = operationId,
-                LastActionDateTime = DateTimeOffset.UtcNow,
-                Status = (OperationStatus)Enum.Parse(typeof(OperationStatus), status),
-                TenantId = TenantId,
-            };
+            var op = new Operation(
+                operationId,
+                createdDateTime: DateTimeOffset.UtcNow,
+                lastActionDateTime: DateTimeOffset.UtcNow,
+                Enum.Parse<OperationStatus>(status),
+                this.TenantId);
 
             await this.repository.PersistAsync(this.OperationsTenant, op).ConfigureAwait(false);
         }
@@ -62,14 +63,14 @@ namespace Marain.Operations.Specs.Integration.Steps
         [Given("There is a running operation in the store with id '(.*)' and a percentComplete of (.*)")]
         public async Task GivenThereIsAnOperationInTheStoreWithIdAndAStatusOfAndAPercentCompleteOf(Guid operationId, int percentComplete)
         {
-            var op = new Operation
+            var op = new Operation(
+                operationId,
+                createdDateTime: DateTimeOffset.UtcNow,
+                lastActionDateTime: DateTimeOffset.UtcNow,
+                OperationStatus.Running,
+                this.TenantId)
             {
-                CreatedDateTime = DateTimeOffset.UtcNow,
-                Id = operationId,
-                LastActionDateTime = DateTimeOffset.UtcNow,
-                Status = OperationStatus.Running,
                 PercentComplete = percentComplete,
-                TenantId = TenantId,
             };
 
             await this.repository.PersistAsync(this.OperationsTenant, op).ConfigureAwait(false);

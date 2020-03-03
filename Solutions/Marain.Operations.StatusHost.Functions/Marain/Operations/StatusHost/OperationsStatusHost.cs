@@ -6,11 +6,11 @@ namespace Marain.Operations.StatusHost
 {
     using System.Threading.Tasks;
     using Menes;
+    using Menes.Hosting.AspNetCore;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// The host for the operations control services.

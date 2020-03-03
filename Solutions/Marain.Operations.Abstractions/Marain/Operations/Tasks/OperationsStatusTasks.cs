@@ -27,7 +27,7 @@ namespace Marain.Operations.Tasks
         }
 
         /// <inheritdoc />
-        public Task<Operation> GetAsync(ITenant tenant, Guid operationId)
+        public Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
         {
             return this.operationRepository.GetAsync(tenant, operationId);
         }

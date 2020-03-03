@@ -20,9 +20,9 @@ namespace Marain.Operations.Specs.Integration
             new Dictionary<(string tenantId, Guid operationId), Operation>();
 
         /// <inheritdoc />
-        public Task<Operation> GetAsync(ITenant tenant, Guid operationId)
+        public Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
         {
-            this.operations.TryGetValue((tenant.Id, operationId), out Operation result);
+            this.operations.TryGetValue((tenant.Id, operationId), out Operation? result);
             return Task.FromResult(result);
         }
 

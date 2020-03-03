@@ -14,6 +14,28 @@ namespace Marain.Operations.Domain
     public class Operation
     {
         /// <summary>
+        /// Creates a <see cref="Operation"/>.
+        /// </summary>
+        /// <param name="id">The <see cref="Id"/>.</param>
+        /// <param name="createdDateTime">The <see cref="CreatedDateTime"/>.</param>
+        /// <param name="lastActionDateTime">The <see cref="LastActionDateTime"/>.</param>
+        /// <param name="status">The <see cref="Status"/>.</param>
+        /// <param name="tenantId">The <see cref="TenantId"/>.</param>
+        public Operation(
+            Guid id,
+            DateTimeOffset createdDateTime,
+            DateTimeOffset lastActionDateTime,
+            OperationStatus status,
+            string tenantId)
+        {
+            this.Id = id;
+            this.LastActionDateTime = lastActionDateTime;
+            this.CreatedDateTime = createdDateTime;
+            this.Status = status;
+            this.TenantId = tenantId;
+        }
+
+        /// <summary>
         /// Gets or sets the time at which the operation was created.
         /// </summary>
         public DateTimeOffset CreatedDateTime { get; set; }
@@ -35,7 +57,7 @@ namespace Marain.Operations.Domain
         /// This is typically a key into some localizable string store. We expose the id here to
         /// avoid making the Operations API locale-specific.
         /// </remarks>
-        public string ContentId { get; set; }
+        public string? ContentId { get; set; }
 
         /// <summary>
         /// Gets or sets a value from 0 to 100 representing what proportion of the operation's work
@@ -46,7 +68,7 @@ namespace Marain.Operations.Domain
         /// <summary>
         /// Gets or sets the URL of a resource representing the outcome of the operation.
         /// </summary>
-        public string ResourceLocation { get; set; }
+        public string? ResourceLocation { get; set; }
 
         /// <summary>
         /// Gets or sets the current status of this operation.
@@ -68,6 +90,6 @@ namespace Marain.Operations.Domain
         /// this data, other than it will be kept to a small size. This size limit
         /// will be enforced by the API.
         /// </remarks>
-        public string ClientData { get; set; }
+        public string? ClientData { get; set; }
     }
 }

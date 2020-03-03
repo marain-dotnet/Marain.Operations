@@ -19,8 +19,11 @@ namespace Marain.Operations.Storage
         /// </summary>
         /// <param name="tenant">The operation's owning tenant.</param>
         /// <param name="operationId">The operation's unique id.</param>
-        /// <returns>The specified operation, or null.</returns>
-        Task<Operation> GetAsync(ITenant tenant, Guid operationId);
+        /// <returns>
+        /// A task that produces either the specified operation, or null if no operation with the
+        /// specified id exists in the tenant.
+        /// </returns>
+        Task<Operation?> GetAsync(ITenant tenant, Guid operationId);
 
         /// <summary>
         /// Saves changes to an operation.
