@@ -7,7 +7,9 @@ namespace Marain.Operations.OpenApi
     using System;
     using System.Linq;
     using Marain.Operations.Tasks;
+    using Marain.Services.Tenancy.Exceptions;
     using Menes;
+    using Menes.Exceptions;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -39,10 +41,13 @@ namespace Marain.Operations.OpenApi
             services.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>((config) =>
             {
+                config.Exceptions.Map<TenantNotEnrolledForServiceException>(401);
                 config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
                 OperationsStatusOpenApiService.MapLinks(config.Links);
                 configureHost?.Invoke(config);
             });
+
+            AddMarainTenancyServices(services);
 
             return services;
         }
@@ -71,11 +76,14 @@ namespace Marain.Operations.OpenApi
 
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>(config =>
             {
+                config.Exceptions.Map<TenantNotEnrolledForServiceException>(401);
+
                 config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsControlOpenApiService>();
                 configureHost?.Invoke(config);
             });
 
             AddExternalServicesForOperationsControlApi(services);
+            AddMarainTenancyServices(services);
 
             return services;
         }
@@ -90,6 +98,19 @@ namespace Marain.Operations.OpenApi
             services.AddExternalServices(
                 "ExternalServices",
                 externalServices => externalServices.AddExternalServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>("OperationsStatus"));
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds services required to access tenant information.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <returns>The service collection, to enable chaining.</returns>
+        internal static IServiceCollection AddMarainTenancyServices(this IServiceCollection services)
+        {
+            services.AddTenantProviderServiceClient();
+            services.AddMarainServiceTenancyHelper();
 
             return services;
         }

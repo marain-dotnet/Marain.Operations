@@ -9,6 +9,7 @@ namespace Marain.Operations.OpenApi
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
     using Marain.Operations.Tasks;
+    using Marain.Services.Tenancy;
     using Menes;
 
     /// <summary>
@@ -18,22 +19,22 @@ namespace Marain.Operations.OpenApi
     [EmbeddedOpenApiDefinition("Marain.Operations.OpenApi.OperationsControl.yaml")]
     public class OperationsControlOpenApiService : IOpenApiService
     {
-        private readonly ITenantProvider tenantProvider;
+        private readonly IMarainServiceTenancyHelper tenancyHelper;
         private readonly IOperationsControlTasks tasks;
         private readonly IOpenApiExternalServices externalServiceResolver;
 
         /// <summary>
         /// Creates a <see cref="OperationsControlOpenApiService"/>.
         /// </summary>
-        /// <param name="tenantProvider">The tenant provider for the context.</param>
+        /// <param name="tenancyHelper">The tenancy helper.</param>
         /// <param name="tasks">The underlying tasks that implement the service functionality.</param>
         /// <param name="uriTemplateProvider">Resolves URLs to other services.</param>
         public OperationsControlOpenApiService(
-            ITenantProvider tenantProvider,
+            IMarainServiceTenancyHelper tenancyHelper,
             IOperationsControlTasks tasks,
             IOpenApiExternalServices uriTemplateProvider)
         {
-            this.tenantProvider = tenantProvider;
+            this.tenancyHelper = tenancyHelper;
             this.tasks = tasks;
             this.externalServiceResolver = uriTemplateProvider;
         }
@@ -64,7 +65,7 @@ namespace Marain.Operations.OpenApi
             long? expireAfter = null,
             string? body = null)
         {
-            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
+            ITenant tenant = await this.tenancyHelper.GetRequestingTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.CreateAsync(tenant, operationId, resourceLocation, expireAfter, body).ConfigureAwait(false);
 
@@ -109,7 +110,7 @@ namespace Marain.Operations.OpenApi
             long? expireAfter = null,
             string? body = null)
         {
-            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
+            ITenant tenant = await this.tenancyHelper.GetRequestingTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.SetFailedAsync(tenant, operationId, expireAfter, clientData: body).ConfigureAwait(false);
 
@@ -158,7 +159,7 @@ namespace Marain.Operations.OpenApi
             long? expireAfter = null,
             string? body = null)
         {
-            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
+            ITenant tenant = await this.tenancyHelper.GetRequestingTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.SetRunningAsync(tenant, operationId, percentComplete, contentId, expireAfter, clientData: body).ConfigureAwait(false);
 
@@ -195,17 +196,11 @@ namespace Marain.Operations.OpenApi
             long? expireAfter = null,
             string? body = null)
         {
-            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
+            ITenant tenant = await this.tenancyHelper.GetRequestingTenantAsync(tenantId).ConfigureAwait(false);
 
             await this.tasks.SetSucceededAsync(tenant, operationId, resourceLocation, expireAfter, clientData: body).ConfigureAwait(false);
 
             return this.CreatedResultWithOperationLocationHeader(tenant.Id, operationId);
-        }
-
-        private Task<ITenant> DetermineTenantAsync(string tenantId)
-        {
-            // TODO: get the tenant from the context
-            return this.tenantProvider.GetTenantAsync(tenantId);
         }
 
         private OpenApiResult CreatedResultWithOperationLocationHeader(string tenantId, Guid operationId)

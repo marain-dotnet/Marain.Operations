@@ -32,7 +32,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>());
             services.AddAzureManagedIdentityBasedTokenSource();
-            services.AddTenantProviderServiceClient();
             services.AddTenantCloudBlobContainerFactory(sp => sp.GetRequiredService<TenantCloudBlobContainerFactoryOptions>());
             services.AddSingleton<IOperationsRepository, OperationsRepository>();
 

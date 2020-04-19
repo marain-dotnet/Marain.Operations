@@ -79,6 +79,12 @@ paths:
               description: A link to endpoint in the Operations Status API for this operation
               schema:
                 type: string
+        '400':
+            description: Bad request
+        '401':
+            description: Unauthorized
+        '404':
+            description: Not found
         '409':
           description: Conflict - an operation with this id already exists and has moved out of the "Not Started" state
   '/{tenantId}/api/operationscontrol/{operationId}/failed':
@@ -123,6 +129,12 @@ paths:
               description: A link to endpoint in the Operations Status API for this operation
               schema:
                 type: string
+        '400':
+            description: Bad request
+        '401':
+            description: Unauthorized
+        '404':
+            description: Not found
         '409':
           description: Conflict - the operation was already in the "Succeeded" state so it cannot be moved into the "Failed" state
           content:
@@ -185,6 +197,12 @@ paths:
               description: A link to endpoint in the Operations Status API for this operation
               schema:
                 type: string
+        '400':
+            description: Bad request
+        '401':
+            description: Unauthorized
+        '404':
+            description: Not found
         '409':
           description: Conflict - the operation was already in the "Succeeded" or "Failed" state so it cannot be moved into the "Running" state
           content:
@@ -239,6 +257,12 @@ paths:
               description: A link to endpoint in the Operations Status API for this operation
               schema:
                 type: string
+        '400':
+            description: Bad request
+        '401':
+            description: Unauthorized
+        '404':
+            description: Not found
         '409':
           description: Conflict - the operation was already in the "Failed" state so it cannot be moved into the "Running" state
           content:

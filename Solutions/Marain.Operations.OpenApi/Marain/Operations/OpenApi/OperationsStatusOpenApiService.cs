@@ -9,6 +9,7 @@ namespace Marain.Operations.OpenApi
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
     using Marain.Operations.Tasks;
+    using Marain.Services.Tenancy;
     using Menes;
     using Menes.Links;
 
@@ -28,20 +29,20 @@ namespace Marain.Operations.OpenApi
     {
         private readonly IOperationsStatusTasks tasks;
         private readonly IOpenApiWebLinkResolver linkResolver;
-        private readonly ITenantProvider tenantProvider;
+        private readonly IMarainServiceTenancyHelper tenancyHelper;
 
         /// <summary>
         /// Creates an <see cref="OperationsStatusOpenApiService"/>.
         /// </summary>
-        /// <param name="tenantProvider">The tenant provider.</param>
+        /// <param name="tenancyHelper">The tenant provider.</param>
         /// <param name="operationalStatusTasks">Underlying tasks.</param>
         /// <param name="linkResolver">The link resolver.</param>
         public OperationsStatusOpenApiService(
-            ITenantProvider tenantProvider,
+            IMarainServiceTenancyHelper tenancyHelper,
             IOperationsStatusTasks operationalStatusTasks,
             IOpenApiWebLinkResolver linkResolver)
         {
-            this.tenantProvider = tenantProvider ?? throw new ArgumentNullException(nameof(tenantProvider));
+            this.tenancyHelper = tenancyHelper ?? throw new ArgumentNullException(nameof(tenancyHelper));
             this.tasks = operationalStatusTasks ?? throw new ArgumentNullException(nameof(operationalStatusTasks));
             this.linkResolver = linkResolver ?? throw new ArgumentNullException(nameof(linkResolver));
         }
@@ -64,7 +65,7 @@ namespace Marain.Operations.OpenApi
         [OperationId(nameof(GetOperationById))]
         public async Task<OpenApiResult> GetOperationById(string tenantId, Guid operationId)
         {
-            ITenant tenant = await this.DetermineTenantAsync(tenantId).ConfigureAwait(false);
+            ITenant tenant = await this.tenancyHelper.GetRequestingTenantAsync(tenantId).ConfigureAwait(false);
 
             Operation? operation = await this.tasks.GetAsync(tenant, operationId).ConfigureAwait(false);
 
@@ -93,12 +94,6 @@ namespace Marain.Operations.OpenApi
             OpenApiResult result = this.AcceptedResult(link.Href);
             result.Results.Add("application/json", operation);
             return result;
-        }
-
-        private Task<ITenant> DetermineTenantAsync(string tenantId)
-        {
-            // TODO: get the tenant from the context
-            return this.tenantProvider.GetTenantAsync(tenantId);
         }
     }
 }

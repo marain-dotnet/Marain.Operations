@@ -1,0 +1,17 @@
+{
+  "$schema": "./ServiceManifestSchema.json",
+  "contentType": "application/vnd.marain.tenancy.servicemanifests.servicemanifest",
+  "wellKnownTenantGuid": "4f522924-b6e7-48cc-a265-a307407ec858", // This will encode to 3633754ac4c9be44b55bfe791b1780f12429524fe7b6cc48a265a307407ec858
+  "serviceName": "Operations Control v1",
+  "requiredConfigurationEntries": [
+    {
+      "contentType": "application/vnd.marain.tenancy.servicemanifests.requiredconfigurationentries.azureblobstorage",
+      "type": "azureBlobContainerConfiguration",
+      "key": "operationsStore",
+      "containerDefinition": {
+        "containerName": "operations"
+      },
+      "description": "Stores the status of all current operations"
+    }
+  ]
+}

@@ -43,7 +43,15 @@ namespace Marain.Operations.StatusHost
 #endif
             });
 
-            services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenantCloudBlobContainerFactoryOptions").Get<TenantCloudBlobContainerFactoryOptions>());
+            services.AddSingleton(sp =>
+            {
+                IConfiguration config = sp.GetRequiredService<IConfiguration>();
+                return new TenantCloudBlobContainerFactoryOptions
+                {
+                    AzureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"],
+                };
+            });
+            services.AddMarainServiceConfiguration();
 
             services.AddTenantedOperationsStatusApi(config => config.Documents.AddSwaggerEndpoint());
         }

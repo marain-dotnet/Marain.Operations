@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace/>
+    <RootNamespace />
 
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
+    <ProjectReference Include="..\Marain.Services.Tenancy\Marain.Services.Tenancy.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Marain.TenantManagement.Abstractions" Version="0.1.0-9-well-known-tenants.5" />
   </ItemGroup>
 
 </Project>

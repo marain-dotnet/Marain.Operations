@@ -13,7 +13,12 @@
 
         public ITenant Root { get; }
 
-        public Task<ITenant> CreateChildTenantAsync(string parentTenantId)
+        public Task<ITenant> CreateChildTenantAsync(string parentTenantId, string name)
+        {
+            throw new InvalidOperationException("Tests should not hit this code path");
+        }
+
+        public Task<ITenant> CreateWellKnownChildTenantAsync(string parentTenantId, Guid wellKnownChildTenantGuid, string name)
         {
             throw new InvalidOperationException("Tests should not hit this code path");
         }
