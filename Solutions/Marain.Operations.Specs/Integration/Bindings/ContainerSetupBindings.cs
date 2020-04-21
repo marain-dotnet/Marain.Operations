@@ -97,6 +97,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
 
         private static EnrollmentConfigurationItem[] GetTestOperationsConfig()
         {
+            // Config is needed for the enrollment but doesn't actually matter in practice because
+            // we're using a fake store for the specs.
             return new EnrollmentConfigurationItem[]
 {
                 new EnrollmentBlobStorageConfigurationItem
