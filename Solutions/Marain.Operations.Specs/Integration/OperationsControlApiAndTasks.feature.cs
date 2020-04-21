@@ -120,8 +120,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 12
     testRunner.And("the \'Location\' property in the result should be \'http://operationsstatus.example." +
-                        "com/f26450ab1668784bb327951c8b08f347/api/operations/d306cb37-bc58-40fc-801c-bce5" +
-                        "fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "com/{transientTenantId}/api/operations/d306cb37-bc58-40fc-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -166,8 +165,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 18
     testRunner.And("the \'Location\' property in the result should be \'http://operationsstatus.example." +
-                        "com/f26450ab1668784bb327951c8b08f347/api/operations/d306cb37-bc58-40fc-801c-bce5" +
-                        "fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "com/{transientTenantId}/api/operations/d306cb37-bc58-40fc-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 19
     testRunner.And("the status of the operation in the store with id \'d306cb37-bc58-40fc-801c-bce5fb2" +
@@ -216,8 +214,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 25
     testRunner.And("the \'Location\' property in the result should be \'http://operationsstatus.example." +
-                        "com/f26450ab1668784bb327951c8b08f347/api/operations/d306cb37-bc58-40fc-801c-bce5" +
-                        "fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "com/{transientTenantId}/api/operations/d306cb37-bc58-40fc-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 26
     testRunner.And("the status of the operation in the store with id \'d306cb37-bc58-40fc-801c-bce5fb2" +
@@ -270,8 +267,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 33
     testRunner.And("the \'Location\' property in the result should be \'http://operationsstatus.example." +
-                        "com/f26450ab1668784bb327951c8b08f347/api/operations/d306cb37-bc58-40fc-801c-bce5" +
-                        "fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                        "com/{transientTenantId}/api/operations/d306cb37-bc58-40fc-801c-bce5fb2c3a67\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 34
     testRunner.And("the status of the operation in the store with id \'d306cb37-bc58-40fc-801c-bce5fb2" +

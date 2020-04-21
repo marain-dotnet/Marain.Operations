@@ -10,8 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="0.4.0" />
     <PackageReference Include="Corvus.SpecFlow.Extensions" Version="0.6.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,12 +33,25 @@
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
     <ProjectReference Include="..\Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj" />
     <ProjectReference Include="..\Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\Marain.TenantManagement.Testing\Marain.TenantManagement.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="specflow.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Integration\ServiceManifests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\ServiceManifests\OperationsControlServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsControlServiceManifest.jsonc" />
+    <EmbeddedResource Include="..\ServiceManifests\OperationsStatusServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsStatusServiceManifest.jsonc" />
   </ItemGroup>
 
 </Project>

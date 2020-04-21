@@ -9,6 +9,7 @@ namespace Marain.Operations.Specs.Integration.Steps
     using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
+    using Marain.TenantManagement.Testing;
     using Menes;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
@@ -18,20 +19,20 @@ namespace Marain.Operations.Specs.Integration.Steps
     public class CommonOperationsApiAndTaskSteps
     {
         private readonly FakeOperationsRepository repository;
-        private readonly ITenantProvider tenantProvider;
+        private readonly TransientTenantManager transientTenantManager;
         private readonly ScenarioContext scenarioContext;
 
         public CommonOperationsApiAndTaskSteps(FeatureContext featureContext, ScenarioContext scenarioContext)
         {
             this.repository = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<FakeOperationsRepository>();
-            this.tenantProvider = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<ITenantProvider>();
+            this.transientTenantManager = TransientTenantManager.GetInstance(featureContext);
             this.scenarioContext = scenarioContext;
         }
 
         [Given("There is no operation in the store with id '(.*)'")]
         public async Task GivenThereIsNoOperationInTheStoreWithId(Guid operationId)
         {
-            Operation? op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
+            Operation? op = await this.repository.GetAsync(this.transientTenantManager.PrimaryTransientClient, operationId).ConfigureAwait(false);
 
             Assert.IsNull(op);
         }
@@ -41,7 +42,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         {
             var expectedStatus = (OperationStatus)Enum.Parse(typeof(OperationStatus), statusText);
 
-            Operation? op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
+            Operation? op = await this.repository.GetAsync(this.transientTenantManager.PrimaryTransientClient, operationId).ConfigureAwait(false);
 
             Assert.AreEqual(expectedStatus, op?.Status);
         }
@@ -51,7 +52,7 @@ namespace Marain.Operations.Specs.Integration.Steps
             Guid operationId,
             int percentComplete)
         {
-            Operation? op = await this.repository.GetAsync(this.tenantProvider.Root, operationId).ConfigureAwait(false);
+            Operation? op = await this.repository.GetAsync(this.transientTenantManager.PrimaryTransientClient, operationId).ConfigureAwait(false);
 
             Assert.AreEqual(percentComplete, op?.PercentComplete);
         }
@@ -65,6 +66,8 @@ namespace Marain.Operations.Specs.Integration.Steps
         [Then("the '(.*)' property in the result should be '(.*)'")]
         public void ThenThePropertyInTheResultShouldBe(string propertyName, string propertyValue)
         {
+            propertyValue = propertyValue.Replace("{transientTenantId}", this.transientTenantManager.PrimaryTransientClient.Id);
+
             OpenApiResult result = this.scenarioContext.Get<OpenApiResult>();
 
             Assert.IsTrue(

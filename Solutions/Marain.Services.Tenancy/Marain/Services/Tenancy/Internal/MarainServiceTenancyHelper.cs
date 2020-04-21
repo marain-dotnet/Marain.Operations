@@ -8,7 +8,6 @@ namespace Marain.Services.Tenancy.Internal
     using System.Threading.Tasks;
     using Corvus.Tenancy;
     using Corvus.Tenancy.Exceptions;
-    using Marain.Services.Tenancy.Exceptions;
     using Marain.TenantManagement;
     using Menes.Exceptions;
 
@@ -47,16 +46,15 @@ namespace Marain.Services.Tenancy.Internal
             }
             catch (ArgumentException)
             {
-                throw new OpenApiBadRequestException($"The specified tenant Id, '{tenantId}', is of the wrong type for this request");
+                throw new OpenApiNotFoundException($"The specified tenant Id, '{tenantId}', is of the wrong type for this request");
             }
 
             // Ensure the tenant is enrolled for the service.
             if (!tenant.IsEnrolledForService(this.serviceConfiguration.ServiceTenantId))
             {
-                throw new TenantNotEnrolledForServiceException(
-                    tenantId,
-                    this.serviceConfiguration.ServiceTenantId,
-                    this.serviceConfiguration.ServiceDisplayName);
+                throw OpenApiForbiddenException.WithProblemDetails(
+                    "Tenant not enrolled for service",
+                    $"The tenant with Id '{tenantId}' is not enrolled in the service '{this.serviceConfiguration.ServiceDisplayName}' with Service Tenant Id '{this.serviceConfiguration.ServiceTenantId}'");
             }
 
             return tenant;

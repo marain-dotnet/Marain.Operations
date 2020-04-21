@@ -7,9 +7,7 @@ namespace Marain.Operations.OpenApi
     using System;
     using System.Linq;
     using Marain.Operations.Tasks;
-    using Marain.Services.Tenancy.Exceptions;
     using Menes;
-    using Menes.Exceptions;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -41,7 +39,6 @@ namespace Marain.Operations.OpenApi
             services.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>((config) =>
             {
-                config.Exceptions.Map<TenantNotEnrolledForServiceException>(401);
                 config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
                 OperationsStatusOpenApiService.MapLinks(config.Links);
                 configureHost?.Invoke(config);
@@ -76,8 +73,6 @@ namespace Marain.Operations.OpenApi
 
             services.AddOpenApiHttpRequestHosting<SimpleOpenApiContext>(config =>
             {
-                config.Exceptions.Map<TenantNotEnrolledForServiceException>(401);
-
                 config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsControlOpenApiService>();
                 configureHost?.Invoke(config);
             });

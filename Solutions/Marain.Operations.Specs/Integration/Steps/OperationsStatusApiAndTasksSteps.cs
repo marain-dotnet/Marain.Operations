@@ -13,6 +13,7 @@ namespace Marain.Operations.Specs.Integration.Steps
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
     using Marain.Operations.OpenApi;
+    using Marain.TenantManagement.Testing;
     using Menes;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace Marain.Operations.Specs.Integration.Steps
 
         private readonly ITenantProvider tenantProvider;
         private readonly ScenarioContext scenarioContext;
+        private readonly TransientTenantManager transientTenantManager;
 
         public OperationsStatusApiAndTasksSteps(FeatureContext featureContext, ScenarioContext scenarioContext)
         {
@@ -38,14 +40,9 @@ namespace Marain.Operations.Specs.Integration.Steps
             this.repository = this.serviceProvider.GetRequiredService<FakeOperationsRepository>();
             this.host = this.serviceProvider.GetRequiredService<IOpenApiHost<HttpRequest, IActionResult>>();
             this.tenantProvider = this.serviceProvider.GetRequiredService<ITenantProvider>();
-            this.OperationsTenant = this.tenantProvider.Root;
-            this.TenantId = this.OperationsTenant.Id;
             this.scenarioContext = scenarioContext;
+            this.transientTenantManager = TransientTenantManager.GetInstance(featureContext);
         }
-
-        private ITenant OperationsTenant { get; }
-
-        private string TenantId { get; }
 
         [Given("There is an operation in the store with id '(.*)' and a status of '(.*)'")]
         public async Task GivenThereIsAnOperationInTheStoreWithIdAndAStatusOf(Guid operationId, string status)
@@ -55,9 +52,9 @@ namespace Marain.Operations.Specs.Integration.Steps
                 createdDateTime: DateTimeOffset.UtcNow,
                 lastActionDateTime: DateTimeOffset.UtcNow,
                 Enum.Parse<OperationStatus>(status),
-                this.TenantId);
+                this.transientTenantManager.PrimaryTransientClient.Id);
 
-            await this.repository.PersistAsync(this.OperationsTenant, op).ConfigureAwait(false);
+            await this.repository.PersistAsync(this.transientTenantManager.PrimaryTransientClient, op).ConfigureAwait(false);
         }
 
         [Given("There is a running operation in the store with id '(.*)' and a percentComplete of (.*)")]
@@ -68,12 +65,12 @@ namespace Marain.Operations.Specs.Integration.Steps
                 createdDateTime: DateTimeOffset.UtcNow,
                 lastActionDateTime: DateTimeOffset.UtcNow,
                 OperationStatus.Running,
-                this.TenantId)
+                this.transientTenantManager.PrimaryTransientClient.Id)
             {
                 PercentComplete = percentComplete,
             };
 
-            await this.repository.PersistAsync(this.OperationsTenant, op).ConfigureAwait(false);
+            await this.repository.PersistAsync(this.transientTenantManager.PrimaryTransientClient, op).ConfigureAwait(false);
         }
 
         [When(@"I call OperationsStatusOpenApiService\.GetOperationById with id '(.*)'")]
@@ -81,7 +78,7 @@ namespace Marain.Operations.Specs.Integration.Steps
         {
             OperationsStatusOpenApiService service = this.serviceProvider.GetRequiredService<OperationsStatusOpenApiService>();
 
-            OpenApiResult result = await service.GetOperationById(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
+            OpenApiResult result = await service.GetOperationById(this.transientTenantManager.PrimaryTransientClient.Id, operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }

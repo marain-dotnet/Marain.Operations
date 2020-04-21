@@ -29,7 +29,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.TenantManagement.Abstractions" Version="0.1.0-9-well-known-tenants.5" />
   </ItemGroup>
 
 </Project>

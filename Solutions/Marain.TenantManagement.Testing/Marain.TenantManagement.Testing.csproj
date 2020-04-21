@@ -5,10 +5,6 @@
     <RootNamespace />
 
     <Nullable>enable</Nullable>
-    <!--
-      RCS1194 - we don't want the standard ctor patterns, as they clash with nullable references
-    -->
-    <NoWarn>RCS1194</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,9 +12,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Menes.Abstractions" Version="0.11.0" />
     <PackageReference Include="Marain.TenantManagement.Abstractions" Version="0.1.0-18-tenant-unenrollment.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="SpecFlow" Version="3.1.86" />
+    <PackageReference Include="Corvus.SpecFlow.Extensions" Version="0.6.0" />
   </ItemGroup>
-
 </Project>

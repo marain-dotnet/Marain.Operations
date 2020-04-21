@@ -7,7 +7,6 @@ namespace Marain.Services.Tenancy
     using System.Threading.Tasks;
     using Corvus.Tenancy;
     using Corvus.Tenancy.Exceptions;
-    using Marain.Services.Tenancy.Exceptions;
     using Menes.Exceptions;
 
     /// <summary>
@@ -20,9 +19,8 @@ namespace Marain.Services.Tenancy
         /// </summary>
         /// <param name="tenantId">The tenant Id supplied with the request.</param>
         /// <returns>The tenant.</returns>
-        /// <exception cref="TenantNotFoundException">The tenant Id is invalid.</exception>
-        /// <exception cref="OpenApiBadRequestException">The tenant Id does not match a tenant of the correct type.</exception>
-        /// <exception cref="TenantNotEnrolledForServiceException">The specified tenant is not enrolled for the service.</exception>
+        /// <exception cref="OpenApiNotFoundException">The tenant Id is invalid.</exception>
+        /// <exception cref="OpenApiForbiddenException">The specified tenant is not enrolled for the service.</exception>
         Task<ITenant> GetRequestingTenantAsync(string tenantId);
 
         /// <summary>
