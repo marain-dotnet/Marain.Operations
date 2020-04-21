@@ -32,8 +32,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.ControlCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusClient", "Marain.Operations.StatusClient\Marain.Operations.StatusClient.csproj", "{526CE85F-CB03-41ED-B1DA-B65539F83FE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Services.Tenancy", "Marain.Services.Tenancy\Marain.Services.Tenancy.csproj", "{CF6CEADD-401A-4DD4-A26E-E5D8E58459AE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceManifests", "ServiceManifests", "{BA443C5C-7EC5-4210-8117-DDFA249EBFD1}"
 	ProjectSection(SolutionItems) = preProject
 		ServiceManifests\OperationsControlServiceManifest.jsonc = ServiceManifests\OperationsControlServiceManifest.jsonc
@@ -44,8 +42,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 	ProjectSection(SolutionItems) = preProject
 		..\..\Marain.TenantManagement\Solutions\EnrollmentConfigurations\OperationsConfigForStorageEmulator.json = ..\..\Marain.TenantManagement\Solutions\EnrollmentConfigurations\OperationsConfigForStorageEmulator.json
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.TenantManagement.Testing", "Marain.TenantManagement.Testing\Marain.TenantManagement.Testing.csproj", "{C748E835-9072-4E38-97DB-0E2EFEB89E8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,14 +89,6 @@ Global
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF6CEADD-401A-4DD4-A26E-E5D8E58459AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF6CEADD-401A-4DD4-A26E-E5D8E58459AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF6CEADD-401A-4DD4-A26E-E5D8E58459AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF6CEADD-401A-4DD4-A26E-E5D8E58459AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C748E835-9072-4E38-97DB-0E2EFEB89E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C748E835-9072-4E38-97DB-0E2EFEB89E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C748E835-9072-4E38-97DB-0E2EFEB89E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C748E835-9072-4E38-97DB-0E2EFEB89E8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

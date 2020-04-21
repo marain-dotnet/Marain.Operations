@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="0.1.0-service-tenancy.5" />
     <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="0.4.0" />
     <PackageReference Include="Corvus.SpecFlow.Extensions" Version="0.6.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.2" />
@@ -32,7 +33,6 @@
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
     <ProjectReference Include="..\Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj" />
     <ProjectReference Include="..\Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj" />
-    <ProjectReference Include="..\Marain.TenantManagement.Testing\Marain.TenantManagement.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>

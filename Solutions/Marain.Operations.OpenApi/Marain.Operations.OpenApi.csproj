@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
-    <ProjectReference Include="..\Marain.Services.Tenancy\Marain.Services.Tenancy.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Marain.Services.Tenancy" Version="0.1.0-service-tenancy.5" />
     <PackageReference Include="Endjin.RecommendedPractices" Version="0.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
