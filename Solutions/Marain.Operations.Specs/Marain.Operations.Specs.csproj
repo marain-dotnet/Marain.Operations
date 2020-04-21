@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
     <RootNamespace>Marain.Operations.Specs</RootNamespace>
   </PropertyGroup>
