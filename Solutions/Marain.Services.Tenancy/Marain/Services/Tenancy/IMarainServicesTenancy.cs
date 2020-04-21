@@ -1,4 +1,4 @@
-﻿// <copyright file="IMarainServiceTenancyHelper.cs" company="Endjin Limited">
+﻿// <copyright file="IMarainServicesTenancy.cs" company="Endjin Limited">
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
@@ -6,13 +6,12 @@ namespace Marain.Services.Tenancy
 {
     using System.Threading.Tasks;
     using Corvus.Tenancy;
-    using Corvus.Tenancy.Exceptions;
     using Menes.Exceptions;
 
     /// <summary>
     /// Provides methods required by Marain services to validate and work with tenants.
     /// </summary>
-    public interface IMarainServiceTenancyHelper
+    public interface IMarainServicesTenancy
     {
         /// <summary>
         /// Retrieves and validates the tenant matching the Id that was supplied with an incoming service request.

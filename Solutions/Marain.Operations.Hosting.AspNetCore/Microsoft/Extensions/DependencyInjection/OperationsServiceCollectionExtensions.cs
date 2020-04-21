@@ -105,7 +105,7 @@ namespace Marain.Operations.OpenApi
         internal static IServiceCollection AddMarainTenancyServices(this IServiceCollection services)
         {
             services.AddTenantProviderServiceClient();
-            services.AddMarainServiceTenancyHelper();
+            services.AddMarainServicesTenancy();
 
             return services;
         }

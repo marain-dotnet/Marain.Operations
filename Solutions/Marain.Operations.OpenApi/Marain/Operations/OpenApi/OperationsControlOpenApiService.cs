@@ -19,7 +19,7 @@ namespace Marain.Operations.OpenApi
     [EmbeddedOpenApiDefinition("Marain.Operations.OpenApi.OperationsControl.yaml")]
     public class OperationsControlOpenApiService : IOpenApiService
     {
-        private readonly IMarainServiceTenancyHelper tenancyHelper;
+        private readonly IMarainServicesTenancy tenancyHelper;
         private readonly IOperationsControlTasks tasks;
         private readonly IOpenApiExternalServices externalServiceResolver;
 
@@ -30,7 +30,7 @@ namespace Marain.Operations.OpenApi
         /// <param name="tasks">The underlying tasks that implement the service functionality.</param>
         /// <param name="uriTemplateProvider">Resolves URLs to other services.</param>
         public OperationsControlOpenApiService(
-            IMarainServiceTenancyHelper tenancyHelper,
+            IMarainServicesTenancy tenancyHelper,
             IOperationsControlTasks tasks,
             IOpenApiExternalServices uriTemplateProvider)
         {

@@ -48,7 +48,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddJsonSerializerSettings();
                     serviceCollection.AddTestNameProvider();
                     serviceCollection.AddMarainServiceConfiguration();
-                    serviceCollection.AddMarainServiceTenancyHelper();
+                    serviceCollection.AddMarainServicesTenancy();
 
                     serviceCollection.AddSingleton<FakeOperationsRepository>();
                     serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());

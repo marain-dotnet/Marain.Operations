@@ -22,17 +22,17 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="serviceCollection">The service collection to add to.</param>
         /// <returns>The service collection, for chaining.</returns>
-        public static IServiceCollection AddMarainServiceTenancyHelper(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddMarainServicesTenancy(this IServiceCollection serviceCollection)
         {
-            if (serviceCollection.Any(s => typeof(IMarainServiceTenancyHelper).IsAssignableFrom(s.ServiceType)))
+            if (serviceCollection.Any(s => typeof(IMarainServicesTenancy).IsAssignableFrom(s.ServiceType)))
             {
                 return serviceCollection;
             }
 
             serviceCollection.AddMarainTenantManagement();
 
-            serviceCollection.AddSingleton<MarainServiceTenancyHelper>();
-            serviceCollection.AddSingleton<IMarainServiceTenancyHelper>(sp => sp.GetRequiredService<MarainServiceTenancyHelper>());
+            serviceCollection.AddSingleton<MarainServicesTenancy>();
+            serviceCollection.AddSingleton<IMarainServicesTenancy>(sp => sp.GetRequiredService<MarainServicesTenancy>());
 
             return serviceCollection;
         }

@@ -29,7 +29,7 @@ namespace Marain.Operations.OpenApi
     {
         private readonly IOperationsStatusTasks tasks;
         private readonly IOpenApiWebLinkResolver linkResolver;
-        private readonly IMarainServiceTenancyHelper tenancyHelper;
+        private readonly IMarainServicesTenancy tenancyHelper;
 
         /// <summary>
         /// Creates an <see cref="OperationsStatusOpenApiService"/>.
@@ -38,7 +38,7 @@ namespace Marain.Operations.OpenApi
         /// <param name="operationalStatusTasks">Underlying tasks.</param>
         /// <param name="linkResolver">The link resolver.</param>
         public OperationsStatusOpenApiService(
-            IMarainServiceTenancyHelper tenancyHelper,
+            IMarainServicesTenancy tenancyHelper,
             IOperationsStatusTasks operationalStatusTasks,
             IOpenApiWebLinkResolver linkResolver)
         {

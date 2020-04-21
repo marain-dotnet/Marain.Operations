@@ -1,4 +1,4 @@
-﻿// <copyright file="MarainServiceTenancyHelper.cs" company="Endjin Limited">
+﻿// <copyright file="MarainServicesTenancy.cs" company="Endjin Limited">
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
@@ -14,17 +14,17 @@ namespace Marain.Services.Tenancy.Internal
     /// <summary>
     /// Provides methods required by Marain services to validate and work with tenants.
     /// </summary>
-    public class MarainServiceTenancyHelper : IMarainServiceTenancyHelper
+    public class MarainServicesTenancy : IMarainServicesTenancy
     {
         private readonly ITenantProvider tenantProvider;
         private readonly MarainServiceConfiguration serviceConfiguration;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="MarainServiceTenancyHelper"/> class.
+        /// Creates a new instance of the <see cref="MarainServicesTenancy"/> class.
         /// </summary>
         /// <param name="tenantProvider">The tenant management service.</param>
         /// <param name="serviceConfiguration">Service configuration for the current service.</param>
-        public MarainServiceTenancyHelper(
+        public MarainServicesTenancy(
             ITenantProvider tenantProvider,
             MarainServiceConfiguration serviceConfiguration)
         {
@@ -39,7 +39,7 @@ namespace Marain.Services.Tenancy.Internal
 
             // Validate it's of the expected type. This will throw an ArgumentException if the tenant is not of the expected
             // type. This is not particularly useful, so we will catch this and instead throw an exception that will result
-            // in a Bad Request response.
+            // in a Not Found response.
             try
             {
                 tenant.EnsureTenantIsOfType(MarainTenantType.Client, MarainTenantType.Delegated);
