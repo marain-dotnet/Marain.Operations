@@ -44,6 +44,8 @@ namespace Marain.Operations.OpenApi
                 configureHost?.Invoke(config);
             });
 
+            AddMarainTenancyServices(services);
+
             return services;
         }
 
@@ -76,6 +78,7 @@ namespace Marain.Operations.OpenApi
             });
 
             AddExternalServicesForOperationsControlApi(services);
+            AddMarainTenancyServices(services);
 
             return services;
         }
@@ -90,6 +93,19 @@ namespace Marain.Operations.OpenApi
             services.AddExternalServices(
                 "ExternalServices",
                 externalServices => externalServices.AddExternalServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>("OperationsStatus"));
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds services required to access tenant information.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <returns>The service collection, to enable chaining.</returns>
+        internal static IServiceCollection AddMarainTenancyServices(this IServiceCollection services)
+        {
+            services.AddTenantProviderServiceClient();
+            services.AddMarainServicesTenancy();
 
             return services;
         }

@@ -32,6 +32,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.ControlCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusClient", "Marain.Operations.StatusClient\Marain.Operations.StatusClient.csproj", "{526CE85F-CB03-41ED-B1DA-B65539F83FE8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceManifests", "ServiceManifests", "{BA443C5C-7EC5-4210-8117-DDFA249EBFD1}"
+	ProjectSection(SolutionItems) = preProject
+		ServiceManifests\OperationsControlServiceManifest.jsonc = ServiceManifests\OperationsControlServiceManifest.jsonc
+		ServiceManifests\OperationsStatusServiceManifest.jsonc = ServiceManifests\OperationsStatusServiceManifest.jsonc
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{697107FC-8C59-4E52-BA9D-72A7CC6B8316}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Marain.TenantManagement\Solutions\EnrollmentConfigurations\OperationsConfigForStorageEmulator.json = ..\..\Marain.TenantManagement\Solutions\EnrollmentConfigurations\OperationsConfigForStorageEmulator.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +100,7 @@ Global
 		{45554330-70C1-490C-A6D3-E77E8443793B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{51815998-4551-477F-B2FB-12A767B39CE9} = {E418F648-61C8-48AF-8305-D520BAB272B0}
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8} = {E418F648-61C8-48AF-8305-D520BAB272B0}
+		{697107FC-8C59-4E52-BA9D-72A7CC6B8316} = {BA443C5C-7EC5-4210-8117-DDFA249EBFD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A96A87D-1A5F-440A-AE9B-5449358C84D2}

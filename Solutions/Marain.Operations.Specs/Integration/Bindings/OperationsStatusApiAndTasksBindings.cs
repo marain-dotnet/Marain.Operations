@@ -4,12 +4,10 @@
 
 namespace Marain.Operations.Specs.Integration.Bindings
 {
+    using System.Threading.Tasks;
     using Corvus.SpecFlow.Extensions;
-    using Corvus.Tenancy;
     using Marain.Operations.OpenApi;
-    using Marain.Operations.Storage;
     using Marain.Operations.Tasks;
-    using Microsoft.Extensions.DependencyInjection;
     using TechTalk.SpecFlow;
 
     /// <summary>
@@ -30,11 +28,14 @@ namespace Marain.Operations.Specs.Integration.Bindings
                 featureContext,
                 serviceCollection =>
                 {
-                    serviceCollection.AddSingleton<FakeOperationsRepository>();
-                    serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());
-                    serviceCollection.AddSingleton<ITenantProvider, FakeTenantProvider>();
                     serviceCollection.AddOperationsStatusApi();
                 });
+        }
+
+        [BeforeFeature("@operationsStatus", Order = ContainerBeforeFeatureOrder.ServiceProviderAvailable)]
+        public static Task TaskSetupOperationsControlTenants(FeatureContext featureContext)
+        {
+            return ContainerSetupBindings.SetupTenants(featureContext, "OperationsStatusServiceManifest");
         }
     }
 }

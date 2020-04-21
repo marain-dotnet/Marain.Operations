@@ -9,6 +9,7 @@ namespace Marain.Operations.Specs.Integration.Steps
     using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
     using Marain.Operations.OpenApi;
+    using Marain.TenantManagement.Testing;
     using Menes;
     using Microsoft.Extensions.DependencyInjection;
     using TechTalk.SpecFlow;
@@ -17,18 +18,24 @@ namespace Marain.Operations.Specs.Integration.Steps
     public class OperationsControlApiAndTasksSteps
     {
         private readonly OperationsControlOpenApiService service;
+        private readonly TransientTenantManager transientTenantManager;
         private readonly ScenarioContext scenarioContext;
+        private readonly FeatureContext featureContext;
 
         public OperationsControlApiAndTasksSteps(FeatureContext featureContext, ScenarioContext scenarioContext)
         {
             this.service = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<OperationsControlOpenApiService>();
+            this.transientTenantManager = TransientTenantManager.GetInstance(featureContext);
             this.scenarioContext = scenarioContext;
+            this.featureContext = featureContext;
         }
 
         [When(@"I call OperationsControlOpenApiService\.CreateOperation with id '(.*)'")]
         public async Task WhenICallOperationsControlOpenApiService_CreateOperationWithId(Guid operationId)
         {
-            OpenApiResult result = await this.service.CreateOperation(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
+            OpenApiResult result = await this.service.CreateOperation(
+                this.transientTenantManager.PrimaryTransientClient.Id,
+                operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }
@@ -36,7 +43,9 @@ namespace Marain.Operations.Specs.Integration.Steps
         [When(@"I call OperationsStatusOpenApiService\.SetOperationFailed with id '(.*)'")]
         public async Task WhenICallOperationsStatusOpenApiService_SetOperationFailedWithId(Guid operationId)
         {
-            OpenApiResult result = await this.service.SetOperationFailed(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
+            OpenApiResult result = await this.service.SetOperationFailed(
+                this.transientTenantManager.PrimaryTransientClient.Id,
+                operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }
@@ -46,7 +55,7 @@ namespace Marain.Operations.Specs.Integration.Steps
             Guid operationId, int percentComplete)
         {
             OpenApiResult result = await this.service.SetOperationRunning(
-                RootTenant.RootTenantId,
+                this.transientTenantManager.PrimaryTransientClient.Id,
                 operationId,
                 percentComplete).ConfigureAwait(false);
 
@@ -56,7 +65,9 @@ namespace Marain.Operations.Specs.Integration.Steps
         [When(@"I call OperationsStatusOpenApiService\.SetOperationSucceeded with id '(.*)'")]
         public async Task WhenICallOperationsStatusOpenApiService_SetOperationSucceededWithIdAsync(Guid operationId)
         {
-            OpenApiResult result = await this.service.SetOperationSucceeded(RootTenant.RootTenantId, operationId).ConfigureAwait(false);
+            OpenApiResult result = await this.service.SetOperationSucceeded(
+                this.transientTenantManager.PrimaryTransientClient.Id,
+                operationId).ConfigureAwait(false);
 
             this.scenarioContext.Set(result);
         }

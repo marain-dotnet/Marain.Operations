@@ -58,8 +58,12 @@ paths:
               #  status: Succeeded
               #  clientData: "{ data: 'Arbitrary data in any format' }"
               #  tenantId: 'c3952b2e-be67-4a33-a620-10b3957ba6fc'
+        '400':
+            description: Bad request
+        '401':
+            description: Unauthorized
         '404':
-          description: An operation with the specified id was not found.
+            description: Not found
 components:
   schemas:
     Operation:

@@ -7,17 +7,8 @@
     "APPINSIGHTS_INSTRUMENTATIONKEY": "",
     "ExternalServices__OperationsStatus": "http://localhost:7077/",
 
-    // If you want to debug against a real storage account in Azure, set AccountName to the full connection string.
-    // If you want to debug the code the fetches the storage strings from key vault, set AccountName to just the
-    // storage account name and then set the key vault and secret names, and you'll also need to set
-    // TenantCloudBlobContainerFactoryOptions__AzureServicesAuthConnectionString
-    // to a suitable string for authenticating against key vault. If your personal account has access to the key vault, you can use:
-    // "RunAs=Developer; DeveloperTool=AzureCLI",
-    // otherwise, set up a suitable service principle, and use:
-    // "TenantCloudBlobContainerFactoryOptions__AzureServicesAuthConnectionString": "RunAs=App;AppId=AppIdForYourServicePrinciple;TenantId=0f621c67-98a0-4ed5-b5bd-31a35be41e29;AppKey=YourAppSecretHere",
-    "TenantCloudBlobContainerFactoryOptions__RootTenantBlobStorageConfiguration__AccountName": "UseDevelopmentStorage=true",
-    "TenantCloudBlobContainerFactoryOptions__RootTenantBlobStorageConfiguration__KeyVaultName": "",
-    "TenantCloudBlobContainerFactoryOptions__RootTenantBlobStorageConfiguration__AccountKeySecretName": "",
+    "MarainServiceConfiguration:ServiceTenantId": "3633754ac4c9be44b55bfe791b1780f12429524fe7b6cc48a265a307407ec858",
+    "MarainServiceConfiguration:ServiceDisplayName": "Operations Control v1",
 
     // If running with a local tenancy service, point TenancyClient__TenancyServiceBaseUri at the localhost address for that
     "TenancyClient__TenancyServiceBaseUri": "https://maridgtenancy.azurewebsites.net/"
@@ -32,5 +23,7 @@
     // a suitable service principle in AAD, grant that service principle access to the tenancy service, and
     // set up the credentials like this instead of the setting above:
     //  "AzureServicesAuthConnectionString": "RunAs=App;AppId=AppIdForYourServicePrinciple;TenantId=0f621c67-98a0-4ed5-b5bd-31a35be41e29;AppKey=YourAppSecretHere"
+    // If your tenant is configured to get storage connection info from KeyVault, you'll also need the above set to and the
+    // appropriate service principal granted access to the KeyVault in question.
   }
 }
