@@ -24,11 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Marain.Services.Tenancy" Version="0.1.0-service-tenancy.5" />
     <PackageReference Include="Endjin.RecommendedPractices" Version="0.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Marain.Services.Tenancy" Version="0.1.0-preview.9" />
   </ItemGroup>
 
 </Project>
