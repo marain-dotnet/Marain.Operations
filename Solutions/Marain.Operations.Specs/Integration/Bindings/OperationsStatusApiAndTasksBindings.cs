@@ -31,11 +31,5 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddOperationsStatusApi();
                 });
         }
-
-        [BeforeFeature("@operationsStatus", Order = ContainerBeforeFeatureOrder.ServiceProviderAvailable)]
-        public static Task TaskSetupOperationsControlTenants(FeatureContext featureContext)
-        {
-            return ContainerSetupBindings.SetupTenants(featureContext, "OperationsStatusServiceManifest");
-        }
     }
 }

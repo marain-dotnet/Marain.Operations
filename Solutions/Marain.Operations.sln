@@ -34,8 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusCli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceManifests", "ServiceManifests", "{BA443C5C-7EC5-4210-8117-DDFA249EBFD1}"
 	ProjectSection(SolutionItems) = preProject
-		ServiceManifests\OperationsControlServiceManifest.jsonc = ServiceManifests\OperationsControlServiceManifest.jsonc
-		ServiceManifests\OperationsStatusServiceManifest.jsonc = ServiceManifests\OperationsStatusServiceManifest.jsonc
+		ServiceManifests\OperationsServiceManifest.jsonc = ServiceManifests\OperationsServiceManifest.jsonc
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{697107FC-8C59-4E52-BA9D-72A7CC6B8316}"

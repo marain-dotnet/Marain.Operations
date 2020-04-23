@@ -67,6 +67,12 @@ namespace Marain.Operations.Specs.Integration.Bindings
                 });
         }
 
+        [BeforeFeature(Order = ContainerBeforeFeatureOrder.ServiceProviderAvailable)]
+        public static Task TaskSetupOperationsControlTenants(FeatureContext featureContext)
+        {
+            return SetupTenants(featureContext, "OperationsServiceManifest");
+        }
+
         [BeforeScenario]
         public static void SetupScenario(FeatureContext featureContext)
         {
