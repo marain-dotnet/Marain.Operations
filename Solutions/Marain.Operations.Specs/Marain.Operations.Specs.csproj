@@ -49,8 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\ServiceManifests\OperationsControlServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsControlServiceManifest.jsonc" />
-    <EmbeddedResource Include="..\ServiceManifests\OperationsStatusServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsStatusServiceManifest.jsonc" />
+    <EmbeddedResource Include="..\ServiceManifests\OperationsServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsServiceManifest.jsonc" />
   </ItemGroup>
 
 </Project>
