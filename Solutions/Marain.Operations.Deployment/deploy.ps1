@@ -44,6 +44,9 @@ param(
 	[string] $ControlAadClientId,
 	[string] $StatusAadClientId,
 
+	[string] $OperationsMarainServiceTenantId,
+	[string] $OperationsMarainServiceTenantDisplayName,
+
 	[string] $ArtifactStagingDirectory = ".",
 	[string] $ArtifactStorageContainerName = "stageartifacts"
 )
@@ -93,6 +96,8 @@ Process{
 			$parameters["artifactStorageContainerName"] = $ArtifactStorageContainerName
 			$parameters["controlAadClientId"] = $ControlAadClientId
 			$parameters["statusAadClientId"] = $StatusAadClientId
+			$parameters["marainServiceTenantId"] = $OperationsMarainServiceTenantId
+			$parameters["marainServiceTenantDisplayName"] = $OperationsMarainServiceTenantDisplayName
 			$parameters["diagnosticsStorageAccountName"] = $DiagnosticsStorageAccountName
 			$parameters["isDeveloperEnvironment"] = $false
 

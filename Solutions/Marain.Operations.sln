@@ -39,7 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceManifests", "Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{697107FC-8C59-4E52-BA9D-72A7CC6B8316}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\Marain.TenantManagement\Solutions\EnrollmentConfigurations\OperationsConfigForStorageEmulator.json = ..\..\Marain.TenantManagement\Solutions\EnrollmentConfigurations\OperationsConfigForStorageEmulator.json
+		ServiceManifests\Configuration\OperationsConfigForMarainDev.json = ServiceManifests\Configuration\OperationsConfigForMarainDev.json
+		ServiceManifests\Configuration\OperationsConfigForStorageEmulator.json = ServiceManifests\Configuration\OperationsConfigForStorageEmulator.json
 	EndProjectSection
 EndProject
 Global

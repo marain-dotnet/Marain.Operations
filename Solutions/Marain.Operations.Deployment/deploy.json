@@ -42,6 +42,12 @@
     "tenancyServiceResourceIdForMsiAuthentication": {
       "type": "string"
     },
+    "marainServiceTenantId": {
+      "type": "string"
+    },
+    "marainServiceTenantDisplayName": {
+      "type": "string"
+    },
     "_artifactsLocation": {
       "type": "string"
     },
@@ -149,11 +155,10 @@
           "runFromPackage": { "value": "1" },
           "functionsAppName": { "value": "[variables('statusFunctionsAppName')]" },
           "applicationInsightsInstrumentationKey": { "value": "[parameters('appInsightsInstrumentationKey')]" },
-          "keyVaultName": { "value": "[variables('keyVaultName')]" },
-          "storageAccountName": { "value": "[variables('operationsStorageName')]" },
-          "storageAccountKeyName": { "value": "[variables('operationsStorageKeySecretName')]" },
           "tenancyServiceBaseUri": { "value": "[parameters('tenancyServiceBaseUri')]" },
-          "tenancyServiceResourceIdForMsiAuthentication": { "value": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]" }
+          "tenancyServiceResourceIdForMsiAuthentication": { "value": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]" },
+          "marainServiceTenantId": { "value": "[parameters('marainServiceTenantId')]" },
+          "marainServiceTenantDisplayName": { "value": "[parameters('marainServiceTenantDisplayName')]" }
         }
       }
     },
@@ -254,14 +259,14 @@
         },
         "parameters": {
           "storageAccountConnectionString": { "value": "[reference('operations-control-functions-app', '2016-09-01').outputs.storageAccountConnectionString.value]" },
+          "runFromPackage": { "value": "1" },
           "functionsAppName": { "value": "[variables('controlFunctionsAppName')]" },
           "applicationInsightsInstrumentationKey": { "value": "[parameters('appInsightsInstrumentationKey')]" },
-          "operationsStatusServiceBaseUrl": { "value": "[concat('https://', variables('statusFunctionsAppName'), '.azurewebsites.net/')]" },
-          "keyVaultName": { "value": "[variables('keyVaultName')]" },
-          "storageAccountName": { "value": "[variables('operationsStorageName')]" },
-          "storageAccountKeyName": { "value": "[variables('operationsStorageKeySecretName')]" },
           "tenancyServiceBaseUri": { "value": "[parameters('tenancyServiceBaseUri')]" },
-          "tenancyServiceResourceIdForMsiAuthentication": { "value": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]" }
+          "tenancyServiceResourceIdForMsiAuthentication": { "value": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]" },
+          "operationsStatusServiceBaseUrl": { "value": "[concat('https://', variables('statusFunctionsAppName'), '.azurewebsites.net/')]" },
+          "marainServiceTenantId": { "value": "[parameters('marainServiceTenantId')]" },
+          "marainServiceTenantDisplayName": { "value": "[parameters('marainServiceTenantDisplayName')]" }
         }
       }
     },

@@ -13,18 +13,6 @@
       "type": "string",
       "minLength": 1
     },
-    "keyVaultName": {
-      "type": "string",
-      "minLength": 1
-    },
-    "storageAccountName": {
-      "type": "string",
-      "minLength": 1
-    },
-    "storageAccountKeyName": {
-      "type": "string",
-      "minLength": 1
-    },
     "applicationInsightsInstrumentationKey": {
       "type": "string",
       "minLength": 1
@@ -37,6 +25,12 @@
       "type": "string"
     },
     "tenancyServiceResourceIdForMsiAuthentication": {
+      "type": "string"
+    },
+    "marainServiceTenantId": {
+      "type": "string"
+    },
+    "marainServiceTenantDisplayName": {
       "type": "string"
     }
   },
@@ -64,11 +58,8 @@
         "AzureWebJobsStorage": "[parameters('storageAccountConnectionString')]",
         "AzureServicesAuthConnectionString": "",
         "ExternalServices__OperationsStatus": "[parameters('operationsStatusServiceBaseUrl')]",
-
-        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountName": "[parameters('storageAccountName')]",
-        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:KeyVaultName": "[parameters('keyVaultName')]",
-        "TenantCloudBlobContainerFactoryOptions:RootTenantBlobStorageConfiguration:AccountKeySecretName": "[parameters('storageAccountKeyName')]",
-
+        "MarainServiceConfiguration:ServiceTenantId": "[parameters('marainServiceTenantId')]",
+        "MarainServiceConfiguration:ServiceDisplayName": "[parameters('marainServiceTenantDisplayName')]",
         "TenancyClient:TenancyServiceBaseUri": "[parameters('tenancyServiceBaseUri')]",
         "TenancyClient:ResourceIdForMsiAuthentication": "[parameters('tenancyServiceResourceIdForMsiAuthentication')]"
       }
