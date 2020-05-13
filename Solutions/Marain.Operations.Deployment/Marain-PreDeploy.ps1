@@ -26,9 +26,9 @@ Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentCon
 
     # ensure the service tenancy exists
     $serviceManifest = Join-Path $PSScriptRoot "..\ServiceManifests\OperationsServiceManifest.jsonc" -Resolve
-    & $ServiceDeploymentContext.InstanceContext.MarainCliPath create-service $serviceManifest
-    if ($LASTEXITCODE -ne 0) {
+    $cliOutput = & $ServiceDeploymentContext.InstanceContext.MarainCliPath create-service $serviceManifest
+    if ( $LASTEXITCODE -ne 0 -and -not ($cliOutput -imatch 'service tenant.*already exists') ) {
         # TODO: Ignore error when service tenant already exists
-        Write-Error "Error whilst trying to register the Operations service tenant: ExitCode=$LASTEXITCODE"
+        Write-Error "Error whilst trying to register the Operations service tenant: ExitCode=$LASTEXITCODE`n$cliOutput"
     }
 }
