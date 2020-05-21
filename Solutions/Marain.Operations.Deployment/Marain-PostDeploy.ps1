@@ -20,16 +20,4 @@ Function MarainDeployment([MarainServiceDeploymentContext] $ServiceDeploymentCon
         $ServiceDeploymentContext.AppName + "control"
     )
 
-    # ensure the service tenancy exists
-    Write-Host "Ensuring Operations service tenant..."
-    $serviceManifest = Join-Path $PSScriptRoot "ServiceManifests\OperationsServiceManifest.jsonc" -Resolve
-    try {
-        $cliOutput = & $ServiceDeploymentContext.InstanceContext.MarainCliPath create-service $serviceManifest
-        if ( $LASTEXITCODE -ne 0 -and -not ($cliOutput -imatch 'service tenant.*already exists') ) {
-            Write-Error "Error whilst trying to register the Operations service tenant: ExitCode=$LASTEXITCODE`n$cliOutput"
-        }
-    }
-    catch {
-        throw $_
-    }
 }
