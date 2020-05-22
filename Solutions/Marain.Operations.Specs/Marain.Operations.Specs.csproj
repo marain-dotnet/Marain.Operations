@@ -45,11 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Integration\ServiceManifests\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="..\ServiceManifests\OperationsServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsServiceManifest.jsonc" />
+    <EmbeddedResource Include="..\Marain.Operations.Deployment\ServiceManifests\OperationsServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsServiceManifest.jsonc" />
   </ItemGroup>
 
 </Project>

@@ -47,6 +47,9 @@
     <Content Include="Marain-PostDeploy.ps1" />
     <Content Include="Marain-ArmDeploy.ps1" />
     <Content Include="Marain-PreDeploy.ps1" />
+    <Content Include="ServiceManifests\Configuration\OperationsConfigForMarainDev.json" />
+    <Content Include="ServiceManifests\Configuration\OperationsConfigForStorageEmulator.json" />
+    <Content Include="ServiceManifests\OperationsServiceManifest.jsonc" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
