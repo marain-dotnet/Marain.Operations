@@ -66,15 +66,25 @@
     "keyVaultDiagnosticStorageAccountName": "[substring(concat(variables('resourceNameRoot'), parameters('appName'), 'kvdiag', uniqueString(resourceGroup().id)), 0, 24)]",
     "tenantId": "[subscription().tenantID]",
     "subscriptionId": "[subscription().subscriptionID]",
+    "statusFunctionDeployName": "[concat(deployment().name, '-ops-status-functions-app')]",
+    "controlFunctionDeployName": "[concat(deployment().name, '-ops-control-functions-app')]",
+    "keyVaultDeployName": "[concat(deployment().name, '-key_vault')]",
+    "operationsStorageDeployName": "[concat(deployment().name, '-ops-storage-account')]",
+    "diagnosticsStorageDeployName": "[concat(deployment().name, '-diagnostics-storage-account')]",
     "tagValues": {
+      "prefix": "[parameters('marainPrefix')]",
+      "appName": "[parameters('appName')]",
+      "environment": "[parameters('environmentSuffix')]"
     }
   },
   "resources": [
     {
-      "name": "key-vault",
+      "name": "[variables('keyVaultDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": [ "diagnostics-storage-account" ],
+      "dependsOn": [
+        "[variables('diagnosticsStorageDeployName')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -95,12 +105,12 @@
       }
     },
     {
-      "name": "operations-storage-account-key-vault-secret",
+      "name": "[concat(variables('operationsStorageDeployName'), '-key-vault-secret')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [
-        "operations-storage-account",
-        "key-vault"
+        "[variables('operationsStorageDeployName')]",
+        "[variables('keyVaultDeployName')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -116,13 +126,13 @@
             "value": "[variables('keyVaultName')]"
           },
           "contentValue": {
-            "value": "[reference('operations-storage-account', '2016-09-01').outputs.storageAccountKey.value]"
+            "value": "[reference(variables('operationsStorageDeployName'), '2016-09-01').outputs.storageAccountKey.value]"
           }
         }
       }
     },
     {
-      "name": "operations-status-functions-app",
+      "name": "[variables('statusFunctionDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [],
@@ -140,10 +150,12 @@
       }
     },
     {
-      "name": "operations-status-functions-app-settings",
+      "name": "[concat(variables('statusFunctionDeployName'), '-settings')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["operations-status-functions-app"],
+      "dependsOn": [
+        "[variables('statusFunctionDeployName')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -151,7 +163,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "storageAccountConnectionString": { "value": "[reference('operations-status-functions-app', '2016-09-01').outputs.storageAccountConnectionString.value]" },
+          "storageAccountConnectionString": { "value": "[reference(variables('statusFunctionDeployName'), '2016-09-01').outputs.storageAccountConnectionString.value]" },
           "runFromPackage": { "value": "1" },
           "functionsAppName": { "value": "[variables('statusFunctionsAppName')]" },
           "applicationInsightsInstrumentationKey": { "value": "[parameters('appInsightsInstrumentationKey')]" },
@@ -163,12 +175,12 @@
       }
     },
     {
-      "name": "operations-status-function-key-vault-access",
+      "name": "[concat(deployment().name, '-ops-status-function-key-vault-access')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [
-        "operations-status-functions-app",
-        "key-vault"
+        "[variables('statusFunctionDeployName')]",
+        "[variables('keyVaultDeployName')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -200,7 +212,7 @@
       }
     },
     {
-      "name": "operations-control-functions-app",
+      "name": "[variables('controlFunctionDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [],
@@ -218,11 +230,11 @@
       }
     },
     {
-      "name": "operations-control-functions-app-auth-settings",
+      "name": "[concat(variables('controlFunctionDeployName'), '-auth-settings')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [
-        "operations-control-functions-app"
+        "[variables('controlFunctionDeployName')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -247,10 +259,12 @@
       }
     },
     {
-      "name": "operations-control-functions-app-settings",
+      "name": "[concat(variables('controlFunctionDeployName'), '-settings')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
-      "dependsOn": ["operations-control-functions-app"],
+      "dependsOn": [
+        "[variables('controlFunctionDeployName')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -258,7 +272,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "storageAccountConnectionString": { "value": "[reference('operations-control-functions-app', '2016-09-01').outputs.storageAccountConnectionString.value]" },
+          "storageAccountConnectionString": { "value": "[reference(variables('controlFunctionDeployName'), '2016-09-01').outputs.storageAccountConnectionString.value]" },
           "runFromPackage": { "value": "1" },
           "functionsAppName": { "value": "[variables('controlFunctionsAppName')]" },
           "applicationInsightsInstrumentationKey": { "value": "[parameters('appInsightsInstrumentationKey')]" },
@@ -271,12 +285,12 @@
       }
     },
     {
-      "name": "operations-control-function-key-vault-access",
+      "name": "[concat(deployment().name, '-ops-control-function-key-vault-access')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [
-        "operations-control-functions-app",
-        "key-vault"
+        "[variables('controlFunctionDeployName')]",
+        "[variables('keyVaultDeployName')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -308,7 +322,7 @@
       }
     },
     {
-      "name": "operations-storage-account",
+      "name": "[variables('operationsStorageDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [],
@@ -335,7 +349,7 @@
       }
     },
     {
-      "name": "diagnostics-storage-account",
+      "name": "[variables('diagnosticsStorageDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [],
@@ -364,11 +378,11 @@
     },
     "statusFunctionServicePrincipalId": {
       "type": "string",
-      "value": "[reference('operations-status-functions-app').outputs.servicePrincipalId.value]"
+      "value": "[reference(variables('statusFunctionDeployName')).outputs.servicePrincipalId.value]"
     },
     "controlFunctionServicePrincipalId": {
       "type": "string",
-      "value": "[reference('operations-control-functions-app').outputs.servicePrincipalId.value]"
+      "value": "[reference(variables('controlFunctionDeployName')).outputs.servicePrincipalId.value]"
     }
   }
 }
