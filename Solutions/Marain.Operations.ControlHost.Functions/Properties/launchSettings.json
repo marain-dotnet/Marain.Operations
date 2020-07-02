@@ -2,7 +2,7 @@
   "profiles": {
     "Marain.Operations.ControlHost.Functions": {
       "commandName": "Project",
-      "commandLineArgs": "host start -p 7078 --cors *"
+      "commandLineArgs": "host start -p 7078"
     }
   }
 }
