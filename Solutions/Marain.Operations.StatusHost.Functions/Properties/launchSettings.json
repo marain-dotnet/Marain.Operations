@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Marain.Operations.StatusHost.Functions": {
+      "commandName": "Project",
+      "commandLineArgs": "host start -p 7077 --cors *"
+    }
+  }
+}
