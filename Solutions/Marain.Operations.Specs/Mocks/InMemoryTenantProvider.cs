@@ -9,6 +9,7 @@ namespace Marain.TenantManagement.Specs.Mocks
     using System.Linq;
     using System.Threading.Tasks;
     using Corvus.Extensions.Json;
+    using Corvus.Json;
     using Corvus.Tenancy;
     using Corvus.Tenancy.Exceptions;
     using Newtonsoft.Json;
@@ -38,16 +39,18 @@ namespace Marain.TenantManagement.Specs.Mocks
     public class InMemoryTenantProvider : ITenantProvider
     {
         private readonly IJsonSerializerSettingsProvider jsonSerializerSettingsProvider;
+        private readonly IPropertyBagFactory propertyBagFactory;
         private readonly List<StoredTenant> allTenants = new List<StoredTenant>();
         private readonly Dictionary<string, List<string>> tenantsByParent = new Dictionary<string, List<string>>();
 
-        public InMemoryTenantProvider(RootTenant rootTenant, IJsonSerializerSettingsProvider jsonSerializerSettingsProvider)
+        public InMemoryTenantProvider(RootTenant rootTenant, IJsonSerializerSettingsProvider jsonSerializerSettingsProvider, IPropertyBagFactory propertyBagFactory)
         {
             this.Root = rootTenant;
             this.jsonSerializerSettingsProvider = jsonSerializerSettingsProvider;
+            this.propertyBagFactory = propertyBagFactory;
         }
 
-        public ITenant Root { get; }
+        public RootTenant Root { get; }
 
         public Task<ITenant> CreateChildTenantAsync(string parentTenantId, string name)
         {
@@ -57,11 +60,7 @@ namespace Marain.TenantManagement.Specs.Mocks
         public async Task<ITenant> CreateWellKnownChildTenantAsync(string parentTenantId, Guid wellKnownChildTenantGuid, string name)
         {
             ITenant parent = await this.GetTenantAsync(parentTenantId).ConfigureAwait(false);
-            var newTenant = new Tenant(this.jsonSerializerSettingsProvider)
-            {
-                Id = parent.Id.CreateChildId(wellKnownChildTenantGuid),
-                Name = name,
-            };
+            var newTenant = new Tenant(parent.Id.CreateChildId(wellKnownChildTenantGuid), name, this.propertyBagFactory.Create(new List<KeyValuePair<string, object>>()));
 
             List<string> childrenList = this.GetChildren(parent.Id);
             childrenList.Add(newTenant.Id);
