@@ -15,15 +15,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Corvus.Identity.ManagedServiceIdentity.ClientAuthentication" Version="0.2.0-preview.5" />
-    <PackageReference Include="Corvus.Tenancy.Abstractions" Version="0.24.0-preview.37" />
-    <PackageReference Include="Endjin.RecommendedPractices" Version="0.6.0">
+    <PackageReference Include="Corvus.Identity.ManagedServiceIdentity.ClientAuthentication" Version="1.0.0" />
+    <PackageReference Include="Corvus.Tenancy.Abstractions" Version="1.0.0" />
+    <PackageReference Include="Endjin.RecommendedPractices" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Tenancy.ClientTenantProvider" Version="0.3.0-corvus-tenancy-update.36" />
-    <PackageReference Include="Menes.Abstractions" Version="0.11.0" />
-    <PackageReference Include="Menes.Hosting.AspNetCore" Version="0.11.0" />
+    <PackageReference Include="Marain.Tenancy.ClientTenantProvider" Version="1.0.0" />
+    <PackageReference Include="Menes.Abstractions" Version="1.0.0" />
+    <PackageReference Include="Menes.Hosting.AspNetCore" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 

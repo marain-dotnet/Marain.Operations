@@ -6,6 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     using System;
     using Corvus.Azure.Storage.Tenancy;
+    using Corvus.Identity.ManagedServiceIdentity.ClientAuthentication;
     using Marain.Operations.OpenApi;
     using Marain.Operations.Storage;
     using Marain.Operations.Storage.Blob;
@@ -31,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddRootTenant();
 
             services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>());
-            services.AddAzureManagedIdentityBasedTokenSource();
+            services.AddAzureManagedIdentityBasedTokenSource(default(AzureManagedIdentityTokenSourceOptions));
             services.AddTenantCloudBlobContainerFactory(sp => sp.GetRequiredService<TenantCloudBlobContainerFactoryOptions>());
             services.AddSingleton<IOperationsRepository, OperationsRepository>();
 
