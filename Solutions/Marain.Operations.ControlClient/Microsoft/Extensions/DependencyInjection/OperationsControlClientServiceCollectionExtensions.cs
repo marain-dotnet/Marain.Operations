@@ -68,7 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Uri baseUri,
             string resourceIdForMsiAuthentication = null)
         {
-            return resourceIdForMsiAuthentication == null
+            return string.IsNullOrEmpty(resourceIdForMsiAuthentication)
                 ? new UnauthenticatedMarainOperationsControl(baseUri)
                 : new MarainOperationsControl(
                         baseUri,
