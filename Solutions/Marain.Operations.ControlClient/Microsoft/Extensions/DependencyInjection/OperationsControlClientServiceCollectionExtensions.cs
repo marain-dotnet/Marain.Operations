@@ -31,7 +31,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 if (options is null || options.OperationsControlServiceBaseUri == null)
                 {
-                    throw new InvalidOperationException("Cannot instantiate the Operations Control client without supplying the BaseUri for the service.");
+                    throw new InvalidOperationException(
+                        $"Cannot instantiate the Operations Control client without supplying a value for {nameof(MarainOperationsControlClientOptions.OperationsControlServiceBaseUri)}.");
                 }
 
                 return BuildOperationsControlClient(sp, options.OperationsControlServiceBaseUri, options.ResourceIdForMsiAuthentication);
