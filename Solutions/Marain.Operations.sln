@@ -22,8 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.ControlHo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.StatusHost.Functions", "Marain.Operations.StatusHost.Functions\Marain.Operations.StatusHost.Functions.csproj", "{798886DA-C849-4F9F-AC06-BBCB721F800F}"
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.deployproj", "{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Hosting.AspNetCore", "Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj", "{45554330-70C1-490C-A6D3-E77E8443793B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{E418F648-61C8-48AF-8305-D520BAB272B0}"
@@ -42,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		ServiceManifests\Configuration\OperationsConfigForMarainDev.json = ServiceManifests\Configuration\OperationsConfigForMarainDev.json
 		ServiceManifests\Configuration\OperationsConfigForStorageEmulator.json = ServiceManifests\Configuration\OperationsConfigForStorageEmulator.json
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.csproj", "{EED07C19-A228-46DE-8DC7-F90EA3728230}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +73,6 @@ Global
 		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{798886DA-C849-4F9F-AC06-BBCB721F800F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45554330-70C1-490C-A6D3-E77E8443793B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45554330-70C1-490C-A6D3-E77E8443793B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45554330-70C1-490C-A6D3-E77E8443793B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,6 +85,10 @@ Global
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,7 +96,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F1CD8273-D993-4452-A3B6-4C0B2744C20B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{798886DA-C849-4F9F-AC06-BBCB721F800F} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
-		{99F6DADC-FC9A-4060-9D4C-6047D15FECC7} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{45554330-70C1-490C-A6D3-E77E8443793B} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 		{51815998-4551-477F-B2FB-12A767B39CE9} = {E418F648-61C8-48AF-8305-D520BAB272B0}
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8} = {E418F648-61C8-48AF-8305-D520BAB272B0}
