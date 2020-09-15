@@ -1,4 +1,4 @@
-next-version: "0.9"
+next-version: "1.0"
 mode: ContinuousDeployment
 branches:
   master:
