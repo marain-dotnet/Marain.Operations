@@ -23,25 +23,8 @@ namespace Marain.Operations.ControlHost
         {
             IServiceCollection services = builder.Services;
 
-            services.AddLogging(logging =>
-            {
-#if DEBUG
-                // Ensure you enable the required logging level in host.json
-                // e.g:
-                //
-                // "logging": {
-                //    "fileLoggingMode": "debugOnly",
-                //    "logLevel": {
-                //
-                //    // For all functions
-                //    "Function": "Debug",
-                //
-                //    // Default settings, e.g. for host
-                //    "default": "Debug"
-                // }
-                logging.AddConsole();
-#endif
-            });
+            services.AddApplicationInsightsInstrumentationTelemetry();
+            services.AddLogging();
 
             // Workaround for https://github.com/menes-dotnet/Menes/issues/34
             // Menes currently dependson IConfigurationRoot being available through DI for external service URL

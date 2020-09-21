@@ -59,7 +59,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     };
 
                     var configBuilder = new ConfigurationBuilder();
-                    configBuilder.AddTestConfiguration("appsettings.json", configData);
+                    configBuilder.AddConfigurationForTest("appsettings.json", configData);
                     IConfigurationRoot config = configBuilder.Build();
 
                     serviceCollection.AddSingleton(config);
