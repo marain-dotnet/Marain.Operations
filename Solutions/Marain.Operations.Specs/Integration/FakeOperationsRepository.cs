@@ -1,5 +1,5 @@
-﻿// <copyright file="FakeOperationsRepository.cs" company="Endjin">
-// Copyright (c) Endjin. All rights reserved.
+﻿// <copyright file="FakeOperationsRepository.cs" company="Endjin Limited">
+// Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
 namespace Marain.Operations.Specs.Integration

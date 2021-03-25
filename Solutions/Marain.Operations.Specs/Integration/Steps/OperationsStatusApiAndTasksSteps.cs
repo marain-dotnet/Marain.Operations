@@ -1,5 +1,5 @@
-﻿// <copyright file="OperationsStatusApiAndTasksSteps.cs" company="Endjin">
-// Copyright (c) Endjin. All rights reserved.
+﻿// <copyright file="OperationsStatusApiAndTasksSteps.cs" company="Endjin Limited">
+// Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
 #pragma warning disable CS1591 // Elements should be documented
