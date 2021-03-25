@@ -1,5 +1,5 @@
 ﻿@operationsStatus
-@setupContainer
+@perFeatureContainer
 Feature: OperationsStatusApiAndTasks
 	In order to enable observation of long-running operations
 	As a developer

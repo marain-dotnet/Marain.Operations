@@ -35,7 +35,7 @@ namespace Marain.Operations.StatusHost
         /// <param name="executionContext">The context for the function execution.</param>
         /// <returns>An action result which comes from executing the function.</returns>
         [FunctionName("OperationsStatusHost-OpenApiHostRoot")]
-        public Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{*path}")]HttpRequest req, ExecutionContext executionContext)
+        public Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{*path}")] HttpRequest req, ExecutionContext executionContext)
         {
             return this.host.HandleRequestAsync(req, new { ExecutionContext = executionContext });
         }

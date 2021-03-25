@@ -8,8 +8,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using System.Threading.Tasks;
     using Corvus.Azure.Storage.Tenancy;
     using Corvus.Configuration;
-    using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
+    using Corvus.Testing.SpecFlow;
     using Marain.Operations.Storage;
     using Marain.Services;
     using Marain.TenantManagement.EnrollmentConfiguration;
@@ -17,6 +17,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -39,20 +41,21 @@ namespace Marain.Operations.Specs.Integration.Bindings
                         config.AddConsole();
                     });
 
-                    // We need to call AddRootTenant first otherwise its content factory initialisation
-                    // won't register the types correctly.
-                    // TODO - create a GitHub issue for this.
-                    serviceCollection.AddRootTenant();
                     serviceCollection.AddInMemoryTenantProvider();
 
-                    serviceCollection.AddJsonSerializerSettings();
+                    serviceCollection.AddJsonNetSerializerSettingsProvider();
+                    serviceCollection.AddJsonNetPropertyBag();
+                    serviceCollection.AddJsonNetCultureInfoConverter();
+                    serviceCollection.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
+                    serviceCollection.AddSingleton<JsonConverter>(new StringEnumConverter(true));
+
                     serviceCollection.AddTestNameProvider();
                     serviceCollection.AddMarainServiceConfiguration();
                     serviceCollection.AddMarainServicesTenancy();
 
                     serviceCollection.AddSingleton<FakeOperationsRepository>();
                     serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());
-                    
+
                     var configData = new Dictionary<string, string>
                     {
                         { "ExternalServices:OperationsStatus", "http://operationsstatus.example.com/" },

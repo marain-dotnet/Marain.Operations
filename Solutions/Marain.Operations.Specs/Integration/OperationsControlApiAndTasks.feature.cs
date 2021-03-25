@@ -22,7 +22,7 @@ namespace Marain.Operations.Specs.Integration
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("OperationsControlApiAndTasks")]
     [NUnit.Framework.CategoryAttribute("operationsControl")]
-    [NUnit.Framework.CategoryAttribute("setupContainer")]
+    [NUnit.Framework.CategoryAttribute("perFeatureContainer")]
     public partial class OperationsControlApiAndTasksFeature
     {
         
@@ -30,7 +30,7 @@ namespace Marain.Operations.Specs.Integration
         
         private string[] _featureTags = new string[] {
                 "operationsControl",
-                "setupContainer"};
+                "perFeatureContainer"};
         
 #line 1 "OperationsControlApiAndTasks.feature"
 #line hidden
@@ -43,7 +43,7 @@ namespace Marain.Operations.Specs.Integration
                     "ant to verify that the OperationsStatusService and OperationsStatusTasks types w" +
                     "ork together as expected", ProgrammingLanguage.CSharp, new string[] {
                         "operationsControl",
-                        "setupContainer"});
+                        "perFeatureContainer"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
