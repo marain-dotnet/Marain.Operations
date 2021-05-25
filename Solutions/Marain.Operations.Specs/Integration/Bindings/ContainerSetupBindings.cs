@@ -17,6 +17,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -39,20 +40,21 @@ namespace Marain.Operations.Specs.Integration.Bindings
                         config.AddConsole();
                     });
 
-                    // We need to call AddRootTenant first otherwise its content factory initialisation
-                    // won't register the types correctly.
-                    // TODO - create a GitHub issue for this.
-                    serviceCollection.AddRootTenant();
                     serviceCollection.AddInMemoryTenantProvider();
 
-                    serviceCollection.AddJsonSerializerSettings();
+                    serviceCollection.AddJsonNetSerializerSettingsProvider();
+                    serviceCollection.AddJsonNetPropertyBag();
+                    serviceCollection.AddJsonNetCultureInfoConverter();
+                    serviceCollection.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
+                    serviceCollection.AddSingleton<JsonConverter>(new Newtonsoft.Json.Converters.StringEnumConverter(true));
+
                     serviceCollection.AddTestNameProvider();
                     serviceCollection.AddMarainServiceConfiguration();
                     serviceCollection.AddMarainServicesTenancy();
 
                     serviceCollection.AddSingleton<FakeOperationsRepository>();
                     serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());
-                    
+
                     var configData = new Dictionary<string, string>
                     {
                         { "ExternalServices:OperationsStatus", "http://operationsstatus.example.com/" },

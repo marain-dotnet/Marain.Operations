@@ -31,7 +31,6 @@ namespace Marain.Operations.OpenApi
             }
 
             services.AddLogging();
-            services.AddRootTenant();
 
             services.AddSingleton<OperationsStatusOpenApiService>();
             services.AddSingleton<IOpenApiService, OperationsStatusOpenApiService>(s => s.GetRequiredService<OperationsStatusOpenApiService>());
@@ -65,7 +64,6 @@ namespace Marain.Operations.OpenApi
             }
 
             services.AddLogging();
-            services.AddRootTenant();
 
             services.AddSingleton<OperationsControlOpenApiService>();
             services.AddSingleton<IOpenApiService, OperationsControlOpenApiService>(s => s.GetRequiredService<OperationsControlOpenApiService>());

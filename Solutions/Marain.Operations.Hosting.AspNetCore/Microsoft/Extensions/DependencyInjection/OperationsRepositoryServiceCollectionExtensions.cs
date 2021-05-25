@@ -29,8 +29,6 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services)
         {
             // Work around the fact that the tenancy client currently tries to fetch the root tenant on startup.
-            services.AddRootTenant();
-
             services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>());
             services.AddAzureManagedIdentityBasedTokenSource(default(AzureManagedIdentityTokenSourceOptions));
             services.AddTenantCloudBlobContainerFactory(sp => sp.GetRequiredService<TenantCloudBlobContainerFactoryOptions>());
@@ -49,8 +47,8 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services,
             Action<IOpenApiHostConfiguration>? configureHost = null)
         {
-            services.AddTenancyBlobContainerOperationsRepository();
             services.AddOperationsStatusApi(configureHost);
+            services.AddTenancyBlobContainerOperationsRepository();
             return services;
         }
 
@@ -64,8 +62,8 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services,
             Action<IOpenApiHostConfiguration>? configureHost = null)
         {
-            services.AddTenancyBlobContainerOperationsRepository();
             services.AddOperationsControlApi(configureHost);
+            services.AddTenancyBlobContainerOperationsRepository();
             return services;
         }
     }
