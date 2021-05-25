@@ -23,6 +23,7 @@ namespace Marain.Operations.Api.Specs.Features
     [NUnit.Framework.DescriptionAttribute("Operations")]
     [NUnit.Framework.CategoryAttribute("perFeatureContainer")]
     [NUnit.Framework.CategoryAttribute("useClients")]
+    [NUnit.Framework.CategoryAttribute("useChildObjects")]
     public partial class OperationsFeature
     {
         
@@ -30,7 +31,8 @@ namespace Marain.Operations.Api.Specs.Features
         
         private string[] _featureTags = new string[] {
                 "perFeatureContainer",
-                "useClients"};
+                "useClients",
+                "useChildObjects"};
         
 #line 1 "OperationsUsingClient.feature"
 #line hidden
@@ -41,7 +43,8 @@ namespace Marain.Operations.Api.Specs.Features
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Operations", null, ProgrammingLanguage.CSharp, new string[] {
                         "perFeatureContainer",
-                        "useClients"});
+                        "useClients",
+                        "useChildObjects"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -86,7 +89,7 @@ namespace Marain.Operations.Api.Specs.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Retrieve an operation that does not exist", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 6
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -106,12 +109,114 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 8
  testRunner.When("I use the operations status client to get the operation with Id \'65c9a92b-9fe8-49" +
                         "4b-b065-0c40f033aa02\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 8
- testRunner.Then("an exception of type \'HttpOperationException\' is thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.Then("then the request succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 10
+ testRunner.And("the get operation response is null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new operation")]
+        public virtual void CreateANewOperation()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new operation", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 12
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 13
+ testRunner.Given("I generate a new operation Id and call it \'NewOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 14
+ testRunner.When("I use the operations control client to create an operation with the Id called \'Ne" +
+                        "wOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 15
+ testRunner.Then("then the request succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 16
+ testRunner.And("the create operation response contains the location in the operations status Api " +
+                        "for the operation with the Id called \'NewOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new operation with a resource location, expiry and body")]
+        public virtual void CreateANewOperationWithAResourceLocationExpiryAndBody()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new operation with a resource location, expiry and body", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 18
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 19
+ testRunner.Given("I generate a new operation Id and call it \'NewOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "IdName",
+                            "ResourceLocation",
+                            "ExpireAfter",
+                            "Body"});
+                table1.AddRow(new string[] {
+                            "NewOperationId",
+                            "http://www.google.com/",
+                            "300",
+                            "This is some text for the body"});
+#line 20
+ testRunner.When("I use the operations control client to create an operation", ((string)(null)), table1, "When ");
+#line hidden
+#line 23
+ testRunner.Then("then the request succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 24
+ testRunner.And("the create operation response contains the location in the operations status Api " +
+                        "for the operation with the Id called \'NewOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -124,7 +229,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Retrieve a newly created operation", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 10
+#line 26
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -144,6 +249,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 27
+ testRunner.Given("I generate a new operation Id and call it \'NewOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 28
+ testRunner.And("I use the operations control client to create an operation with the Id called \'Ne" +
+                        "wOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 29
+ testRunner.When("I use the operations status client to get the operation with the Id called \'NewOp" +
+                        "erationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 30
+ testRunner.Then("then the request succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -155,7 +274,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change an operation state to Running and retrieve it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+#line 32
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -186,7 +305,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change an operation state to Complete and retrieve it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 16
+#line 35
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -217,7 +336,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change an operation state to Failed and retrieve it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 19
+#line 38
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);

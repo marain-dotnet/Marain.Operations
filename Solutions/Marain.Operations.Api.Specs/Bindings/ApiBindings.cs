@@ -8,6 +8,7 @@ namespace Marain.Operations.Api.Specs.Bindings
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
     using Corvus.Testing.SpecFlow;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using TechTalk.SpecFlow;
@@ -29,6 +30,10 @@ namespace Marain.Operations.Api.Specs.Bindings
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             FunctionConfiguration functionConfiguration = FunctionsBindings.GetFunctionConfiguration(featureContext);
 
+            IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
+            functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
+            functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
+
             return Task.WhenAll(
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.ControlHost.Functions",
@@ -45,7 +50,7 @@ namespace Marain.Operations.Api.Specs.Bindings
         [AfterScenario]
         public static void WriteOutput(FeatureContext featureContext)
         {
-            ILogger<FunctionsController> logger = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<ILogger<FunctionsController>>();
+            ILogger logger = featureContext.Get<ILogger>();
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             logger.LogAllAndClear(functionsController.GetFunctionsOutput());
         }

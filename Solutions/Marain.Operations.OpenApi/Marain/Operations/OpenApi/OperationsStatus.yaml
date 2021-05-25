@@ -107,7 +107,6 @@ components:
           nullable: true
         tenantId:
           description: The id of the tenant to which this operation belongs
-          format: uuid
           type: string
     DateTimeInstant:
       description: Represents a particular moment in time

@@ -12,6 +12,7 @@ namespace Marain.Operations.Api.Specs.Bindings
     using Marain.Tenancy.Client;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using TechTalk.SpecFlow;
@@ -31,7 +32,10 @@ namespace Marain.Operations.Api.Specs.Bindings
                     IConfigurationRoot config = configBuilder.Build();
                     services.AddSingleton<IConfiguration>(config);
 
-                    services.AddLogging();
+                    services.AddLogging(x =>
+                    {
+                        x.AddConsole();
+                    });
 
                     services.AddJsonNetSerializerSettingsProvider();
                     services.AddJsonNetPropertyBag();
