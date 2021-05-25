@@ -79,6 +79,7 @@ namespace Marain.Operations.Api.Specs.Steps
                 });
         }
 
+        [Given("I use the operations control client to create an operation")]
         [When("I use the operations control client to create an operation")]
         public Task WhenIUseTheOperationsControlClientToCreateAnOperation(Table table)
         {
@@ -107,8 +108,31 @@ namespace Marain.Operations.Api.Specs.Steps
                 });
         }
 
-        [Then("then the request succeeds")]
-        public void ThenThenTheRequestSucceeds()
+        [Given("I use the operations control client to set the status of the operation with Id called '(.*)' to Running")]
+        public Task GivenIUseTheOperationsControlClientToSetTheStatusOfTheOperationWithIdCalledToRunning(string operationIdName)
+        {
+            Guid id = this.ScenarioContext.Get<Guid>(operationIdName);
+
+            IServiceProvider serviceProvider = ContainerBindings.GetServiceProvider(this.FeatureContext);
+            IMarainOperationsControl client = serviceProvider.GetRequiredService<IMarainOperationsControl>();
+            var transientTenantManager = TransientTenantManager.GetInstance(this.FeatureContext);
+
+            return Exceptions.ExecuteAndStoreExceptionAsync(
+                this.ScenarioContext,
+                async () =>
+                {
+                    ProblemDetails? result = await client.SetOperationRunningAsync(
+                        transientTenantManager.PrimaryTransientClient.Id,
+                        id).ConfigureAwait(false);
+
+                    this.ScenarioContext.Set(result);
+                });
+        }
+
+        [Given("the request succeeds")]
+        [When("the request succeeds")]
+        [Then("the request succeeds")]
+        public void ThenTheRequestSucceeds()
         {
             Exceptions.AssertNoLastException(this.ScenarioContext);
         }
