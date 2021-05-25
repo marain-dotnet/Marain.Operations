@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D29CABE7-467E-4CF6-B44B-3C58AB76145A}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
@@ -43,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.csproj", "{EED07C19-A228-46DE-8DC7-F90EA3728230}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Api.Specs", "Marain.Operations.Api.Specs\Marain.Operations.Api.Specs.csproj", "{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Api.Specs", "Marain.Operations.Api.Specs\Marain.Operations.Api.Specs.csproj", "{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
