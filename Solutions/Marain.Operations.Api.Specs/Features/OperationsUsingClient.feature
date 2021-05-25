@@ -25,9 +25,14 @@ Scenario: Create a new operation with a resource location, expiry and body
 
 Scenario: Retrieve a newly created operation
 	Given I generate a new operation Id and call it 'NewOperationId'
-	And I use the operations control client to create an operation with the Id called 'NewOperationId'
+	When I use the operations control client to create an operation
+	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
+	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
 	When I use the operations status client to get the operation with the Id called 'NewOperationId'
 	Then then the request succeeds
+	And the retrieved operation has the status 'NotStarted'
+	And the retrieved operation has the resource location 'http://www.google.com/'
+	And the retrieved operation has percent complete set to null
 
 Scenario: Change an operation state to Running and retrieve it
 

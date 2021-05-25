@@ -135,6 +135,42 @@ namespace Marain.Operations.Api.Specs.Steps
             Assert.IsNull(response);
         }
 
+        [Then("the retrieved operation has the status '(.*)'")]
+        public void ThenTheRetrievedOperationHasTheStatus(string expectedStatus)
+        {
+            Client.OperationsStatus.Models.Operation result =
+                this.ScenarioContext.Get<Client.OperationsStatus.Models.Operation>(LastResponseContextKey);
+
+            Assert.AreEqual(expectedStatus, result.Status);
+        }
+
+        [Then("the retrieved operation has the resource location '(.*)'")]
+        public void ThenTheRetrievedOperationHasTheResourceLocation(string expectedResourceLocation)
+        {
+            Client.OperationsStatus.Models.Operation result =
+                this.ScenarioContext.Get<Client.OperationsStatus.Models.Operation>(LastResponseContextKey);
+
+            Assert.AreEqual(expectedResourceLocation, result.ResourceLocation);
+        }
+
+        [Then("the retrieved operation is (.*) percent complete")]
+        public void ThenTheRetrievedOperationIsPercentComplete(int expectedPercentComplete)
+        {
+            Client.OperationsStatus.Models.Operation result =
+                this.ScenarioContext.Get<Client.OperationsStatus.Models.Operation>(LastResponseContextKey);
+
+            Assert.AreEqual(expectedPercentComplete, result.PercentComplete);
+        }
+
+        [Then("the retrieved operation has percent complete set to null")]
+        public void ThenTheRetrievedOperationHasPercentCompleteSetToNull()
+        {
+            Client.OperationsStatus.Models.Operation result =
+                this.ScenarioContext.Get<Client.OperationsStatus.Models.Operation>(LastResponseContextKey);
+
+            Assert.IsNull(result.PercentComplete);
+        }
+
         [Then("an exception of type '(.*)' is thrown")]
         public void ThenAnExceptionOfTypeHttpOperationExceptionIsThrown(string expectedExceptionTypeName)
         {

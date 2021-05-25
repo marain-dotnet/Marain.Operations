@@ -252,16 +252,34 @@ this.ScenarioInitialize(scenarioInfo);
 #line 27
  testRunner.Given("I generate a new operation Id and call it \'NewOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "IdName",
+                            "ResourceLocation",
+                            "ExpireAfter",
+                            "Body"});
+                table2.AddRow(new string[] {
+                            "NewOperationId",
+                            "http://www.google.com/",
+                            "300",
+                            "This is some text for the body"});
 #line 28
- testRunner.And("I use the operations control client to create an operation with the Id called \'Ne" +
-                        "wOperationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I use the operations control client to create an operation", ((string)(null)), table2, "When ");
 #line hidden
-#line 29
+#line 31
  testRunner.When("I use the operations status client to get the operation with the Id called \'NewOp" +
                         "erationId\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 30
+#line 32
  testRunner.Then("then the request succeeds", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 33
+ testRunner.And("the retrieved operation has the status \'NotStarted\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 34
+ testRunner.And("the retrieved operation has the resource location \'http://www.google.com/\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 35
+ testRunner.And("the retrieved operation has percent complete set to null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -274,7 +292,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change an operation state to Running and retrieve it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 32
+#line 37
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -305,7 +323,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change an operation state to Complete and retrieve it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 35
+#line 40
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -336,7 +354,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change an operation state to Failed and retrieve it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 38
+#line 43
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
