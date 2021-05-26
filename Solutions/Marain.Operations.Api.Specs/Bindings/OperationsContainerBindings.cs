@@ -32,10 +32,7 @@ namespace Marain.Operations.Api.Specs.Bindings
                     IConfigurationRoot config = configBuilder.Build();
                     services.AddSingleton<IConfiguration>(config);
 
-                    services.AddLogging(x =>
-                    {
-                        x.AddConsole();
-                    });
+                    services.AddLogging(x => x.AddConsole());
 
                     services.AddJsonNetSerializerSettingsProvider();
                     services.AddJsonNetPropertyBag();
