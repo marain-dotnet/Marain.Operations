@@ -2,7 +2,6 @@ trigger:
   branches:
     include:
     - master
-    - feature/*
   tags:
     include:
     - '*'
@@ -17,10 +16,31 @@ resources:
 jobs:
 - template: templates/build.and.release.yml@recommended_practices
   parameters:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'windows-latest'
     service_connection_nuget_org: $(Endjin_Service_Connection_NuGet_Org)
     service_connection_github: $(Endjin_Service_Connection_GitHub)
     solution_to_build: $(Endjin_Solution_To_Build)
+    postCustomEnvironmentVariables:
+      - powershell: |
+          Write-Host "##vso[task.setvariable variable=AzureServicesAuthConnectionString]$Env:ENDJIN_AZURESERVICESAUTHCONNECTIONSTRING"
+          Write-Host "##vso[task.setvariable variable=APPINSIGHTS_INSTRUMENTATIONKEY]$Env:ENDJIN_APPINSIGHTSINSTRUMENTATIONKEY"
+          Write-Host "##vso[task.setvariable variable=AzureWebJobsStorage]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
+          Write-Host "##vso[task.setvariable variable=TenancyClient__TenancyServiceBaseUri]$Env:ENDJIN_MARAINTENANCYBASEURL"
+          Write-Host "##vso[task.setvariable variable=TenancyClient__ResourceIdForMsiAuthentication]$Env:ENDJIN_MARAINTENANCYRESOURCEIDFORMSIAUTHENTICATION"
+          Write-Host "##vso[task.setvariable variable=TestBlobStorageConfiguration__AccountName]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
+        displayName: 'Set Custom Environment Variables'
+        env:
+          ENDJIN_AZURESERVICESAUTHCONNECTIONSTRING: $(Endjin_AzureServicesAuthConnectionString)
+          ENDJIN_APPINSIGHTSINSTRUMENTATIONKEY:
+          ENDJIN_AZURESTORAGECONNECTIONSTRING: $(Endjin_AzureStorageConnectionString)
+          ENDJIN_MARAINTENANCYBASEURL: $(Endjin_MarainTenancyBaseUrl)
+          ENDJIN_MARAINTENANCYRESOURCEIDFORMSIAUTHENTICATION: $(Endjin_MarainTenancyResourceIdForMsiAuthentication)
+      - task: Npm@1
+        displayName: 'Install Latest Azure Functions V3 Runtime'
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'install -g azure-functions-core-tools@3 --unsafe-perm true'
     postSpecs:
     - task: ArchiveFiles@2
       displayName: 'Archive Control Host Function App'

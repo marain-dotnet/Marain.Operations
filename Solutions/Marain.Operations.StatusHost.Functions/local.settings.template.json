@@ -10,11 +10,11 @@
     "MarainServiceConfiguration:ServiceDisplayName": "Operations v1",
 
     // If running with a local tenancy service, point TenancyClient__TenancyServiceBaseUri at the localhost address for that
-    "TenancyClient__TenancyServiceBaseUri": "https://marYOURENVIRONMENTtenancy.azurewebsites.net/"
+    "TenancyClient:TenancyServiceBaseUri": "https://marYOURENVIRONMENTtenancy.azurewebsites.net/"
 
-    // If instead you point TenancyClient__TenancyServiceBaseUri at an instance in Azure, this local service will need to
-    // authenticate, which means you'll need to set this this:
-    // "TenancyClient__ResourceIdForMsiAuthentication": "AppIdSecuringAccessToTenancyFunction"
+    // If instead you point TenancyClient:TenancyServiceBaseUri at an instance in Azure, this local service will need to
+    // authenticate, which means you'll need to set this:
+    // "TenancyClient:ResourceIdForMsiAuthentication": "AppIdSecuringAccessToTenancyFunction"
     //
     // And for that to work, you won't be able to use tne normal az cli-based AzureServicesAuthConnectionString
     // (because az cli is only able to obtain tokens for a fixed set of known Microsoft resource; it can't be

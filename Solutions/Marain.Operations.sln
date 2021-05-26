@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D29CABE7-467E-4CF6-B44B-3C58AB76145A}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
@@ -42,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Deployment", "Marain.Operations.Deployment\Marain.Operations.Deployment.csproj", "{EED07C19-A228-46DE-8DC7-F90EA3728230}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Api.Specs", "Marain.Operations.Api.Specs\Marain.Operations.Api.Specs.csproj", "{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +92,10 @@ Global
 		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EED07C19-A228-46DE-8DC7-F90EA3728230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +107,7 @@ Global
 		{51815998-4551-477F-B2FB-12A767B39CE9} = {E418F648-61C8-48AF-8305-D520BAB272B0}
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8} = {E418F648-61C8-48AF-8305-D520BAB272B0}
 		{697107FC-8C59-4E52-BA9D-72A7CC6B8316} = {BA443C5C-7EC5-4210-8117-DDFA249EBFD1}
+		{8AD273D0-3B58-4463-9AAF-EAE99F0EC724} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A96A87D-1A5F-440A-AE9B-5449358C84D2}

@@ -18,7 +18,11 @@ namespace Marain.Operations.Storage.Blob
     /// </summary>
     public class OperationsRepository : IOperationsRepository
     {
-        private readonly BlobStorageContainerDefinition containerDefinition;
+        /// <summary>
+        /// The container definition for the underlying blob container.
+        /// </summary>
+        public static readonly BlobStorageContainerDefinition ContainerDefinition = new BlobStorageContainerDefinition("operations");
+
         private readonly ITenantCloudBlobContainerFactory containerFactory;
         private readonly JsonSerializerSettings serializerSettings;
 
@@ -29,7 +33,6 @@ namespace Marain.Operations.Storage.Blob
         /// <param name="serializerSettingsProvider">The serializer settings factory.</param>
         public OperationsRepository(ITenantCloudBlobContainerFactory containerFactory, IJsonSerializerSettingsProvider serializerSettingsProvider)
         {
-            this.containerDefinition = new BlobStorageContainerDefinition("operations");
             this.containerFactory = containerFactory;
             this.serializerSettings = serializerSettingsProvider.Instance;
         }
@@ -37,7 +40,7 @@ namespace Marain.Operations.Storage.Blob
         /// <inheritdoc />
         public async Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
         {
-            CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, this.containerDefinition).ConfigureAwait(false);
+            CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, ContainerDefinition).ConfigureAwait(false);
 
             CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobName(tenant, operationId));
 
@@ -55,7 +58,7 @@ namespace Marain.Operations.Storage.Blob
         /// <inheritdoc />
         public async Task PersistAsync(ITenant tenant, Operation operation)
         {
-            CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, this.containerDefinition).ConfigureAwait(false);
+            CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, ContainerDefinition).ConfigureAwait(false);
 
             CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobName(tenant, operation.Id));
 

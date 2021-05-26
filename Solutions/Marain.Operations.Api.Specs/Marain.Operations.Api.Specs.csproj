@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Marain.Operations.Api.Specs</RootNamespace>
+    <!-- Disabling SA1204 because it prioritizes static/non-static over public/non-public, which doesn't fit very well
+         with bindings in SpecFlow.
+         Disabling SA1600, SA1602 (all public types and members to be documented) because test projects need to make lots of types
+         public for technical reasaons, but they are not meant for public consumption, so XML doc comments are only
+         appropriate if they aid understanding within the project.
+    -->
+    <NoWarn>SA0001;SA1204;SA1600;SA1602;CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="1.2.2" />
+    <PackageReference Include="Corvus.Testing.AzureFunctions.SpecFlow" Version="1.4.1" />
+    <PackageReference Include="Endjin.RecommendedPractices" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="2.3.3" />
+    <PackageReference Include="Corvus.Testing.SpecFlow.NUnit" Version="1.4.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServiceManifests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Marain.Operations.Deployment\ServiceManifests\OperationsServiceManifest.jsonc" Link="ServiceManifests\OperationsServiceManifest.jsonc">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Marain.Operations.ControlClient\Marain.Operations.ControlClient.csproj" />
+    <ProjectReference Include="..\Marain.Operations.ControlHost.Functions\Marain.Operations.ControlHost.Functions.csproj" />
+    <ProjectReference Include="..\Marain.Operations.StatusClient\Marain.Operations.StatusClient.csproj" />
+    <ProjectReference Include="..\Marain.Operations.StatusHost.Functions\Marain.Operations.StatusHost.Functions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="specflow.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -31,7 +31,6 @@ namespace Marain.Operations.OpenApi
             }
 
             services.AddLogging();
-            services.AddRootTenant();
 
             services.AddSingleton<OperationsStatusOpenApiService>();
             services.AddSingleton<IOpenApiService, OperationsStatusOpenApiService>(s => s.GetRequiredService<OperationsStatusOpenApiService>());
@@ -65,7 +64,6 @@ namespace Marain.Operations.OpenApi
             }
 
             services.AddLogging();
-            services.AddRootTenant();
 
             services.AddSingleton<OperationsControlOpenApiService>();
             services.AddSingleton<IOpenApiService, OperationsControlOpenApiService>(s => s.GetRequiredService<OperationsControlOpenApiService>());
@@ -104,6 +102,9 @@ namespace Marain.Operations.OpenApi
         /// <returns>The service collection, to enable chaining.</returns>
         internal static IServiceCollection AddMarainTenancyServices(this IServiceCollection services)
         {
+            // TODO: Work out exactly why it's necessary to call the methods in this order. Switching the order
+            // results in an attempt to register the Tenant content type with the ContentFactory twice, but it wasn't
+            // obvious from an initial scan through exactly why this is.
             services.AddTenantProviderServiceClient();
             services.AddMarainServicesTenancy();
 

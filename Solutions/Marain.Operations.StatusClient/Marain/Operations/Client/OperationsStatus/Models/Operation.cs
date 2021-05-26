@@ -39,7 +39,7 @@ namespace Marain.Operations.Client.OperationsStatus.Models
         /// operation is producing or has produced</param>
         /// <param name="clientData">A small amount of arbitrary data provided
         /// by the operation being tracked.</param>
-        public Operation(DateTimeInstant createdDateTime, System.Guid id, DateTimeInstant lastActionDateTime, string status, System.Guid tenantId, string contentId = default(string), int? percentComplete = default(int?), string resourceLocation = default(string), string clientData = default(string))
+        public Operation(DateTimeInstant createdDateTime, System.Guid id, DateTimeInstant lastActionDateTime, string status, string tenantId, string contentId = default(string), int? percentComplete = default(int?), string resourceLocation = default(string), string clientData = default(string))
         {
             CreatedDateTime = createdDateTime;
             Id = id;
@@ -113,7 +113,7 @@ namespace Marain.Operations.Client.OperationsStatus.Models
         /// Gets or sets the id of the tenant to which this operation belongs
         /// </summary>
         [JsonProperty(PropertyName = "tenantId")]
-        public System.Guid TenantId { get; set; }
+        public string TenantId { get; set; }
 
         /// <summary>
         /// Validate the object.
@@ -134,6 +134,10 @@ namespace Marain.Operations.Client.OperationsStatus.Models
             if (Status == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "Status");
+            }
+            if (TenantId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "TenantId");
             }
             if (CreatedDateTime != null)
             {
