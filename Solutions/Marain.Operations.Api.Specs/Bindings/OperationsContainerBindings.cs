@@ -40,25 +40,21 @@ namespace Marain.Operations.Api.Specs.Bindings
                     services.AddSingleton<JsonConverter>(new StringEnumConverter(true));
 
                     // Tenancy service client.
-                    services.AddSingleton(sp =>
+                    TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>();
+
+                    if (tenancyConfiguration?.TenancyServiceBaseUri is null)
                     {
-                        TenancyClientOptions tenancyConfiguration = sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>();
+                        throw new InvalidOperationException("Could not find a configuration value for TenancyClient:TenancyServiceBaseUri");
+                    }
 
-                        if (tenancyConfiguration?.TenancyServiceBaseUri is null)
-                        {
-                            throw new InvalidOperationException("Could not find a configuration value for TenancyClient:TenancyServiceBaseUri");
-                        }
-
-                        return tenancyConfiguration;
-                    });
+                    services.AddSingleton(tenancyConfiguration);
 
                     services.AddTenantProviderServiceClient();
 
                     // Token source, to provide authentication when accessing external services.
-                    services.AddAzureManagedIdentityBasedTokenSource(
-                        sp => new AzureManagedIdentityTokenSourceOptions
+                    services.AddAzureManagedIdentityBasedTokenSource(new AzureManagedIdentityTokenSourceOptions
                         {
-                            AzureServicesAuthConnectionString = sp.GetRequiredService<IConfiguration>()["AzureServicesAuthConnectionString"],
+                            AzureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"],
                         });
 
                     // Marain tenancy management, required to create transient client/service tenants.
