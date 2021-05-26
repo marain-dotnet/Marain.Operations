@@ -47,7 +47,7 @@ namespace Marain.Operations.Api.Specs.Bindings
                     {
                         TenancyClientOptions tenancyConfiguration = sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>();
 
-                        if (tenancyConfiguration?.TenancyServiceBaseUri == default)
+                        if (tenancyConfiguration?.TenancyServiceBaseUri is null)
                         {
                             throw new InvalidOperationException("Could not find a configuration value for TenancyClient:TenancyServiceBaseUri");
                         }
