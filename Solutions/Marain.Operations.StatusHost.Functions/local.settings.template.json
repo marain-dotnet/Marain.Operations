@@ -13,7 +13,7 @@
     "TenancyClient:TenancyServiceBaseUri": "https://marYOURENVIRONMENTtenancy.azurewebsites.net/"
 
     // If instead you point TenancyClient:TenancyServiceBaseUri at an instance in Azure, this local service will need to
-    // authenticate, which means you'll need to set this this:
+    // authenticate, which means you'll need to set this:
     // "TenancyClient:ResourceIdForMsiAuthentication": "AppIdSecuringAccessToTenancyFunction"
     //
     // And for that to work, you won't be able to use tne normal az cli-based AzureServicesAuthConnectionString
