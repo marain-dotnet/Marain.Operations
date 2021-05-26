@@ -111,6 +111,12 @@ namespace Marain.Operations.Api.Specs.Steps
         [Given("I use the operations control client to set the status of the operation with Id called '(.*)' to Running")]
         public Task GivenIUseTheOperationsControlClientToSetTheStatusOfTheOperationWithIdCalledToRunning(string operationIdName)
         {
+            return this.GivenIUseTheOperationsControlClientToSetTheStatusOfTheOperationWithIdCalledToRunningAndThePercentageCompleteTo(operationIdName, null);
+        }
+
+        [Given("I use the operations control client to set the status of the operation with Id called '(.*)' to Running and the percentage complete to (.*)")]
+        public Task GivenIUseTheOperationsControlClientToSetTheStatusOfTheOperationWithIdCalledToRunningAndThePercentageCompleteTo(string operationIdName, int? percentComplete)
+        {
             Guid id = this.ScenarioContext.Get<Guid>(operationIdName);
 
             IServiceProvider serviceProvider = ContainerBindings.GetServiceProvider(this.FeatureContext);
@@ -122,6 +128,49 @@ namespace Marain.Operations.Api.Specs.Steps
                 async () =>
                 {
                     ProblemDetails? result = await client.SetOperationRunningAsync(
+                        transientTenantManager.PrimaryTransientClient.Id,
+                        id,
+                        percentComplete).ConfigureAwait(false);
+
+                    this.ScenarioContext.Set(result);
+                });
+        }
+
+        [Given("I use the operations control client to set the status of the operation with Id called '(.*)' to Succeeded")]
+        public Task GivenIUseTheOperationsControlClientToSetTheStatusOfTheOperationWithIdCalledToSucceeded(string operationIdName)
+        {
+            Guid id = this.ScenarioContext.Get<Guid>(operationIdName);
+
+            IServiceProvider serviceProvider = ContainerBindings.GetServiceProvider(this.FeatureContext);
+            IMarainOperationsControl client = serviceProvider.GetRequiredService<IMarainOperationsControl>();
+            var transientTenantManager = TransientTenantManager.GetInstance(this.FeatureContext);
+
+            return Exceptions.ExecuteAndStoreExceptionAsync(
+                this.ScenarioContext,
+                async () =>
+                {
+                    ProblemDetails? result = await client.SetOperationSucceededAsync(
+                        transientTenantManager.PrimaryTransientClient.Id,
+                        id).ConfigureAwait(false);
+
+                    this.ScenarioContext.Set(result);
+                });
+        }
+
+        [Given("I use the operations control client to set the status of the operation with Id called '(.*)' to Failed")]
+        public Task GivenIUseTheOperationsControlClientToSetTheStatusOfTheOperationWithIdCalledToFailed(string operationIdName)
+        {
+            Guid id = this.ScenarioContext.Get<Guid>(operationIdName);
+
+            IServiceProvider serviceProvider = ContainerBindings.GetServiceProvider(this.FeatureContext);
+            IMarainOperationsControl client = serviceProvider.GetRequiredService<IMarainOperationsControl>();
+            var transientTenantManager = TransientTenantManager.GetInstance(this.FeatureContext);
+
+            return Exceptions.ExecuteAndStoreExceptionAsync(
+                this.ScenarioContext,
+                async () =>
+                {
+                    ProblemDetails? result = await client.SetOperationFailedAsync(
                         transientTenantManager.PrimaryTransientClient.Id,
                         id).ConfigureAwait(false);
 

@@ -24,7 +24,7 @@ namespace Marain.Operations.Api.Specs.Bindings
 
         public static readonly string ControlApiBaseUrl = $"http://localhost:{ControlApiPort}";
 
-        [BeforeScenario(Order = BindingSequence.FunctionStartup)]
+        [BeforeFeature(Order = BindingSequence.FunctionStartup)]
         public static Task StartApis(FeatureContext featureContext)
         {
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);

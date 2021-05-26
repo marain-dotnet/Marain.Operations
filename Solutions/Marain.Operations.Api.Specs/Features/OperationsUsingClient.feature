@@ -47,19 +47,41 @@ Scenario: Change an operation state to Running and retrieve it
 	And the retrieved operation has the status 'Running'
 	And the retrieved operation has percent complete set to null
 
-Scenario: Change an operation state to Complete and retrieve it	
-Scenario: Change an operation state to Running and retrieve it
+Scenario: Update the percentage complete of a Running operation and retrieve it
 	Given I generate a new operation Id and call it 'NewOperationId'
 	And I use the operations control client to create an operation
 	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
 	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
-	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Complete
+	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Running
+	And the request succeeds
+	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Running and the percentage complete to 45
 	And the request succeeds
 	When I use the operations status client to get the operation with the Id called 'NewOperationId'
 	Then the request succeeds
-	And the retrieved operation has the status 'Complete'
-	And the retrieved operation has percent complete set to null
+	And the retrieved operation has the status 'Running'
+	And the retrieved operation is 45 percent complete
 
+Scenario: Change an operation state to Succeeded and retrieve it	
+	Given I generate a new operation Id and call it 'NewOperationId'
+	And I use the operations control client to create an operation
+	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
+	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
+	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Succeeded
+	And the request succeeds
+	When I use the operations status client to get the operation with the Id called 'NewOperationId'
+	Then the request succeeds
+	And the retrieved operation has the status 'Succeeded'
+	And the retrieved operation is 100 percent complete
 
 Scenario: Change an operation state to Failed and retrieve it
+	Given I generate a new operation Id and call it 'NewOperationId'
+	And I use the operations control client to create an operation
+	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
+	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
+	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Failed
+	And the request succeeds
+	When I use the operations status client to get the operation with the Id called 'NewOperationId'
+	Then the request succeeds
+	And the retrieved operation has the status 'Failed'
+	And the retrieved operation has percent complete set to null
 
