@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Corvus.Monitoring.ApplicationInsights" Version="1.2.0" />
+    <PackageReference Include="Corvus.Monitoring.ApplicationInsights" Version="1.3.0" />
     <PackageReference Include="Corvus.Tenancy.Storage.Azure.Blob" Version="2.0.6" />
     <PackageReference Include="Endjin.RecommendedPractices" Version="1.2.0">
       <PrivateAssets>all</PrivateAssets>
