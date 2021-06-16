@@ -105,7 +105,7 @@ namespace Marain.Operations.OpenApi
             // TODO: Work out exactly why it's necessary to call the methods in this order. Switching the order
             // results in an attempt to register the Tenant content type with the ContentFactory twice, but it wasn't
             // obvious from an initial scan through exactly why this is.
-            services.AddTenantProviderServiceClient();
+            services.AddTenantProviderServiceClient(true);
             services.AddMarainServicesTenancy();
 
             return services;
