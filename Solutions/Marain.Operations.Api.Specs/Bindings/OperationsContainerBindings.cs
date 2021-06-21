@@ -49,7 +49,8 @@ namespace Marain.Operations.Api.Specs.Bindings
 
                     services.AddSingleton(tenancyConfiguration);
 
-                    services.AddTenantProviderServiceClient();
+                    // Disable tenant caching - necessary because we create/update tenants as part of setup.
+                    services.AddTenantProviderServiceClient(false);
 
                     // Token source, to provide authentication when accessing external services.
                     services.AddAzureManagedIdentityBasedTokenSource(new AzureManagedIdentityTokenSourceOptions
