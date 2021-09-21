@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{D29CAB
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
+		..\GitVersion.yml = ..\GitVersion.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Abstractions", "Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj", "{56C80859-3883-4376-B1B3-40550143DE6B}"
