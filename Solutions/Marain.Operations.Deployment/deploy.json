@@ -71,6 +71,8 @@
     "keyVaultDeployName": "[concat(deployment().name, '-key_vault')]",
     "operationsStorageDeployName": "[concat(deployment().name, '-ops-storage-account')]",
     "diagnosticsStorageDeployName": "[concat(deployment().name, '-diagnostics-storage-account')]",
+    "statusAppKeyVaultAccessPolicyDeployName": "[concat(deployment().name, '-ops-status-function-key-vault-access')]",
+    "controlAppKeyVaultAccessPolicyDeployName": "[concat(deployment().name, '-ops-control-function-key-vault-access')]",
     "tagValues": {
       "prefix": "[parameters('marainPrefix')]",
       "appName": "[parameters('appName')]",
@@ -175,7 +177,7 @@
       }
     },
     {
-      "name": "[concat(deployment().name, '-ops-status-function-key-vault-access')]",
+      "name": "[variables('statusAppKeyVaultAccessPolicyDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [
@@ -285,12 +287,13 @@
       }
     },
     {
-      "name": "[concat(deployment().name, '-ops-control-function-key-vault-access')]",
+      "name": "[variables('controlAppKeyVaultAccessPolicyDeployName')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
       "dependsOn": [
         "[variables('controlFunctionDeployName')]",
-        "[variables('keyVaultDeployName')]"
+        "[variables('keyVaultDeployName')]",
+        "[variables('statusAppKeyVaultAccessPolicyDeployName')]"
       ],
       "properties": {
         "mode": "Incremental",
