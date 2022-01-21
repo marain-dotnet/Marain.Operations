@@ -6,12 +6,16 @@ namespace Marain.Operations.Specs.Integration.Steps
 {
     using System;
     using System.Threading.Tasks;
-    using Corvus.SpecFlow.Extensions;
-    using Corvus.Tenancy;
+
+    using Corvus.Testing.SpecFlow;
+
     using Marain.Operations.OpenApi;
     using Marain.TenantManagement.Testing;
+
     using Menes;
+
     using Microsoft.Extensions.DependencyInjection;
+
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -20,14 +24,12 @@ namespace Marain.Operations.Specs.Integration.Steps
         private readonly OperationsControlOpenApiService service;
         private readonly TransientTenantManager transientTenantManager;
         private readonly ScenarioContext scenarioContext;
-        private readonly FeatureContext featureContext;
 
         public OperationsControlApiAndTasksSteps(FeatureContext featureContext, ScenarioContext scenarioContext)
         {
             this.service = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<OperationsControlOpenApiService>();
             this.transientTenantManager = TransientTenantManager.GetInstance(featureContext);
             this.scenarioContext = scenarioContext;
-            this.featureContext = featureContext;
         }
 
         [When(@"I call OperationsControlOpenApiService\.CreateOperation with id '(.*)'")]

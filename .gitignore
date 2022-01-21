@@ -337,3 +337,4 @@ coverage.cobertura.xml
 /.vscode
 
 appsettings.json
+*.feature.cs

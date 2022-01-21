@@ -6,12 +6,19 @@ namespace Marain.Operations.Storage.Blob
 {
     using System;
     using System.Threading.Tasks;
-    using Corvus.Azure.Storage.Tenancy;
+
+    using Azure;
+    using Azure.Storage.Blobs;
+    using Azure.Storage.Blobs.Models;
+    using Azure.Storage.Blobs.Specialized;
+
     using Corvus.Extensions.Json;
+    using Corvus.Storage.Azure.BlobStorage.Tenancy;
     using Corvus.Tenancy;
-    using Marain.Operations.Domain;
-    using Microsoft.Azure.Storage.Blob;
+
     using Newtonsoft.Json;
+
+    using Operation = Marain.Operations.Domain.Operation;
 
     /// <summary>
     /// Azure blob storage implementation of Operations repository.
@@ -21,9 +28,21 @@ namespace Marain.Operations.Storage.Blob
         /// <summary>
         /// The container definition for the underlying blob container.
         /// </summary>
-        public static readonly BlobStorageContainerDefinition ContainerDefinition = new BlobStorageContainerDefinition("operations");
+        public const string ContainerName = "operations";
 
-        private readonly ITenantCloudBlobContainerFactory containerFactory;
+        /// <summary>
+        /// Property key with which legacy storage configuration settings are stored in the
+        /// tenant properties.
+        /// </summary>
+        public const string OperationsV2ConfigKey = "StorageConfiguration__" + ContainerName;
+
+        /// <summary>
+        /// Property key with which modern storage configuration settings are stored in the
+        /// tenant properties.
+        /// </summary>
+        public const string OperationsV3ConfigKey = "StorageConfigurationV3__" + ContainerName;
+
+        private readonly IBlobContainerSourceWithTenantLegacyTransition containerSource;
         private readonly JsonSerializerSettings serializerSettings;
 
         /// <summary>
@@ -31,40 +50,62 @@ namespace Marain.Operations.Storage.Blob
         /// </summary>
         /// <param name="containerFactory">The blob container factory to use to get the container in which operations should be stored.</param>
         /// <param name="serializerSettingsProvider">The serializer settings factory.</param>
-        public OperationsRepository(ITenantCloudBlobContainerFactory containerFactory, IJsonSerializerSettingsProvider serializerSettingsProvider)
+        public OperationsRepository(
+            IBlobContainerSourceWithTenantLegacyTransition containerFactory,
+            IJsonSerializerSettingsProvider serializerSettingsProvider)
         {
-            this.containerFactory = containerFactory;
+            this.containerSource = containerFactory;
             this.serializerSettings = serializerSettingsProvider.Instance;
         }
 
         /// <inheritdoc />
         public async Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
         {
-            CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, ContainerDefinition).ConfigureAwait(false);
+            BlobContainerClient container = await this.containerSource.GetBlobContainerClientFromTenantAsync(
+                tenant,
+                OperationsV2ConfigKey,
+                OperationsV3ConfigKey,
+                ContainerName)
+                .ConfigureAwait(false);
 
-            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobName(tenant, operationId));
-
-            bool exists = await blob.ExistsAsync().ConfigureAwait(false);
-
-            if (!exists)
+            BlockBlobClient blob = container.GetBlockBlobClient(GetBlobName(tenant, operationId));
+            Response<BlobDownloadResult> response;
+            try
+            {
+                response = await blob.DownloadContentAsync().ConfigureAwait(false);
+            }
+            catch (Azure.RequestFailedException rfx)
+            when (rfx.Status == 404)
             {
                 return null;
             }
 
-            string json = await blob.DownloadTextAsync().ConfigureAwait(false);
+            // Note: although BlobDownloadResult supports direct deserialization from JSON, using System.Text.Json
+            // (meaning it can work directly with UTF-8 content, avoiding the conversion to UTF-16 we're doing
+            // here) we currently depend on the JSON.NET serialization settings mechanism, so we have to use
+            // this more inefficient route for now.
+            string json = response.Value.Content.ToString();
             return JsonConvert.DeserializeObject<Operation>(json, this.serializerSettings);
         }
 
         /// <inheritdoc />
         public async Task PersistAsync(ITenant tenant, Operation operation)
         {
-            CloudBlobContainer container = await this.containerFactory.GetBlobContainerForTenantAsync(tenant, ContainerDefinition).ConfigureAwait(false);
+            BlobContainerClient container = await this.containerSource.GetBlobContainerClientFromTenantAsync(
+                tenant,
+                OperationsV2ConfigKey,
+                OperationsV3ConfigKey,
+                ContainerName)
+                .ConfigureAwait(false);
 
-            CloudBlockBlob blob = container.GetBlockBlobReference(GetBlobName(tenant, operation.Id));
+            BlobClient blob = container.GetBlobClient(GetBlobName(tenant, operation.Id));
 
             string json = JsonConvert.SerializeObject(operation, this.serializerSettings);
 
-            await blob.UploadTextAsync(json).ConfigureAwait(false);
+            await blob.UploadAsync(
+                BinaryData.FromString(json),
+                overwrite: true)
+                .ConfigureAwait(false);
         }
 
         private static string GetBlobName(ITenant tenant, Guid operationId) => $"{tenant.Id}/{operationId}";

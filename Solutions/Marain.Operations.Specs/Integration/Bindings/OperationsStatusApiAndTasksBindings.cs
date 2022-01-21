@@ -4,10 +4,11 @@
 
 namespace Marain.Operations.Specs.Integration.Bindings
 {
-    using System.Threading.Tasks;
-    using Corvus.SpecFlow.Extensions;
+    using Corvus.Testing.SpecFlow;
+
     using Marain.Operations.OpenApi;
     using Marain.Operations.Tasks;
+
     using TechTalk.SpecFlow;
 
     /// <summary>
@@ -28,7 +29,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
                 featureContext,
                 serviceCollection =>
                 {
-                    serviceCollection.AddOperationsStatusApi();
+                    serviceCollection.AddOperationsStatusApiWithOpenApiActionResultHosting();
                 });
         }
     }

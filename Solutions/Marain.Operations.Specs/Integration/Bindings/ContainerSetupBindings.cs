@@ -6,18 +6,25 @@ namespace Marain.Operations.Specs.Integration.Bindings
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Corvus.Azure.Storage.Tenancy;
     using Corvus.Configuration;
-    using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
+    using Corvus.Testing.SpecFlow;
+
     using Marain.Operations.Storage;
     using Marain.Services;
     using Marain.TenantManagement.EnrollmentConfiguration;
     using Marain.TenantManagement.Testing;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using Newtonsoft.Json.Serialization;
+
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -46,7 +53,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddJsonNetPropertyBag();
                     serviceCollection.AddJsonNetCultureInfoConverter();
                     serviceCollection.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
-                    serviceCollection.AddSingleton<JsonConverter>(new Newtonsoft.Json.Converters.StringEnumConverter(true));
+                    serviceCollection.AddSingleton<JsonConverter>(new StringEnumConverter(new CamelCaseNamingStrategy()));
 
                     serviceCollection.AddTestNameProvider();
                     serviceCollection.AddMarainServiceConfiguration();
@@ -78,7 +85,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
         [BeforeScenario]
         public static void SetupScenario(FeatureContext featureContext)
         {
-            FakeOperationsRepository repository = ContainerBindings.GetServiceProvider(featureContext).GetService<FakeOperationsRepository>();
+            FakeOperationsRepository? repository = ContainerBindings.GetServiceProvider(featureContext).GetService<FakeOperationsRepository>();
             repository?.Reset();
         }
 
