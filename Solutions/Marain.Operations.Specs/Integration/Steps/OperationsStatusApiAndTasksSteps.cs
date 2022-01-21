@@ -2,15 +2,11 @@
 // Copyright (c) Endjin. All rights reserved.
 // </copyright>
 
-#pragma warning disable CS1591 // Elements should be documented
-#pragma warning disable SA1600 // Elements should be documented
-
 namespace Marain.Operations.Specs.Integration.Steps
 {
     using System;
     using System.Threading.Tasks;
 
-    using Corvus.Tenancy;
     using Corvus.Testing.SpecFlow;
 
     using Marain.Operations.Domain;
@@ -36,7 +32,6 @@ namespace Marain.Operations.Specs.Integration.Steps
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0052:Remove unread private members", Justification = "It can be useful when debugging tests to be able to see the host. It's also important that we ask DI for it, to ensure that all normal initialiation has occurred")]
         private readonly IOpenApiHost host;
 
-        private readonly ITenantProvider tenantProvider;
         private readonly ScenarioContext scenarioContext;
         private readonly TransientTenantManager transientTenantManager;
 
@@ -45,7 +40,6 @@ namespace Marain.Operations.Specs.Integration.Steps
             this.serviceProvider = ContainerBindings.GetServiceProvider(featureContext);
             this.repository = this.serviceProvider.GetRequiredService<FakeOperationsRepository>();
             this.host = this.serviceProvider.GetRequiredService<IOpenApiHost<HttpRequest, IActionResult>>();
-            this.tenantProvider = this.serviceProvider.GetRequiredService<ITenantProvider>();
             this.scenarioContext = scenarioContext;
             this.transientTenantManager = TransientTenantManager.GetInstance(featureContext);
         }

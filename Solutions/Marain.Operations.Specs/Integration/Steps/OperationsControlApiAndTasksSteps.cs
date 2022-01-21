@@ -24,14 +24,12 @@ namespace Marain.Operations.Specs.Integration.Steps
         private readonly OperationsControlOpenApiService service;
         private readonly TransientTenantManager transientTenantManager;
         private readonly ScenarioContext scenarioContext;
-        private readonly FeatureContext featureContext;
 
         public OperationsControlApiAndTasksSteps(FeatureContext featureContext, ScenarioContext scenarioContext)
         {
             this.service = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<OperationsControlOpenApiService>();
             this.transientTenantManager = TransientTenantManager.GetInstance(featureContext);
             this.scenarioContext = scenarioContext;
-            this.featureContext = featureContext;
         }
 
         [When(@"I call OperationsControlOpenApiService\.CreateOperation with id '(.*)'")]

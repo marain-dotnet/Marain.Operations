@@ -22,6 +22,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Microsoft.Extensions.Logging;
 
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+    using Newtonsoft.Json.Serialization;
 
     using TechTalk.SpecFlow;
 
@@ -51,7 +53,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddJsonNetPropertyBag();
                     serviceCollection.AddJsonNetCultureInfoConverter();
                     serviceCollection.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
-                    serviceCollection.AddSingleton<JsonConverter>(new Newtonsoft.Json.Converters.StringEnumConverter(true));
+                    serviceCollection.AddSingleton<JsonConverter>(new StringEnumConverter(new CamelCaseNamingStrategy()));
 
                     serviceCollection.AddTestNameProvider();
                     serviceCollection.AddMarainServiceConfiguration();

@@ -16,8 +16,7 @@ namespace Marain.Operations.Specs.Integration
     /// </summary>
     public class FakeOperationsRepository : IOperationsRepository
     {
-        private readonly Dictionary<(string tenantId, Guid operationId), Operation> operations =
-            new Dictionary<(string tenantId, Guid operationId), Operation>();
+        private readonly Dictionary<(string tenantId, Guid operationId), Operation> operations = new ();
 
         /// <inheritdoc />
         public Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
