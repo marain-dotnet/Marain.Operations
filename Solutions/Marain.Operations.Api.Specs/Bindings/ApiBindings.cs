@@ -38,12 +38,12 @@ namespace Marain.Operations.Api.Specs.Bindings
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.ControlHost.Functions",
                     ControlApiPort,
-                    "netcoreapp3.1",
+                    "net6.0",
                     configuration: functionConfiguration),
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.StatusHost.Functions",
                     StatusApiPort,
-                    "netcoreapp3.1",
+                    "net6.0",
                     configuration: functionConfiguration));
         }
 
