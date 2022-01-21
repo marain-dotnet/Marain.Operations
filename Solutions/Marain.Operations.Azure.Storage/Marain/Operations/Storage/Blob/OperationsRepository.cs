@@ -64,7 +64,8 @@ namespace Marain.Operations.Storage.Blob
             BlobContainerClient container = await this.containerSource.GetBlobContainerClientFromTenantAsync(
                 tenant,
                 OperationsV2ConfigKey,
-                OperationsV3ConfigKey)
+                OperationsV3ConfigKey,
+                ContainerName)
                 .ConfigureAwait(false);
 
             BlockBlobClient blob = container.GetBlockBlobClient(GetBlobName(tenant, operationId));
@@ -93,7 +94,8 @@ namespace Marain.Operations.Storage.Blob
             BlobContainerClient container = await this.containerSource.GetBlobContainerClientFromTenantAsync(
                 tenant,
                 OperationsV2ConfigKey,
-                OperationsV3ConfigKey)
+                OperationsV3ConfigKey,
+                ContainerName)
                 .ConfigureAwait(false);
 
             BlobClient blob = container.GetBlobClient(GetBlobName(tenant, operation.Id));
