@@ -66,4 +66,4 @@ jobs:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.Deployment.zip'
         replaceExistingArchive: true
-    netSdkVersion: '3.x'
+    netSdkVersion: '6.x'
