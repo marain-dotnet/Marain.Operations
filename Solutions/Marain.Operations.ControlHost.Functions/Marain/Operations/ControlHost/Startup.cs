@@ -6,44 +6,33 @@
 
 namespace Marain.Operations.ControlHost
 {
-    using Corvus.Azure.Storage.Tenancy;
-    using Microsoft.Azure.WebJobs;
-    using Microsoft.Azure.WebJobs.Hosting;
+    using Microsoft.Azure.Functions.Extensions.DependencyInjection;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Startup code for the Function.
     /// </summary>
-    public class Startup : IWebJobsStartup
+    public class Startup : FunctionsStartup
     {
         /// <inheritdoc/>
-        public void Configure(IWebJobsBuilder builder)
+        public override void Configure(IFunctionsHostBuilder builder)
         {
             IServiceCollection services = builder.Services;
+            IConfiguration config = builder.GetContext().Configuration;
 
             services.AddApplicationInsightsInstrumentationTelemetry();
             services.AddLogging();
 
-            // Workaround for https://github.com/menes-dotnet/Menes/issues/34
-            // Menes currently dependson IConfigurationRoot being available through DI for external service URL
-            // resolution to work. Azure Functions does not make it directly available - it only registers
-            // IConfiguration. But since the object in question happens to implement IConfigurationRoot too,
-            // we can just reexpose the same object for this service type.
-            services.AddSingleton(sp => (IConfigurationRoot)sp.GetRequiredService<IConfiguration>());
+            // TODO: we really shouldn't need this. Menes.Hosting turns out to have a dependency on
+            // IConfigurationRoot. Yuck.
+            services.AddSingleton((IConfigurationRoot)config);
 
-            services.AddSingleton(sp =>
-            {
-                IConfiguration config = sp.GetRequiredService<IConfiguration>();
-                return new TenantCloudBlobContainerFactoryOptions
-                {
-                    AzureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"],
-                };
-            });
-            services.AddMarainServiceConfiguration();
+            string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
+            services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
+            services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 
-            services.AddTenantedOperationsControlApi(config => config.Documents.AddSwaggerEndpoint());
+            services.AddTenantedOperationsControlApiWithOpenApiActionResultHosting(config => config.Documents.AddSwaggerEndpoint());
         }
     }
 }

@@ -6,19 +6,25 @@ namespace Marain.Operations.Api.Specs.Bindings
 {
     using System;
     using System.Threading.Tasks;
+
+    using Azure.Storage.Blobs;
+
     using Corvus.Azure.Cosmos.Tenancy;
     using Corvus.Azure.Storage.Tenancy;
+    using Corvus.Storage.Azure.BlobStorage.Tenancy;
     using Corvus.Tenancy;
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
     using Corvus.Testing.SpecFlow;
+
     using Marain.Operations.Storage.Blob;
     using Marain.TenantManagement.EnrollmentConfiguration;
     using Marain.TenantManagement.Testing;
-    using Microsoft.Azure.Storage.Blob;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+
     using TechTalk.SpecFlow;
 
     /// <summary>
@@ -75,8 +81,11 @@ namespace Marain.Operations.Api.Specs.Bindings
 
             await featureContext.RunAndStoreExceptionsAsync(async () =>
             {
-                ITenantCloudBlobContainerFactory cloudBlobContainerFactory = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<ITenantCloudBlobContainerFactory>();
-                CloudBlobContainer testContainer = await cloudBlobContainerFactory.GetBlobContainerForTenantAsync(tenantManager.PrimaryTransientClient, OperationsRepository.ContainerDefinition).ConfigureAwait(false);
+                IBlobContainerSourceWithTenantLegacyTransition cloudBlobContainerFactory = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IBlobContainerSourceWithTenantLegacyTransition>();
+                BlobContainerClient testContainer = await cloudBlobContainerFactory.GetBlobContainerClientFromTenantAsync(
+                    tenantManager.PrimaryTransientClient,
+                    OperationsRepository.OperationsV2ConfigKey,
+                    OperationsRepository.OperationsV3ConfigKey).ConfigureAwait(false);
                 await testContainer.DeleteIfExistsAsync().ConfigureAwait(false);
             }).ConfigureAwait(false);
 

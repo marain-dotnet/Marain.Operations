@@ -5,16 +5,20 @@
 namespace Marain.Operations.Api.Specs.Bindings
 {
     using System;
+
     using Corvus.Configuration;
-    using Corvus.Identity.ManagedServiceIdentity.ClientAuthentication;
     using Corvus.Testing.SpecFlow;
+
     using Marain.Operations.Client.OperationsControl;
     using Marain.Tenancy.Client;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+
     using TechTalk.SpecFlow;
 
     [Binding]
@@ -53,10 +57,9 @@ namespace Marain.Operations.Api.Specs.Bindings
                     services.AddTenantProviderServiceClient(false);
 
                     // Token source, to provide authentication when accessing external services.
-                    services.AddAzureManagedIdentityBasedTokenSource(new AzureManagedIdentityTokenSourceOptions
-                        {
-                            AzureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"],
-                        });
+                    string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
+                    services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
+                    services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 
                     // Marain tenancy management, required to create transient client/service tenants.
                     services.AddMarainTenantManagement();

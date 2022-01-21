@@ -6,18 +6,23 @@ namespace Marain.Operations.Specs.Integration.Bindings
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Corvus.Azure.Storage.Tenancy;
     using Corvus.Configuration;
-    using Corvus.SpecFlow.Extensions;
     using Corvus.Tenancy;
+    using Corvus.Testing.SpecFlow;
+
     using Marain.Operations.Storage;
     using Marain.Services;
     using Marain.TenantManagement.EnrollmentConfiguration;
     using Marain.TenantManagement.Testing;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+
     using Newtonsoft.Json;
+
     using TechTalk.SpecFlow;
 
     [Binding]
