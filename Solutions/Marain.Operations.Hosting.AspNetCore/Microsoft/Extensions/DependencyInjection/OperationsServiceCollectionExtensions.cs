@@ -6,9 +6,13 @@ namespace Marain.Operations.OpenApi
 {
     using System;
     using System.Linq;
+
+    using Marain.Operations.Hosting.JsonSerialization;
     using Marain.Operations.Tasks;
     using Menes;
     using Microsoft.Extensions.DependencyInjection;
+
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Extension methods for configuring DI for the Operations Open API services.
@@ -151,6 +155,8 @@ namespace Marain.Operations.OpenApi
             // obvious from an initial scan through exactly why this is.
             services.AddTenantProviderServiceClient(true);
             services.AddMarainServiceConfiguration();
+            services.AddSingleton<JsonConverter>(new OperationStatusConverter());
+
             services.AddMarainServicesTenancy();
 
             return services;

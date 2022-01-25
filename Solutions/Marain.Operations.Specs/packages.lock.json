@@ -2512,8 +2512,7 @@
         "type": "Project",
         "dependencies": {
           "Corvus.Tenancy.Abstractions": "3.0.0",
-          "Menes.Abstractions": "3.1.2",
-          "Newtonsoft.Json": "13.0.1"
+          "Menes.Abstractions": "3.1.2"
         }
       },
       "marain.operations.azure.storage": {
@@ -2531,7 +2530,8 @@
           "Marain.Operations.Azure.Storage": "1.0.0",
           "Marain.Operations.OpenApi": "1.0.0",
           "Marain.Tenancy.ClientTenantProvider": "2.0.3",
-          "Menes.Hosting.AspNetCore": "3.1.2"
+          "Menes.Hosting.AspNetCore": "3.1.2",
+          "Newtonsoft.Json": "13.0.1"
         }
       },
       "marain.operations.openapi": {

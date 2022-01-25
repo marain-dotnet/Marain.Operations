@@ -12,6 +12,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Corvus.Tenancy;
     using Corvus.Testing.SpecFlow;
 
+    using Marain.Operations.Hosting.JsonSerialization;
     using Marain.Operations.Storage;
     using Marain.Services;
     using Marain.TenantManagement.EnrollmentConfiguration;
@@ -53,6 +54,7 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddJsonNetPropertyBag();
                     serviceCollection.AddJsonNetCultureInfoConverter();
                     serviceCollection.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
+                    serviceCollection.AddSingleton<JsonConverter>(new OperationStatusConverter());
                     serviceCollection.AddSingleton<JsonConverter>(new StringEnumConverter(new CamelCaseNamingStrategy()));
 
                     serviceCollection.AddTestNameProvider();
