@@ -93,7 +93,7 @@ if ($MyInvocation.ScriptName -notlike '*Invoke-Build.ps1') {
 if (!($BuildModulePath)) {
     if (!(Get-Module -ListAvailable Endjin.RecommendedPractices.Build)) {
         Write-Information "Installing 'Endjin.RecommendedPractices.Build' module..."
-        Install-Module Endjin.RecommendedPractices.Build -RequiredVersion 0.1.0 -AllowPrerelease -Scope CurrentUser -Force -Repository PSGallery
+        Install-Module Endjin.RecommendedPractices.Build -RequiredVersion 0.1.1 -AllowPrerelease -Scope CurrentUser -Force -Repository PSGallery
     }
     $BuildModulePath = "Endjin.RecommendedPractices.Build"
 }
@@ -126,7 +126,6 @@ $SolutionToBuild = (Resolve-Path (Join-Path $here ".\Solutions\Marain.Operations
 #
 # Specify files to exclude from test coverage
 # This option is for excluding generated code
-# (Note: this will be ignored until Endjin.RecommendedPractices.Build 0.1.1 is out; the current preview is broken so we're on 0.1.0)
 $ExcludeFilesFromCodeCoverage = "**/Marain.Operations.ControlClient/**/Models/*.cs,**/Marain.Tenancy.Client/**/MarinOperationsControl*.cs,**/Marain.Operations.StatusClient/**/Models/*.cs,**/Marain.Tenancy.Client/**/MarinOperationsStatus*.cs"
 
 
