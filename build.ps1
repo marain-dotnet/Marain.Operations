@@ -126,7 +126,7 @@ $SolutionToBuild = (Resolve-Path (Join-Path $here ".\Solutions\Marain.Operations
 #
 # Specify files to exclude from test coverage
 # This option is for excluding generated code
-$ExcludeFilesFromCodeCoverage = "**/Marain.Operations.ControlClient/**/Models/*.cs,**/Marain.Tenancy.Client/**/MarinOperationsControl*.cs,**/Marain.Operations.StatusClient/**/Models/*.cs,**/Marain.Tenancy.Client/**/MarinOperationsStatus*.cs"
+$ExcludeFilesFromCodeCoverage = "**/Marain.Operations.ControlClient/**/Models/*.cs,**/Marain.Operations.ControlClient/**/MarinOperationsControl*.cs,**/Marain.Operations.StatusClient/**/Models/*.cs,**/Marain.Operations.StatusClient/**/MarainOperationsStatus*.cs"
 
 
 # Synopsis: Build, Test and Package
