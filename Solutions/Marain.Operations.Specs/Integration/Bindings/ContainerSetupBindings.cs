@@ -87,8 +87,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
         [BeforeScenario]
         public static void SetupScenario(FeatureContext featureContext)
         {
-            FakeOperationsRepository? repository = ContainerBindings.GetServiceProvider(featureContext).GetService<FakeOperationsRepository>();
-            repository?.Reset();
+            FakeOperationsRepository repository = ContainerBindings.GetServiceProvider(featureContext).GetService<FakeOperationsRepository>()!;
+            repository.Reset();
         }
 
         public static async Task SetupTenants(FeatureContext featureContext, string manifestName)
