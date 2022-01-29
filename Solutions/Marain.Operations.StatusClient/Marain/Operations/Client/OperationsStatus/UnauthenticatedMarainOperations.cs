@@ -1,4 +1,4 @@
-﻿// <copyright file="OperationsControlClientServiceCollectionExtensions.cs" company="Endjin Limited">
+﻿// <copyright file="UnauthenticatedMarainOperations.cs" company="Endjin Limited">
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 

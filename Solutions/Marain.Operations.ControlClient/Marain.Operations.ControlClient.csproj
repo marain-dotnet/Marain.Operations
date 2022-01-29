@@ -1,14 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!--
-  Not using normal netstandard2.0 import, because this contains AutoRest-generated code, which makes
-  the analyzers we normally bring in unhappy.
-  -->
-  <Import Project="..\Common.GitHub.proj" />
-  <Import Project="..\Common.NuGet.proj" />
-  
+  <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace />
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework.ToLowerInvariant())\$(AssemblyName).xml</DocumentationFile>
@@ -28,13 +23,13 @@
     <WarningsAsErrors />
   </PropertyGroup>
 
-  <PropertyGroup>
-    <DebugType>Full</DebugType>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Corvus.Identity.ManagedServiceIdentity.ClientAuthentication" Version="1.0.7" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[3.1.*,)" />
+    <PackageReference Include="Corvus.Identity.MicrosoftRest" Version="3.0.0" />
+    <PackageReference Include="Endjin.RecommendedPractices" Version="1.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[6.0.*,)" />
   </ItemGroup>
 
   <ItemGroup>

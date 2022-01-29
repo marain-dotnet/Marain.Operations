@@ -1,5 +1,6 @@
 ﻿@operationsControl
-@setupContainer
+@perFeatureContainer
+
 Feature: OperationsControlApiAndTasks
 	In order to enable observation of long-running operations
 	As a developer

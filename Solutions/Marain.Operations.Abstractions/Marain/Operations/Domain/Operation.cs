@@ -5,8 +5,6 @@
 namespace Marain.Operations.Domain
 {
     using System;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
 
     /// <summary>
     /// Information about a long-running operation.
@@ -73,7 +71,6 @@ namespace Marain.Operations.Domain
         /// <summary>
         /// Gets or sets the current status of this operation.
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public OperationStatus Status { get; set; }
 
         /// <summary>

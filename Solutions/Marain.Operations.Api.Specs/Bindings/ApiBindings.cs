@@ -25,7 +25,7 @@ namespace Marain.Operations.Api.Specs.Bindings
         public static readonly string ControlApiBaseUrl = $"http://localhost:{ControlApiPort}";
 
         [BeforeFeature(Order = BindingSequence.FunctionStartup)]
-        public static Task StartApis(FeatureContext featureContext)
+        public static async Task StartApis(FeatureContext featureContext)
         {
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             FunctionConfiguration functionConfiguration = FunctionsBindings.GetFunctionConfiguration(featureContext);
@@ -34,16 +34,16 @@ namespace Marain.Operations.Api.Specs.Bindings
             functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
 
-            return Task.WhenAll(
+            await Task.WhenAll(
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.ControlHost.Functions",
                     ControlApiPort,
-                    "netcoreapp3.1",
+                    "net6.0",
                     configuration: functionConfiguration),
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.StatusHost.Functions",
                     StatusApiPort,
-                    "netcoreapp3.1",
+                    "net6.0",
                     configuration: functionConfiguration));
         }
 

@@ -40,8 +40,8 @@ namespace Marain.TenantManagement.Specs.Mocks
     {
         private readonly IJsonSerializerSettingsProvider jsonSerializerSettingsProvider;
         private readonly IPropertyBagFactory propertyBagFactory;
-        private readonly List<StoredTenant> allTenants = new List<StoredTenant>();
-        private readonly Dictionary<string, List<string>> tenantsByParent = new Dictionary<string, List<string>>();
+        private readonly List<StoredTenant> allTenants = new ();
+        private readonly Dictionary<string, List<string>> tenantsByParent = new ();
 
         public InMemoryTenantProvider(RootTenant rootTenant, IJsonSerializerSettingsProvider jsonSerializerSettingsProvider, IPropertyBagFactory propertyBagFactory)
         {
@@ -175,7 +175,7 @@ namespace Marain.TenantManagement.Specs.Mocks
 
             public ITenant Tenant
             {
-                get => JsonConvert.DeserializeObject<Tenant>(this.tenant, this.settings);
+                get => JsonConvert.DeserializeObject<Tenant>(this.tenant, this.settings)!;
                 set => this.tenant = JsonConvert.SerializeObject(value, this.settings);
             }
         }

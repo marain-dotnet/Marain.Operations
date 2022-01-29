@@ -5,9 +5,11 @@
 namespace Microsoft.Extensions.DependencyInjection
 {
     using System;
-    using Corvus.Identity.ManagedServiceIdentity.ClientAuthentication;
+
+    using Corvus.Identity.ClientAuthentication.MicrosoftRest;
+
     using Marain.Operations.Client.OperationsControl;
-    using Microsoft.Extensions.DependencyInjection;
+
     using Microsoft.Rest;
 
     /// <summary>
@@ -73,9 +75,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 : new MarainOperationsControl(
                         baseUri,
                         new TokenCredentials(
-                            new ServiceIdentityTokenProvider(
-                                serviceProvider.GetRequiredService<IServiceIdentityTokenSource>(),
-                                resourceIdForMsiAuthentication)));
+                           serviceProvider.GetRequiredService<IServiceIdentityMicrosoftRestTokenProviderSource>().GetTokenProvider(
+                               $"{resourceIdForMsiAuthentication}/.default")));
         }
     }
 }
