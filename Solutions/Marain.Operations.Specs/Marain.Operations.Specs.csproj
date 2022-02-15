@@ -33,7 +33,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="1.2.4" />
+    <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="1.2.5" />
     <PackageReference Include="Corvus.Testing.AzureFunctions.SpecFlow" Version="1.4.7" />
     <PackageReference Include="Marain.Services.Tenancy.Testing" Version="2.3.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="[6.0.*,)" />
