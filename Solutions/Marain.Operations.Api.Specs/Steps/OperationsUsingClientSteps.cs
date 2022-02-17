@@ -249,7 +249,7 @@ namespace Marain.Operations.Api.Specs.Steps
             Exceptions.AssertLastExceptionWasOfType(this.ScenarioContext, expectedExceptionTypeName);
         }
 
-        [Then(@"an exception of type HttpOperationException with a '(.*)' status is thrown")]
+        [Then("an exception of type HttpOperationException with a '(.*)' status is thrown")]
         public void ThenAnExceptionOfTypeWithAStatusCodeIsThrown(HttpStatusCode expectedStatus)
         {
             Exceptions.AssertLastExceptionWasOfType(this.ScenarioContext, "HttpOperationException");

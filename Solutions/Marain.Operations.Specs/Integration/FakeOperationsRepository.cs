@@ -1,5 +1,5 @@
-﻿// <copyright file="FakeOperationsRepository.cs" company="Endjin">
-// Copyright (c) Endjin. All rights reserved.
+﻿// <copyright file="FakeOperationsRepository.cs" company="Endjin Limited">
+// Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
 namespace Marain.Operations.Specs.Integration
@@ -16,7 +16,7 @@ namespace Marain.Operations.Specs.Integration
     /// </summary>
     public class FakeOperationsRepository : IOperationsRepository
     {
-        private readonly Dictionary<(string tenantId, Guid operationId), Operation> operations = new ();
+        private readonly Dictionary<(string TenantId, Guid OperationId), Operation> operations = new();
 
         /// <inheritdoc />
         public Task<Operation?> GetAsync(ITenant tenant, Guid operationId)

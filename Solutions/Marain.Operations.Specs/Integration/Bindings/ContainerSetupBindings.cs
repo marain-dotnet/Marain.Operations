@@ -1,5 +1,5 @@
-﻿// <copyright file="ContainerSetupBindings.cs" company="Endjin">
-// Copyright (c) Endjin. All rights reserved.
+﻿// <copyright file="ContainerSetupBindings.cs" company="Endjin Limited">
+// Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
 namespace Marain.Operations.Specs.Integration.Bindings
@@ -117,12 +117,12 @@ namespace Marain.Operations.Specs.Integration.Bindings
             // Config is needed for the enrollment but doesn't actually matter in practice because
             // we're using a fake store for the specs.
             return new EnrollmentConfigurationItem[]
-{
+            {
                 new EnrollmentBlobStorageConfigurationItem
                 {
                     Key = "operationsStore",
                     Configuration = new BlobStorageConfiguration(),
-                }
+                },
             };
         }
 

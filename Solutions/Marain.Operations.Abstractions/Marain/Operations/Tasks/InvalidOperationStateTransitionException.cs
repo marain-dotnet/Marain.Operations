@@ -58,7 +58,7 @@ namespace Marain.Operations.Tasks
                 .AddProblemDetailsExtension("ValidPriorStates", validPriorStates.ToList());
         }
 
-                /// <summary>
+        /// <summary>
         /// Standard constructor for any derived exceptions.
         /// </summary>
         protected InvalidOperationStateTransitionException()

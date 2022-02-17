@@ -1,6 +1,8 @@
-﻿// <copyright file="OperationsStatusApiAndTasksBindings.cs" company="Endjin">
-// Copyright (c) Endjin. All rights reserved.
+﻿// <copyright file="OperationsStatusApiAndTasksBindings.cs" company="Endjin Limited">
+// Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
+
+#pragma warning disable RCS1021 // Use expression-bodied lambda - doesn't improve readability in this file
 
 namespace Marain.Operations.Specs.Integration.Bindings
 {
