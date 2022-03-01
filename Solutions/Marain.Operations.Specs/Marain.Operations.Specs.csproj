@@ -31,7 +31,7 @@
     <PackageReference Include="Marain.Services.Tenancy.Testing" Version="2.3.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="[6.0.*,)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="[6.0.*,)" />
-    <PackageReference Include="Corvus.Testing.SpecFlow.NUnit" Version="1.4.9" />
+    <PackageReference Include="Corvus.Testing.SpecFlow.NUnit" Version="1.4.10" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
