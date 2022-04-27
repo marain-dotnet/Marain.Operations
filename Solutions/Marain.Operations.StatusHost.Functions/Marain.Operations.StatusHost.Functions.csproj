@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="Corvus.Monitoring.ApplicationInsights" Version="1.3.2" />
     <PackageReference Include="Corvus.Tenancy.Storage.Azure.Blob" Version="2.0.13" />
-    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.0">
+    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
