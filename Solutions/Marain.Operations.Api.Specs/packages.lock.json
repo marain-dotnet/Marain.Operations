@@ -1191,8 +1191,8 @@
       },
       "Microsoft.NET.Sdk.Functions": {
         "type": "Transitive",
-        "resolved": "4.1.0",
-        "contentHash": "ycPJA1emOWi5p/gxiPhaWJD9Lxc7S6dAU5fbhopOtd25VoWZPx62J7Hqk5RdpiWsRAuxWPSIs4WdJF3oYaHVLg==",
+        "resolved": "4.1.1",
+        "contentHash": "G+b+bHtta7P8KPItSWygbVwQhwamU/WWmBoiv3snf8ScVYai3PbC1JSW3H22X+askqxhiw/Tx0yZKdE5oKMhRQ==",
         "dependencies": {
           "Microsoft.Azure.Functions.Analyzers": "[1.0.0, 2.0.0)",
           "Microsoft.Azure.WebJobs": "[3.0.23, 3.1.0)",
@@ -2932,7 +2932,7 @@
           "Marain.Operations.OpenApi": "[1.0.0, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Logging.Console": "[6.0.*, )",
-          "Microsoft.NET.Sdk.Functions": "[4.1.0, )",
+          "Microsoft.NET.Sdk.Functions": "[4.1.1, )",
           "Microsoft.OpenApi.Readers": "[1.2.3, )"
         }
       },
@@ -2979,7 +2979,7 @@
           "Marain.Operations.OpenApi": "[1.0.0, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Logging.Console": "[6.0.*, )",
-          "Microsoft.NET.Sdk.Functions": "[4.1.0, )",
+          "Microsoft.NET.Sdk.Functions": "[4.1.1, )",
           "Microsoft.OpenApi.Readers": "[1.2.3, )"
         }
       }
