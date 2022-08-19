@@ -28,7 +28,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="2.3.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="[6.0.*,)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="[6.0.*,)" />
   </ItemGroup>
@@ -36,6 +35,7 @@
     <ProjectReference Include="..\Marain.Operations.Abstractions\Marain.Operations.Abstractions.csproj" />
     <ProjectReference Include="..\Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj" />
     <ProjectReference Include="..\Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\Marain.Operations.Specs.Common\Marain.Operations.Specs.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
@@ -44,8 +44,5 @@
     <None Update="specflow.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Marain.Operations.Deployment\ServiceManifests\OperationsServiceManifest.jsonc" Link="Integration\ServiceManifests\OperationsServiceManifest.jsonc" />
   </ItemGroup>
 </Project>
