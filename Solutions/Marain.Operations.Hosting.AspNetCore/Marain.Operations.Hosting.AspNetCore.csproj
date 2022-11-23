@@ -20,8 +20,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Tenancy.ClientTenantProvider" Version="2.0.5" />
-    <PackageReference Include="Menes.Hosting.AspNetCore" Version="3.1.4" />
+    <PackageReference Include="Marain.Tenancy.ClientTenantProvider" Version="2.0.6-deployfix.2" />
+    <PackageReference Include="Menes.Hosting.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 

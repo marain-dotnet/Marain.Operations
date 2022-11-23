@@ -43,7 +43,7 @@ public static class OperationsTestStorageSetup
     {
         EnrollmentConfigurationEntry enrollmentConfiguration = CreateOperationsConfig(featureContext);
         IBlobContainerSourceFromDynamicConfiguration blobContainerSource = serviceProvider.GetRequiredService<IBlobContainerSourceFromDynamicConfiguration>();
-        var operationsContainerConfig = (BlobStorageConfigurationItem)enrollmentConfiguration.ConfigurationItems[OperationsRepository.OperationsV3ConfigKey];
+        var operationsContainerConfig = (BlobContainerConfigurationItem)enrollmentConfiguration.ConfigurationItems[OperationsRepository.OperationsV3ConfigKey];
         BlobContainerClient operationsContainer = await blobContainerSource.GetStorageContextAsync(operationsContainerConfig.Configuration);
         await operationsContainer.CreateIfNotExistsAsync();
 
@@ -117,7 +117,7 @@ public static class OperationsTestStorageSetup
             {
                 {
                     OperationsRepository.OperationsV3ConfigKey,
-                    new BlobStorageConfigurationItem
+                    new BlobContainerConfigurationItem
                     {
                         Configuration = operationsStoreStorageConfiguration,
                     }
