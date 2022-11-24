@@ -92,11 +92,12 @@ namespace Marain.Operations.Api.Specs.Bindings
 
         private static void DumpFilesFor(string function)
         {
-            string dir = Path.Combine(Directory.GetCurrentDirectory(), $"../../../../{function}");
+            string dir = Path.Combine(Directory.GetCurrentDirectory(), $"../../../../{function}/bin/release");
             IOrderedEnumerable<FileInfo> fileInfos = Directory
                 .EnumerateFiles(dir, "*", SearchOption.AllDirectories)
                 .Select(file => new FileInfo(file))
-                .OrderBy(fi => fi.LastWriteTimeUtc);
+                .OrderBy(fi => fi.LastWriteTimeUtc)
+                .ThenBy(fi => fi.Name); // Limited timestamp granularity means we need this to get consistent ordering.
 
             foreach (FileInfo fi in fileInfos)
             {
