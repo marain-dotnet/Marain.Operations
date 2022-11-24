@@ -5,6 +5,7 @@
 namespace Marain.Operations.Api.Specs.Bindings
 {
     using System;
+    using System.IO;
     using System.Threading.Tasks;
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
@@ -49,12 +50,35 @@ namespace Marain.Operations.Api.Specs.Bindings
                     configuration: functionConfiguration));
         }
 
+        [BeforeScenario]
+        public static void DumpFilesBefore()
+        {
+            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory()))
+            {
+                FileInfo fi = new(file);
+                Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {file}");
+            }
+        }
+
         [AfterScenario]
         public static void WriteOutput(FeatureContext featureContext)
         {
             ////ILogger logger = featureContext.Get<ILogger>();
             ////ILogger logger = new TraceListenerLogger(featureContext.Get<ITraceListener>());
             ILogger logger = new SynchronousLogger();
+
+            IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
+            foreach ((string key, string value) in configuration.AsEnumerable())
+            {
+                Console.WriteLine($"Config - {key}: {value}");
+            }
+
+            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory()))
+            {
+                FileInfo fi = new(file);
+                Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {file}");
+            }
+
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             logger.LogAllAndClear(functionsController.GetFunctionsOutput());
         }
