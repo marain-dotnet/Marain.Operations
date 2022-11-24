@@ -37,7 +37,7 @@ namespace Marain.Operations.Api.Specs.Bindings
             IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
             functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
-            functionConfiguration.EnvironmentVariables.Add("AzureFunctionsJobHost__FileWatchingEnabled", "false");
+            ////functionConfiguration.EnvironmentVariables.Add("AzureFunctionsJobHost__FileWatchingEnabled", "false");
 
             await Task.WhenAll(
                 functionsController.StartFunctionsInstance(
