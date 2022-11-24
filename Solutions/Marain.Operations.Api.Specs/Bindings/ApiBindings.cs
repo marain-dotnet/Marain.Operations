@@ -4,8 +4,6 @@
 
 namespace Marain.Operations.Api.Specs.Bindings
 {
-    using System;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Corvus.Testing.AzureFunctions;
@@ -15,7 +13,6 @@ namespace Marain.Operations.Api.Specs.Bindings
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using TechTalk.SpecFlow;
-    using TechTalk.SpecFlow.Tracing;
 
     [Binding]
     public static class ApiBindings
@@ -37,7 +34,12 @@ namespace Marain.Operations.Api.Specs.Bindings
             IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
             functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
-            ////functionConfiguration.EnvironmentVariables.Add("AzureFunctionsJobHost__FileWatchingEnabled", "false");
+
+            // This prevents the Azure Functions host from observing the filesystem and attempting to restart when
+            // it thinks something has changed. We never want this in these test scenarios, because nothing should
+            // be changing, and all that happens is the host exits and then fails to restart. We sometimes see
+            // spurious restarts, which is why we disable this.
+            functionConfiguration.EnvironmentVariables.Add("AzureFunctionsJobHost__FileWatchingEnabled", "false");
 
             await Task.WhenAll(
                 functionsController.StartFunctionsInstance(
@@ -52,29 +54,10 @@ namespace Marain.Operations.Api.Specs.Bindings
                     configuration: functionConfiguration));
         }
 
-        [BeforeScenario]
-        public static void DumpFilesBefore()
-        {
-            DumpFilesFor("Marain.Operations.ControlHost.Functions");
-            DumpFilesFor("Marain.Operations.StatusHost.Functions");
-        }
-
         [AfterScenario]
         public static void WriteOutput(FeatureContext featureContext)
         {
-            ////ILogger logger = featureContext.Get<ILogger>();
-            ////ILogger logger = new TraceListenerLogger(featureContext.Get<ITraceListener>());
-            ILogger logger = new SynchronousLogger();
-
-            IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
-            foreach ((string key, string value) in configuration.AsEnumerable())
-            {
-                Console.WriteLine($"Config - {key}: {value}");
-            }
-
-            DumpFilesFor("Marain.Operations.ControlHost.Functions");
-            DumpFilesFor("Marain.Operations.StatusHost.Functions");
-
+            ILogger logger = featureContext.Get<ILogger>();
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             logger.LogAllAndClear(functionsController.GetFunctionsOutput());
         }
@@ -88,52 +71,6 @@ namespace Marain.Operations.Api.Specs.Bindings
                     FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
                     functionsController.TeardownFunctions();
                 });
-        }
-
-        private static void DumpFilesFor(string function)
-        {
-            string dir = Path.Combine(Directory.GetCurrentDirectory(), $"../../../../{function}/bin/release");
-            IOrderedEnumerable<FileInfo> fileInfos = Directory
-                .EnumerateFiles(dir, "*", SearchOption.AllDirectories)
-                .Select(file => new FileInfo(file))
-                .OrderBy(fi => fi.LastWriteTimeUtc)
-                .ThenBy(fi => fi.Name); // Limited timestamp granularity means we need this to get consistent ordering.
-
-            foreach (FileInfo fi in fileInfos)
-            {
-                Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {fi.FullName}");
-            }
-        }
-
-        /// <summary>
-        /// The ConsoleLogger dumps everything to a queue to avoid blocking callers, and processes the results
-        /// on a separate thread, but because of how SpecFlow (or possibly NUnit) captures console output, the
-        /// effect is that we lose all such output.
-        /// </summary>
-        private class SynchronousLogger : ILogger
-        {
-            public IDisposable BeginScope<TState>(TState state)
-            {
-                return new Scope();
-            }
-
-            public bool IsEnabled(LogLevel logLevel)
-            {
-                return true;
-            }
-
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-            {
-                ////this.traceListener.WriteTestOutput($"{logLevel}: {formatter?.Invoke(state, exception) ?? "(no formatter)"}");
-                Console.WriteLine($"{logLevel}: {formatter?.Invoke(state, exception) ?? "(no formatter)"}");
-            }
-
-            private class Scope : IDisposable
-            {
-                public void Dispose()
-                {
-                }
-            }
         }
     }
 }
