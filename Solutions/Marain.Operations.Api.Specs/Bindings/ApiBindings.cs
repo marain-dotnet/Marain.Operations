@@ -36,6 +36,7 @@ namespace Marain.Operations.Api.Specs.Bindings
             IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
             functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
+            functionConfiguration.EnvironmentVariables.Add("AzureFunctionsJobHost__FileWatchingEnabled", "false");
 
             await Task.WhenAll(
                 functionsController.StartFunctionsInstance(
@@ -53,7 +54,7 @@ namespace Marain.Operations.Api.Specs.Bindings
         [BeforeScenario]
         public static void DumpFilesBefore()
         {
-            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory()))
+            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*", SearchOption.AllDirectories))
             {
                 FileInfo fi = new(file);
                 Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {file}");
@@ -73,7 +74,7 @@ namespace Marain.Operations.Api.Specs.Bindings
                 Console.WriteLine($"Config - {key}: {value}");
             }
 
-            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory()))
+            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*", SearchOption.AllDirectories))
             {
                 FileInfo fi = new(file);
                 Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {file}");
