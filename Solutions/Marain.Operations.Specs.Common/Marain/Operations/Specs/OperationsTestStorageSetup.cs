@@ -107,9 +107,10 @@ public static class OperationsTestStorageSetup
 
         operationsStoreStorageConfiguration.Container = $"specs-operations-{testRunId}";
 
-        if (string.IsNullOrEmpty(operationsStoreStorageConfiguration.AccountName))
+        if (string.IsNullOrEmpty(operationsStoreStorageConfiguration.AccountName) &&
+            string.IsNullOrEmpty(operationsStoreStorageConfiguration.ConnectionStringPlainText))
         {
-            logger.LogDebug("No configuration value 'TestBlobStorageConfiguration:AccountName' provided; using local storage emulator.");
+            logger.LogDebug("No configuration value 'TestBlobStorageConfiguration:ConnectionStringPlainText' or 'TestBlobStorageConfiguration:AccountName' provided; using local storage emulator.");
         }
 
         return new EnrollmentConfigurationEntry(
