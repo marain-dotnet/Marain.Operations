@@ -4,6 +4,7 @@
 
 namespace Marain.Operations.Api.Specs.Bindings
 {
+    using System;
     using System.Threading.Tasks;
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
@@ -12,6 +13,7 @@ namespace Marain.Operations.Api.Specs.Bindings
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using TechTalk.SpecFlow;
+    using TechTalk.SpecFlow.Tracing;
 
     [Binding]
     public static class ApiBindings
@@ -50,7 +52,9 @@ namespace Marain.Operations.Api.Specs.Bindings
         [AfterScenario]
         public static void WriteOutput(FeatureContext featureContext)
         {
-            ILogger logger = featureContext.Get<ILogger>();
+            ////ILogger logger = featureContext.Get<ILogger>();
+            ////ILogger logger = new TraceListenerLogger(featureContext.Get<ITraceListener>());
+            ILogger logger = new SynchronousLogger();
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             logger.LogAllAndClear(functionsController.GetFunctionsOutput());
         }
@@ -64,6 +68,37 @@ namespace Marain.Operations.Api.Specs.Bindings
                     FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
                     functionsController.TeardownFunctions();
                 });
+        }
+
+        /// <summary>
+        /// The ConsoleLogger dumps everything to a queue to avoid blocking callers, and processes the results
+        /// on a separate thread, but because of how SpecFlow (or possibly NUnit) captures console output, the
+        /// effect is that we lose all such output.
+        /// </summary>
+        private class SynchronousLogger : ILogger
+        {
+            public IDisposable BeginScope<TState>(TState state)
+            {
+                return new Scope();
+            }
+
+            public bool IsEnabled(LogLevel logLevel)
+            {
+                return true;
+            }
+
+            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+            {
+                ////this.traceListener.WriteTestOutput($"{logLevel}: {formatter?.Invoke(state, exception) ?? "(no formatter)"}");
+                Console.WriteLine($"{logLevel}: {formatter?.Invoke(state, exception) ?? "(no formatter)"}");
+            }
+
+            private class Scope : IDisposable
+            {
+                public void Dispose()
+                {
+                }
+            }
         }
     }
 }
