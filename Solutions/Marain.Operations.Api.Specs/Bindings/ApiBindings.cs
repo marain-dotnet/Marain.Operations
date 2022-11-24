@@ -6,6 +6,7 @@ namespace Marain.Operations.Api.Specs.Bindings
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
@@ -54,11 +55,8 @@ namespace Marain.Operations.Api.Specs.Bindings
         [BeforeScenario]
         public static void DumpFilesBefore()
         {
-            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*", SearchOption.AllDirectories))
-            {
-                FileInfo fi = new(file);
-                Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {file}");
-            }
+            DumpFilesFor("Marain.Operations.ControlHost.Functions");
+            DumpFilesFor("Marain.Operations.StatusHost.Functions");
         }
 
         [AfterScenario]
@@ -74,11 +72,8 @@ namespace Marain.Operations.Api.Specs.Bindings
                 Console.WriteLine($"Config - {key}: {value}");
             }
 
-            foreach (string file in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*", SearchOption.AllDirectories))
-            {
-                FileInfo fi = new(file);
-                Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {file}");
-            }
+            DumpFilesFor("Marain.Operations.ControlHost.Functions");
+            DumpFilesFor("Marain.Operations.StatusHost.Functions");
 
             FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
             logger.LogAllAndClear(functionsController.GetFunctionsOutput());
@@ -93,6 +88,20 @@ namespace Marain.Operations.Api.Specs.Bindings
                     FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
                     functionsController.TeardownFunctions();
                 });
+        }
+
+        private static void DumpFilesFor(string function)
+        {
+            string dir = Path.Combine(Directory.GetCurrentDirectory(), $"../../../../{function}");
+            IOrderedEnumerable<FileInfo> fileInfos = Directory
+                .EnumerateFiles(dir, "*", SearchOption.AllDirectories)
+                .Select(file => new FileInfo(file))
+                .OrderBy(fi => fi.LastWriteTimeUtc);
+
+            foreach (FileInfo fi in fileInfos)
+            {
+                Console.WriteLine($"Created: {fi.CreationTimeUtc}, Last write: {fi.LastWriteTimeUtc} - {fi.FullName}");
+            }
         }
 
         /// <summary>
