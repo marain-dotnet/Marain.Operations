@@ -4,7 +4,6 @@
 
 namespace Marain.Operations.Api.Specs.Bindings
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
