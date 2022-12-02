@@ -2,8 +2,8 @@
 
 ## v3.0
 
-V3-style Service Manifest
-Configuration keys for V3-style tenant storage configuration settings now in line with conventions.
+Now using `Marain.TenantManagement` v3. This means we can supply a V3-style Service Manifest, and we
+now use configuration keys for V3-style tenant storage configuration settings in line with conventions.
 
 ### Breaking changes
 
