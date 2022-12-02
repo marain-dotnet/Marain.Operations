@@ -5,12 +5,9 @@
   "serviceName": "Operations v1",
   "requiredConfigurationEntries": [
     {
-      "contentType": "application/vnd.marain.tenancy.servicemanifests.requiredconfigurationentries.azureblobstorage",
-      "type": "azureBlobContainerConfiguration",
-      "key": "operationsStore",
-      "containerDefinition": {
-        "containerName": "operations"
-      },
+      "contentType": "application/vnd.marain.tenancy.servicemanifests.requiredconfigurationentries.azureblobstorage.v3",
+      "key": "Marain:Operations:BlobContainerConfiguration:Operations",
+      "legacyV2Key": "StorageConfiguration__operations",
       "description": "Stores the status of all current operations"
     }
   ]

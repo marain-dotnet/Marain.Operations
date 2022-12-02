@@ -27,7 +27,7 @@ jobs:
           Write-Host "##vso[task.setvariable variable=AzureWebJobsStorage]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
           Write-Host "##vso[task.setvariable variable=TenancyClient__TenancyServiceBaseUri]$Env:ENDJIN_MARAINTENANCYBASEURL"
           Write-Host "##vso[task.setvariable variable=TenancyClient__ResourceIdForMsiAuthentication]$Env:ENDJIN_MARAINTENANCYRESOURCEIDFORMSIAUTHENTICATION"
-          Write-Host "##vso[task.setvariable variable=TestBlobStorageConfiguration__AccountName]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
+          Write-Host "##vso[task.setvariable variable=TestBlobStorageConfiguration__ConnectionStringPlainText]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
         displayName: 'Set Custom Environment Variables'
         env:
           ENDJIN_AZURESERVICESAUTHCONNECTIONSTRING: $(Endjin_AzureServicesAuthConnectionString)

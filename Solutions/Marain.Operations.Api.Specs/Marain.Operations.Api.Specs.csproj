@@ -47,19 +47,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="2.3.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ServiceManifests\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Marain.Operations.Deployment\ServiceManifests\OperationsServiceManifest.jsonc" Link="ServiceManifests\OperationsServiceManifest.jsonc">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.ControlClient\Marain.Operations.ControlClient.csproj" />
     <ProjectReference Include="..\Marain.Operations.ControlHost.Functions\Marain.Operations.ControlHost.Functions.csproj" />
+    <ProjectReference Include="..\Marain.Operations.Specs.Common\Marain.Operations.Specs.Common.csproj" />
     <ProjectReference Include="..\Marain.Operations.StatusClient\Marain.Operations.StatusClient.csproj" />
     <ProjectReference Include="..\Marain.Operations.StatusHost.Functions\Marain.Operations.StatusHost.Functions.csproj" />
   </ItemGroup>
