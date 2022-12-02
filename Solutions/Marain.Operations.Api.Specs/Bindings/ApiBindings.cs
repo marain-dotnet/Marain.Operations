@@ -35,12 +35,6 @@ namespace Marain.Operations.Api.Specs.Bindings
             functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
 
-            // This prevents the Azure Functions host from observing the filesystem and attempting to restart when
-            // it thinks something has changed. We never want this in these test scenarios, because nothing should
-            // be changing, and all that happens is the host exits and then fails to restart. We sometimes see
-            // spurious restarts, which is why we disable this.
-            functionConfiguration.EnvironmentVariables.Add("AzureFunctionsJobHost__FileWatchingEnabled", "false");
-
             await Task.WhenAll(
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.ControlHost.Functions",
