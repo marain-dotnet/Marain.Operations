@@ -34,7 +34,6 @@ variables:
   # non-secret UI variables migrated to YAML
   Endjin_Service_Connection_GitHub: marain-dotnet-github
   Endjin_Service_Connection_NuGet_Org: marain-dotnet-nuget-org
-  TenantCacheConfiguration__GetTenantResponseCacheControlHeaderValue: max-age=300
 
 jobs:
 - template: templates/build.and.release.scripted.yml@recommended_practices
