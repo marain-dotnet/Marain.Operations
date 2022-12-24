@@ -338,3 +338,9 @@ coverage.cobertura.xml
 
 appsettings.json
 *.feature.cs
+*.ncrunchproject
+*.ncrunchsolution
+
+# Local build outputs
+_packages/
+*.sbom.*

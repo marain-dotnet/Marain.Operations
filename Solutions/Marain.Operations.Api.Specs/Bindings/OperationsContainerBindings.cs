@@ -45,6 +45,8 @@ namespace Marain.Operations.Api.Specs.Bindings
                     services.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
                     services.AddSingleton<JsonConverter>(new StringEnumConverter(new CamelCaseNamingStrategy()));
 
+                    services.AddAzureBlobStorageClientSourceFromDynamicConfiguration();
+
                     // Tenancy service client.
                     TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>();
 
@@ -64,7 +66,7 @@ namespace Marain.Operations.Api.Specs.Bindings
                     services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 
                     // Marain tenancy management, required to create transient client/service tenants.
-                    services.AddMarainTenantManagement();
+                    services.AddMarainTenantManagementForBlobStorage();
                 });
         }
 

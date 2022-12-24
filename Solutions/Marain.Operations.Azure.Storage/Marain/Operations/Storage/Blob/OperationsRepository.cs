@@ -40,7 +40,7 @@ namespace Marain.Operations.Storage.Blob
         /// Property key with which modern storage configuration settings are stored in the
         /// tenant properties.
         /// </summary>
-        public const string OperationsV3ConfigKey = "StorageConfigurationV3__" + ContainerName;
+        public const string OperationsV3ConfigKey = "Marain:Operations:BlobContainerConfiguration:Operations";
 
         private readonly IBlobContainerSourceWithTenantLegacyTransition containerSource;
         private readonly JsonSerializerSettings serializerSettings;

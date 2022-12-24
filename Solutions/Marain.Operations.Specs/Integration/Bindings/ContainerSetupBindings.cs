@@ -7,7 +7,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using Corvus.Azure.Storage.Tenancy;
+    using BoDi;
+
     using Corvus.Configuration;
     using Corvus.Tenancy;
     using Corvus.Testing.SpecFlow;
@@ -15,8 +16,6 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Marain.Operations.Hosting.JsonSerialization;
     using Marain.Operations.Storage;
     using Marain.Services;
-    using Marain.TenantManagement.EnrollmentConfiguration;
-    using Marain.TenantManagement.Testing;
 
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +60,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     serviceCollection.AddMarainServiceConfiguration();
                     serviceCollection.AddMarainServicesTenancy();
 
+                    serviceCollection.AddAzureBlobStorageClientSourceFromDynamicConfiguration();
+
                     serviceCollection.AddSingleton<FakeOperationsRepository>();
                     serviceCollection.AddSingleton<IOperationsRepository>(s => s.GetRequiredService<FakeOperationsRepository>());
 
@@ -75,13 +76,15 @@ namespace Marain.Operations.Specs.Integration.Bindings
 
                     serviceCollection.AddSingleton(config);
                     serviceCollection.AddSingleton<IConfiguration>(config);
+
+                    serviceCollection.AddMarainTenantManagementForBlobStorage();
                 });
         }
 
         [BeforeFeature(Order = ContainerBeforeFeatureOrder.ServiceProviderAvailable)]
-        public static Task TaskSetupOperationsControlTenants(FeatureContext featureContext)
+        public static Task TaskSetupOperationsControlTenants(FeatureContext featureContext, IObjectContainer objectContainer)
         {
-            return SetupTenants(featureContext, "OperationsServiceManifest");
+            return SetupTenants(featureContext, objectContainer);
         }
 
         [BeforeScenario]
@@ -91,39 +94,13 @@ namespace Marain.Operations.Specs.Integration.Bindings
             repository.Reset();
         }
 
-        public static async Task SetupTenants(FeatureContext featureContext, string manifestName)
+        public static async Task SetupTenants(FeatureContext featureContext, IObjectContainer objectContainer)
         {
-            var transientTenantManager = TransientTenantManager.GetInstance(featureContext);
-            await transientTenantManager.EnsureInitialised().ConfigureAwait(false);
+            OperationsServiceTestTenants transientTenants = await OperationsTestTenantSetup.CreateTestTenantAndEnrollInClaimsAsync(featureContext);
 
-            var tenantHelper = TransientTenantManager.GetInstance(featureContext);
+            UpdateServiceConfigurationWithTransientTenantId(featureContext, transientTenants.TransientServiceTenant);
 
-            ITenant transientServiceTenant = await tenantHelper.CreateTransientServiceTenantFromEmbeddedResourceAsync(
-                typeof(OperationsControlApiAndTasksBindings).Assembly,
-                $"Marain.Operations.Specs.Integration.ServiceManifests.{manifestName}.jsonc").ConfigureAwait(false);
-
-            UpdateServiceConfigurationWithTransientTenantId(featureContext, transientServiceTenant);
-
-            ITenant transientClientTenant = await transientTenantManager.CreateTransientClientTenantAsync().ConfigureAwait(false);
-
-            await transientTenantManager.AddEnrollmentAsync(
-                transientClientTenant.Id,
-                transientServiceTenant.Id,
-                GetTestOperationsConfig()).ConfigureAwait(false);
-        }
-
-        private static EnrollmentConfigurationItem[] GetTestOperationsConfig()
-        {
-            // Config is needed for the enrollment but doesn't actually matter in practice because
-            // we're using a fake store for the specs.
-            return new EnrollmentConfigurationItem[]
-            {
-                new EnrollmentBlobStorageConfigurationItem
-                {
-                    Key = "operationsStore",
-                    Configuration = new BlobStorageConfiguration(),
-                },
-            };
+            objectContainer.RegisterInstanceAs(transientTenants);
         }
 
         private static void UpdateServiceConfigurationWithTransientTenantId(

@@ -40,6 +40,7 @@ Scenario: Change an operation state to Running and retrieve it
 	And I use the operations control client to create an operation
 	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
 	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
+	And the request succeeds
 	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Running
 	And the request succeeds
 	When I use the operations status client to get the operation with the Id called 'NewOperationId'
@@ -52,6 +53,7 @@ Scenario: Update the percentage complete of a Running operation and retrieve it
 	And I use the operations control client to create an operation
 	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
 	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
+	And the request succeeds
 	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Running
 	And the request succeeds
 	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Running and the percentage complete to 45
@@ -66,6 +68,7 @@ Scenario: Change an operation state to Succeeded and retrieve it
 	And I use the operations control client to create an operation
 	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
 	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
+	And the request succeeds
 	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Succeeded
 	And the request succeeds
 	When I use the operations status client to get the operation with the Id called 'NewOperationId'
@@ -78,6 +81,7 @@ Scenario: Change an operation state to Failed and retrieve it
 	And I use the operations control client to create an operation
 	| IdName         | ResourceLocation       | ExpireAfter | Body                           |
 	| NewOperationId | http://www.google.com/ | 300         | This is some text for the body |
+	And the request succeeds
 	And I use the operations control client to set the status of the operation with Id called 'NewOperationId' to Failed
 	And the request succeeds
 	When I use the operations status client to get the operation with the Id called 'NewOperationId'

@@ -41,25 +41,17 @@
 
   <ItemGroup>
     <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="1.2.5" />
-    <PackageReference Include="Corvus.Storage.Azure.BlobStorage.Tenancy" Version="3.3.0" />
-    <PackageReference Include="Corvus.Testing.AzureFunctions.SpecFlow.NUnit" Version="1.6.0" />
-    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.2">
+    <PackageReference Include="Corvus.Storage.Azure.BlobStorage.Tenancy" Version="3.5.0" />
+    <PackageReference Include="Corvus.Testing.AzureFunctions.SpecFlow.NUnit" Version="2.0.0" />
+    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="2.3.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ServiceManifests\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Marain.Operations.Deployment\ServiceManifests\OperationsServiceManifest.jsonc" Link="ServiceManifests\OperationsServiceManifest.jsonc">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.ControlClient\Marain.Operations.ControlClient.csproj" />
     <ProjectReference Include="..\Marain.Operations.ControlHost.Functions\Marain.Operations.ControlHost.Functions.csproj" />
+    <ProjectReference Include="..\Marain.Operations.Specs.Common\Marain.Operations.Specs.Common.csproj" />
     <ProjectReference Include="..\Marain.Operations.StatusClient\Marain.Operations.StatusClient.csproj" />
     <ProjectReference Include="..\Marain.Operations.StatusHost.Functions\Marain.Operations.StatusHost.Functions.csproj" />
   </ItemGroup>

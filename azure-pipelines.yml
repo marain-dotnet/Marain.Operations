@@ -6,12 +6,34 @@ trigger:
     include:
     - '*'
 
+parameters:
+- name: ForcePublish
+  type: boolean
+  default: false
+  displayName: When checked, a new release will be created and NuGet packages published; otherwise only 'master' branch changes will be published
+- name: InternalPublish
+  type: boolean
+  default: false
+  displayName: When checked, NuGet packages will be published to an internal feed; this is independent of whether a public release is performed
+- name: ForceRelease
+  type: boolean
+  default: false
+  displayName: When checked, a GitHub Release will be created but NuGet packages will not be published (unless other options are enabled)
+
 resources:
   repositories:
     - repository: recommended_practices
       type: github
       name: endjin/Endjin.RecommendedPractices.AzureDevopsPipelines.GitHub
-      endpoint: marain-github
+      endpoint: marain-dotnet-github
+
+variables:
+  Endjin.ForcePublish: ${{ parameters.ForcePublish }}
+  Endjin.InternalPublish: ${{ parameters.InternalPublish }}
+  Endjin.ForceRelease: ${{ parameters.ForceRelease }}
+  # non-secret UI variables migrated to YAML
+  Endjin_Service_Connection_GitHub: marain-dotnet-github
+  Endjin_Service_Connection_NuGet_Org: marain-dotnet-nuget-org
 
 jobs:
 - template: templates/build.and.release.scripted.yml@recommended_practices
@@ -20,6 +42,7 @@ jobs:
     service_connection_nuget_org: $(Endjin_Service_Connection_NuGet_Org)
     service_connection_github: $(Endjin_Service_Connection_GitHub)
     solution_to_build: $(Endjin_Solution_To_Build)
+    compileTasksServiceConnection: endjin-acr-reader
     postCustomEnvironmentVariables:
       - powershell: |
           Write-Host "##vso[task.setvariable variable=AzureServicesAuthConnectionString]$Env:ENDJIN_AZURESERVICESAUTHCONNECTIONSTRING"
@@ -27,7 +50,7 @@ jobs:
           Write-Host "##vso[task.setvariable variable=AzureWebJobsStorage]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
           Write-Host "##vso[task.setvariable variable=TenancyClient__TenancyServiceBaseUri]$Env:ENDJIN_MARAINTENANCYBASEURL"
           Write-Host "##vso[task.setvariable variable=TenancyClient__ResourceIdForMsiAuthentication]$Env:ENDJIN_MARAINTENANCYRESOURCEIDFORMSIAUTHENTICATION"
-          Write-Host "##vso[task.setvariable variable=TestBlobStorageConfiguration__AccountName]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
+          Write-Host "##vso[task.setvariable variable=TestBlobStorageConfiguration__ConnectionStringPlainText]$Env:ENDJIN_AZURESTORAGECONNECTIONSTRING"
         displayName: 'Set Custom Environment Variables'
         env:
           ENDJIN_AZURESERVICESAUTHCONNECTIONSTRING: $(Endjin_AzureServicesAuthConnectionString)

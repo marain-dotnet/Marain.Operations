@@ -54,7 +54,7 @@ namespace Marain.Operations.Api.Specs.Steps
         {
             if (context.TryGetValue(LastExceptionContextKey, out Exception ex))
             {
-                Assert.Fail($"Expected no last exception, but an exception of type '{ex.GetType().Name}' was thrown: '{ex.Message}'");
+                Assert.Fail($"Expected no last exception, but an exception of type '{ex.GetType().Name}' was thrown: '{ex.Message}' - {ex}");
             }
         }
 
