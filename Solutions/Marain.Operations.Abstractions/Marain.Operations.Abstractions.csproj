@@ -20,7 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Menes.Abstractions" Version="4.0.0" />
+    <PackageReference Include="Menes.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
