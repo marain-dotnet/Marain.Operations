@@ -81,10 +81,23 @@ namespace Marain.Operations.Tasks
         {
             Operation? currentStatus = await this.operationRepository.GetAsync(tenant, operationId).ConfigureAwait(false);
 
+            DateTimeOffset now = DateTimeOffset.UtcNow;
+
+            // The regular expressions in the Menes validators will reject a timestamp with more
+            // than 3 digits after the decimal point. Apparently DateTimeOffset.UtcNow started
+            // producing timestamps with sub-millisecond precision at some point, so we need
+            // to truncate the precision.
+            long subMsTicks = now.Ticks % 10000;
+            bool isWholeNumberOfMilliseconds = subMsTicks == 0;
+            if (!isWholeNumberOfMilliseconds)
+            {
+                now = new DateTimeOffset(now.Ticks - subMsTicks, now.Offset);
+            }
+
             if (currentStatus == null)
             {
                 currentStatus = new Operation(
-                    operationId, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow, status, tenant.Id)
+                    operationId, now, now, status, tenant.Id)
                 {
                     ContentId = contentId,
                     PercentComplete = percentComplete,
@@ -94,7 +107,7 @@ namespace Marain.Operations.Tasks
             }
             else
             {
-                currentStatus.LastActionDateTime = DateTimeOffset.UtcNow;
+                currentStatus.LastActionDateTime = now;
 
                 if (percentComplete.HasValue
                     && (!currentStatus.PercentComplete.HasValue || (currentStatus.PercentComplete < percentComplete)))

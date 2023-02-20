@@ -7,18 +7,15 @@ namespace Marain.Operations.Api.Specs.Bindings
     using System;
 
     using Corvus.Configuration;
+    using Corvus.Tenancy;
     using Corvus.Testing.SpecFlow;
 
     using Marain.Operations.Client.OperationsControl;
-    using Marain.Tenancy.Client;
+    using Marain.Tenancy.ClientTenantProvider;
 
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json.Serialization;
 
     using TechTalk.SpecFlow;
 
@@ -39,16 +36,10 @@ namespace Marain.Operations.Api.Specs.Bindings
 
                     services.AddLogging(x => x.AddConsole());
 
-                    services.AddJsonNetSerializerSettingsProvider();
-                    services.AddJsonNetPropertyBag();
-                    services.AddJsonNetCultureInfoConverter();
-                    services.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
-                    services.AddSingleton<JsonConverter>(new StringEnumConverter(new CamelCaseNamingStrategy()));
-
                     services.AddAzureBlobStorageClientSourceFromDynamicConfiguration();
 
                     // Tenancy service client.
-                    TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>();
+                    TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>()!;
 
                     if (tenancyConfiguration?.TenancyServiceBaseUri is null)
                     {
@@ -57,11 +48,14 @@ namespace Marain.Operations.Api.Specs.Bindings
 
                     services.AddSingleton(tenancyConfiguration);
 
-                    // Disable tenant caching - necessary because we create/update tenants as part of setup.
-                    services.AddTenantProviderServiceClient(false);
+                    // TBD: Disable tenant caching - necessary because we create/update tenants as part of setup.
+                    ////services.AddTenantProviderServiceClient(false);
+                    services.AddSingleton<TenancyClient>();
+                    services.AddSingleton<ITenantProvider>(sp => sp.GetRequiredService<TenancyClient>());
+                    services.AddSingleton<ITenantStore>(sp => sp.GetRequiredService<TenancyClient>());
 
                     // Token source, to provide authentication when accessing external services.
-                    string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
+                    string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"]!;
                     services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
                     services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 

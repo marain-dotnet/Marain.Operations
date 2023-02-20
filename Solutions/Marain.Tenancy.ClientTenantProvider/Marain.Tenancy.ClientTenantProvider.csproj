@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
+    <PackageReference Include="Corvus.ContentHandling.Json" Version="4.0.0-system-text-json.22" />
+    <PackageReference Include="Corvus.Identity.Abstractions" Version="3.2.1" />
+    <PackageReference Include="Corvus.Json.JsonSchema" Version="1.0.2" />
+    <PackageReference Include="Corvus.Json.PropertyBag" Version="2.0.0-first-working-version.37" />
+    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Marain.Services.Tenancy" Version="4.0.0-system-text-json.7" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>

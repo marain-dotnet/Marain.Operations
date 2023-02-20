@@ -4,6 +4,8 @@
 
 namespace Marain.Operations.Api.Specs.Bindings
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Corvus.Testing.AzureFunctions;
     using Corvus.Testing.AzureFunctions.SpecFlow;
@@ -31,19 +33,27 @@ namespace Marain.Operations.Api.Specs.Bindings
             FunctionConfiguration functionConfiguration = FunctionsBindings.GetFunctionConfiguration(featureContext);
 
             IConfiguration configuration = ContainerBindings.GetServiceProvider(featureContext).GetRequiredService<IConfiguration>();
-            functionConfiguration.CopyToEnvironmentVariables(configuration.AsEnumerable());
+
+            // TODO: do we need to update Corvus.Testing.AzureFunctions to accept IEnumerable<KeyValuePair<string, string?>
+            // since that's what the nullable-aware version of Microsoft.Extensions.Configuration seems to have opted for?
+            functionConfiguration.CopyToEnvironmentVariables(
+                configuration
+                .AsEnumerable()
+                .Cast<KeyValuePair<string, string>>());
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
 
             await Task.WhenAll(
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.ControlHost.Functions",
                     ControlApiPort,
-                    "net6.0",
+                    "net7.0",
+                    "csharp",
                     configuration: functionConfiguration),
                 functionsController.StartFunctionsInstance(
                     "Marain.Operations.StatusHost.Functions",
                     StatusApiPort,
-                    "net6.0",
+                    "net7.0",
+                    "csharp",
                     configuration: functionConfiguration));
         }
 

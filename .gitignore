@@ -344,3 +344,4 @@ appsettings.json
 # Local build outputs
 _packages/
 *.sbom.*
+/Solutions/Marain.Operations.Specs/appsettings.json

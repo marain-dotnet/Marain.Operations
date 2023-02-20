@@ -1,0 +1,582 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "ProblemDetails": {
+        "required": [
+          "status",
+          "detail"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "instance": {
+            "format": "url",
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "format": "url",
+            "type": "string"
+          },
+          "validationErrors": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "array"
+          },
+          "status": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateTenantJsonPatchArray": {
+        "type": "array",
+        "description": "An update to a tenant in the form of a JSON Patch document as described by RFC6902",
+        "items": {
+          "$ref": "#/components/schemas/UpdateTenantJsonPatchEntry"
+        }
+      },
+      "Tenant": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Resource"
+          },
+          {
+            "required": [
+              "id",
+              "name",
+              "contentType"
+            ],
+            "type": "object",
+            "properties": {
+              "contentType": {
+                "description": "The content type of the tenant.",
+                "type": "string"
+              },
+              "id": {
+                "description": "The unique ID of the tenant. This forms a path with parent tenants.",
+                "type": "string"
+              },
+              "eTag": {
+                "type": "string"
+              },
+              "properties": {
+                "$ref": "#/components/schemas/PropertyBag"
+              },
+              "name": {
+                "description": "The name of the tenant.",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ChildTenants": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Resource"
+          },
+          {
+            "type": "object"
+          }
+        ],
+        "description": "A resource containing links for the child tenants."
+      },
+      "PropertyBag": {
+        "additionalProperties": {
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "type": "object"
+      },
+      "Resource": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "_embedded": {
+            "additionalProperties": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Resource"
+                },
+                {
+                  "uniqueItems": true,
+                  "type": "array",
+                  "additionalProperties": false,
+                  "items": {
+                    "$ref": "#/components/schemas/Resource"
+                  }
+                }
+              ]
+            },
+            "type": "object"
+          },
+          "_links": {
+            "type": "object",
+            "description": "Represents a hyperlink from the containing resource to a URI.",
+            "additionalProperties": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Link"
+                },
+                {
+                  "uniqueItems": true,
+                  "type": "array",
+                  "additionalProperties": false,
+                  "items": {
+                    "$ref": "#/components/schemas/Link"
+                  }
+                }
+              ]
+            },
+            "title": "A hyperlink to a related URI."
+          }
+        }
+      },
+      "Link": {
+        "required": [
+          "href"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "pattern": "^(application|audio|example|image|message|model|multipart|text|video)\\/[a-zA-Z0-9!#\\$&\\.\\+-\\^_]{1,127}$",
+            "type": "string",
+            "description": "When present, used as a hint to indicate the media type expected when dereferencing the target resource.",
+            "title": "Media type indication of the target resource"
+          },
+          "name": {
+            "type": "string",
+            "description": "When present, may be used as a secondary key for selecting link objects that contain the same relation type.",
+            "title": "Secondary key"
+          },
+          "profile": {
+            "title": "Additional semantics of the target resource",
+            "type": "string",
+            "description": "A URI that, when dereferenced, results in a profile to allow clients to learn about additional semantics (constraints, conventions, extensions) that are associated with the target resource representation, in addition to those defined by the HAL media type and relations.",
+            "format": "uri"
+          },
+          "templated": {
+            "type": "boolean",
+            "default": false,
+            "description": "Is true when the link object's href property is a URI Template. Defaults to false.",
+            "title": "URI Template"
+          },
+          "title": {
+            "type": "string",
+            "description": "When present, is used to label the destination of a link such that it can be used as a human-readable identifier (e.g. a menu entry) in the language indicated by the Content-Language header (if present).",
+            "title": "Human-readable identifier"
+          },
+          "hreflang": {
+            "pattern": "^([a-zA-Z]{2,3}(-[a-zA-Z]{3}(-[a-zA-Z]{3}){0,2})?(-[a-zA-Z]{4})?(-([a-zA-Z]{2}|[0-9]{3}))?(-([a-zA-Z0-9]{5,8}|[0-9][a-zA-Z0-9]{3}))*([0-9A-WY-Za-wy-z](-[a-zA-Z0-9]{2,8}){1,})*(x-[a-zA-Z0-9]{2,8})?)|(x-[a-zA-Z0-9]{2,8})|(en-GB-oed)|(i-ami)|(i-bnn)|(i-default)|(i-enochian)|(i-hak)|(i-klingon)|(i-lux)|(i-mingo)|(i-navajo)|(i-pwn)|(i-tao)|(i-tay)|(i-tsu)|(sgn-BE-FR)|(sgn-BE-NL)|(sgn-CH-DE)|(art-lojban)|(cel-gaulish)|(no-bok)|(no-nyn)|(zh-guoyu)|(zh-hakka)|(zh-min)|(zh-min-nan)|(zh-xiang)$",
+            "type": "string",
+            "description": "When present, is a hint in RFC5646 format indicating what the language of the result of dereferencing the link should be.  Note that this is only a hint; for example, it does not override the Content-Language header of a HTTP response obtained by actually following the link.",
+            "title": "Language indication of the target resource [RFC5988]"
+          },
+          "href": {
+            "type": "string",
+            "description": "Either a URI [RFC3986] or URI Template [RFC6570] of the target resource.",
+            "title": "URI of the target resource"
+          }
+        }
+      },
+      "UpdateTenantJsonPatchEntry": {
+        "required": [
+          "op",
+          "path"
+        ],
+        "type": "object",
+        "description": "An operation describing one change to a tenant as part of an UpdateTenantJsonPatchArray",
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "The operation to be performed.",
+            "enum": [
+              "add",
+              "replace",
+              "remove"
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object"
+              },
+              {
+                "type": "array"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "The value to add or set"
+          },
+          "path": {
+            "description": "A JSON-Pointer. Either /name or /properties/propertyName",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "tenantId": {
+        "schema": {
+          "type": "string"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "tenantId",
+        "in": "path",
+        "required": true,
+        "description": "The tenant within which the request should operate"
+      },
+      "childTenantId": {
+        "schema": {
+          "type": "string"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "childTenantId",
+        "in": "path",
+        "required": true,
+        "description": "The child tenant within the current tenant."
+      },
+      "wellKnownChildTenantGuid": {
+        "schema": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "wellKnownChildTenantGuid",
+        "in": "query",
+        "required": false,
+        "description": "The well known Guid for the new tenant. If provided, this will be used to create the child tenant Id."
+      },
+      "ifNoneMatch": {
+        "schema": {
+          "type": "string"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "If-None-Match",
+        "in": "header",
+        "required": false,
+        "description": "The ETag of the last known version."
+      },
+      "continuationToken": {
+        "schema": {
+          "type": "string"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "continuationToken",
+        "in": "query",
+        "required": false,
+        "description": "A continuation token for an operation where more data is available"
+      },
+      "maxItems": {
+        "schema": {
+          "type": "integer"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "maxItems",
+        "in": "query",
+        "required": false,
+        "description": "The maximum number of items to return in the request. Fewer than this number may be returned."
+      },
+      "tenantName": {
+        "schema": {
+          "type": "string"
+        },
+        "x-ms-parameter-location": "method",
+        "name": "tenantName",
+        "in": "query",
+        "required": true,
+        "description": "The name for the new tenant"
+      }
+    }
+  },
+  "paths": {
+    "/{tenantId}/marain/tenant/children": {
+      "post": {
+        "summary": "Create a child tenant",
+        "tags": [
+          "Tenancy"
+        ],
+        "operationId": "createChildTenant",
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          },
+          "201": {
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The location of the created tenant"
+              }
+            },
+            "description": "Successful operation"
+          },
+          "409": {
+            "description": "A child tenant with this ID was already created."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Tenant not found"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tenantId"
+          },
+          {
+            "$ref": "#/components/parameters/tenantName"
+          },
+          {
+            "$ref": "#/components/parameters/wellKnownChildTenantGuid"
+          }
+        ],
+        "description": "Creates a child tenant of the parent tenant"
+      },
+      "get": {
+        "summary": "Get all child tenants of the current tenant",
+        "tags": [
+          "Tenancy"
+        ],
+        "operationId": "getChildren",
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChildTenants"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tenantId"
+          },
+          {
+            "$ref": "#/components/parameters/continuationToken"
+          },
+          {
+            "$ref": "#/components/parameters/maxItems"
+          }
+        ],
+        "description": "Get all child tenants of the current tenant"
+      }
+    },
+    "/{tenantId}/marain/tenant/children/{childTenantId}": {
+      "delete": {
+        "summary": "Delete a child tenant by ID",
+        "tags": [
+          "Tenancy"
+        ],
+        "operationId": "deleteChildTenant",
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Tenant not found."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "200": {
+            "description": "Successful operation"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tenantId"
+          },
+          {
+            "$ref": "#/components/parameters/childTenantId"
+          }
+        ],
+        "description": "Deletes a child tenant of the parent tenant by ID"
+      }
+    },
+    "/{tenantId}/marain/tenant": {
+      "get": {
+        "summary": "Gets a tenant",
+        "tags": [
+          "Tenancy"
+        ],
+        "operationId": "getTenant",
+        "responses": {
+          "304": {
+            "description": "Not modified"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            },
+            "description": "Successful operation",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Caching instructions for clients"
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The etag for the updated tenant"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tenantId"
+          },
+          {
+            "$ref": "#/components/parameters/ifNoneMatch"
+          }
+        ],
+        "description": "Gets the tenant"
+      },
+      "patch": {
+        "summary": "Update a tenant",
+        "tags": [
+          "Tenancy"
+        ],
+        "operationId": "updateTenant",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTenantJsonPatchArray"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Unprocessable entity"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            },
+            "description": "Successful operation"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/tenantId"
+          }
+        ],
+        "description": "Updates the tenant"
+      }
+    }
+  },
+  "info": {
+    "version": "1.0.0",
+    "title": "Tenancy Service"
+  },
+  "servers": [
+    {
+      "url": "https://tenancy.marain.io"
+    }
+  ]
+}

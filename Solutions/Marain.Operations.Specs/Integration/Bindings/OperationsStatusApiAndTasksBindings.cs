@@ -11,6 +11,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Marain.Operations.OpenApi;
     using Marain.Operations.Tasks;
 
+    using Microsoft.Extensions.DependencyInjection;
+
     using TechTalk.SpecFlow;
 
     /// <summary>

@@ -2,37 +2,57 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(Marain.Operations.ControlHost.Startup))]
+namespace Marain.Operations.ControlHost;
 
-namespace Marain.Operations.ControlHost
+using System;
+
+using Corvus.Tenancy;
+
+using Marain.Tenancy.ClientTenantProvider;
+
+using Microsoft.ApplicationInsights;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+/// <summary>
+/// Startup code for the Function.
+/// </summary>
+public static class Startup
 {
-    using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
     /// <summary>
-    /// Startup code for the Function.
+    /// Di initialization.
     /// </summary>
-    public class Startup : FunctionsStartup
+    /// <param name="services">Service collection.</param>
+    /// <param name="configuration">Configuration.</param>
+    public static void Configure(
+        IServiceCollection services,
+        IConfiguration configuration)
     {
-        /// <inheritdoc/>
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            IServiceCollection services = builder.Services;
-            IConfiguration config = builder.GetContext().Configuration;
+        services.AddSingleton(new TelemetryClient(new Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration()));
+        services.AddApplicationInsightsInstrumentationTelemetry();
+        services.AddLogging();
 
-            services.AddApplicationInsightsInstrumentationTelemetry();
-            services.AddLogging();
+        // TODO: we really shouldn't need this. Menes.Hosting turns out to have a dependency on
+        // IConfigurationRoot. Yuck.
+        services.AddSingleton((IConfigurationRoot)configuration);
 
-            // TODO: we really shouldn't need this. Menes.Hosting turns out to have a dependency on
-            // IConfigurationRoot. Yuck.
-            services.AddSingleton((IConfigurationRoot)config);
+        string azureServicesAuthConnectionString = configuration["AzureServicesAuthConnectionString"] ?? string.Empty;
+        services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
 
-            string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
-            services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
-            services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
+        // TODO: do we still need this?
+        services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 
-            services.AddTenantedOperationsControlApiWithOpenApiActionResultHosting(config => config.Documents.AddSwaggerEndpoint());
-        }
+        // TODO: feels like these should go somewhere common...but possibly in the client library?
+        TenancyClientOptions tenancyClientOptions = configuration.GetSection("TenancyClient").Get<TenancyClientOptions>()
+            ?? throw new InvalidOperationException("TenancyClient settings are missing");
+        ////services.AddSingleton(configuration.GetSection("TenancyClient").Get<TenancyClientOptions>()
+        ////    ?? throw new InvalidOperationException("TenancyClient settings are missing"));
+        services.AddSingleton<ITenantProvider, TenancyClient>();
+
+        services.AddTenantedOperationsControlApiWithIsolatedAzureFunctionsHosting(
+            configuration.GetSection("ExternalServices"),
+            tenancyClientOptions,
+            config => config.Documents.AddSwaggerEndpoint());
     }
 }

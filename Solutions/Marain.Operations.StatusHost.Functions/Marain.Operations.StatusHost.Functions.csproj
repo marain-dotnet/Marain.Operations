@@ -2,10 +2,10 @@
   <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 
     <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -38,19 +38,21 @@
 
   <ItemGroup>
     <PackageReference Include="Corvus.Monitoring.ApplicationInsights" Version="1.3.2" />
-    <PackageReference Include="Corvus.Tenancy.Storage.Azure.Blob" Version="2.0.13" />
     <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="[6.0.*,)" />
+    <PackageReference Include="Menes.Hosting.AzureFunctionsWorker" Version="5.0.0-system-text-json.23" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.10.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Marain.Operations.Azure.Storage\Marain.Operations.Azure.Storage.csproj" />
-    <ProjectReference Include="..\Marain.Operations.Hosting.AspNetCore\Marain.Operations.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\Marain.Operations.Hosting.AzureFunctionsWorker\Marain.Operations.Hosting.AzureFunctionsWorker.csproj" />
     <ProjectReference Include="..\Marain.Operations.OpenApi\Marain.Operations.OpenApi.csproj" />
   </ItemGroup>
 

@@ -2,33 +2,53 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(Marain.Operations.StatusHost.Startup))]
+namespace Marain.Operations.StatusHost;
 
-namespace Marain.Operations.StatusHost
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using Corvus.Tenancy;
+
+using Marain.Operations.Domain;
+using Marain.Tenancy.ClientTenantProvider;
+
+using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+/// <summary>
+/// Startup code for the Function.
+/// </summary>
+public static class Startup
 {
-    using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
     /// <summary>
-    /// Startup code for the Function.
+    /// Di initialization.
     /// </summary>
-    public class Startup : FunctionsStartup
+    /// <param name="services">Service collection.</param>
+    /// <param name="configuration">Configuration.</param>
+    public static void Configure(
+        IServiceCollection services,
+        IConfiguration configuration)
     {
-        /// <inheritdoc/>
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            IServiceCollection services = builder.Services;
-            IConfiguration config = builder.GetContext().Configuration;
+        services.AddSingleton(new TelemetryClient(new Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration()));
+        services.AddApplicationInsightsInstrumentationTelemetry();
+        services.AddLogging();
 
-            services.AddApplicationInsightsInstrumentationTelemetry();
-            services.AddLogging();
+        // Required by tenancy client.
+        string azureServicesAuthConnectionString = configuration["AzureServicesAuthConnectionString"] ?? string.Empty;
+        services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
 
-            string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
-            services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
-            services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
+        // TODO: do we still need this?
+        services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 
-            services.AddTenantedOperationsStatusApiWithOpenApiActionResultHosting(config => config.Documents.AddSwaggerEndpoint());
-        }
+        // TODO: feels like these should go somewhere common...but possibly in the client library?
+        TenancyClientOptions tenancyClientOptions = configuration.GetSection("TenancyClient").Get<TenancyClientOptions>()
+            ?? throw new InvalidOperationException("TenancyClient settings are missing");
+        services.AddSingleton<ITenantProvider, TenancyClient>();
+
+        services.AddTenantedOperationsStatusApiWithIsolatedAzureFunctionsHosting(
+            tenancyClientOptions,
+            config => config.Documents.AddSwaggerEndpoint());
     }
 }

@@ -47,7 +47,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Deploymen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Api.Specs", "Marain.Operations.Api.Specs\Marain.Operations.Api.Specs.csproj", "{8AD273D0-3B58-4463-9AAF-EAE99F0EC724}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marain.Operations.Specs.Common", "Marain.Operations.Specs.Common\Marain.Operations.Specs.Common.csproj", "{3B7A2570-FF5F-4CFB-8C16-21D25B8D6CAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Specs.Common", "Marain.Operations.Specs.Common\Marain.Operations.Specs.Common.csproj", "{3B7A2570-FF5F-4CFB-8C16-21D25B8D6CAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TempTenancy", "TempTenancy", "{951CF513-18A1-4818-B6CC-2A824394ABEF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Tenancy.ClientTenantProvider", "Marain.Tenancy.ClientTenantProvider\Marain.Tenancy.ClientTenantProvider.csproj", "{8321AB81-545D-4033-8DC3-586AE4A8AC2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Hosting.AzureFunctionsWorker", "Marain.Operations.Hosting.AzureFunctionsWorker\Marain.Operations.Hosting.AzureFunctionsWorker.csproj", "{E49B2EB8-28A8-4385-AB11-F739498C515E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marain.Operations.Hosting", "Marain.Operations.Hosting\Marain.Operations.Hosting.csproj", "{698BD6E3-F892-4A6A-B1B7-088689F014EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +111,18 @@ Global
 		{3B7A2570-FF5F-4CFB-8C16-21D25B8D6CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B7A2570-FF5F-4CFB-8C16-21D25B8D6CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B7A2570-FF5F-4CFB-8C16-21D25B8D6CAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8321AB81-545D-4033-8DC3-586AE4A8AC2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8321AB81-545D-4033-8DC3-586AE4A8AC2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8321AB81-545D-4033-8DC3-586AE4A8AC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8321AB81-545D-4033-8DC3-586AE4A8AC2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E49B2EB8-28A8-4385-AB11-F739498C515E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E49B2EB8-28A8-4385-AB11-F739498C515E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E49B2EB8-28A8-4385-AB11-F739498C515E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E49B2EB8-28A8-4385-AB11-F739498C515E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{698BD6E3-F892-4A6A-B1B7-088689F014EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698BD6E3-F892-4A6A-B1B7-088689F014EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698BD6E3-F892-4A6A-B1B7-088689F014EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698BD6E3-F892-4A6A-B1B7-088689F014EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +135,9 @@ Global
 		{526CE85F-CB03-41ED-B1DA-B65539F83FE8} = {E418F648-61C8-48AF-8305-D520BAB272B0}
 		{697107FC-8C59-4E52-BA9D-72A7CC6B8316} = {BA443C5C-7EC5-4210-8117-DDFA249EBFD1}
 		{8AD273D0-3B58-4463-9AAF-EAE99F0EC724} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
+		{8321AB81-545D-4033-8DC3-586AE4A8AC2A} = {951CF513-18A1-4818-B6CC-2A824394ABEF}
+		{E49B2EB8-28A8-4385-AB11-F739498C515E} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
+		{698BD6E3-F892-4A6A-B1B7-088689F014EE} = {F4D3CF09-810E-486E-93F7-8B83289AE47A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A96A87D-1A5F-440A-AE9B-5449358C84D2}

@@ -2,19 +2,23 @@
   <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Corvus.Testing.SpecFlow" Version="2.0.0" />
     <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="3.0.0" />
-    <PackageReference Include="Marain.TenantManagement.Azure.BlobStorage" Version="3.0.0" />
+    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="4.0.0-system-text-json.7" />
+    <!--
+    Disabling for now because Marain.TenantManagement isn't System.Text.Json-ready yet
+    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="3.1.0" />-->
+    <PackageReference Include="Marain.TenantManagement.Azure.BlobStorage" Version="4.0.0-system-text-json.7" />
   </ItemGroup>
 
   <ItemGroup>

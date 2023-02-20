@@ -2,14 +2,14 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-#pragma warning disable RCS1021 // Use expression-bodied lambda - doesn't improve readability in this file
-
 namespace Marain.Operations.Specs.Integration.Bindings
 {
     using Corvus.Testing.SpecFlow;
 
     using Marain.Operations.OpenApi;
     using Marain.Operations.Tasks;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
 
     using TechTalk.SpecFlow;
 
@@ -31,7 +31,10 @@ namespace Marain.Operations.Specs.Integration.Bindings
                 featureContext,
                 serviceCollection =>
                 {
-                    serviceCollection.AddOperationsControlApiWithOpenApiActionResultHosting();
+                    // TBD: better way to pass the config?
+                    IConfigurationRoot config = featureContext.Get<IConfigurationRoot>();
+                    serviceCollection.AddOperationsControlApiWithOpenApiActionResultHosting(
+                        config.GetSection("ExternalServices"));
                 });
         }
     }

@@ -91,4 +91,6 @@ jobs:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/Release/Marain.Operations.Deployment.zip'
         replaceExistingArchive: true
-    netSdkVersion: '6.x'
+    netSdkVersion: '7.0.103' # Until https://github.com/endjin/Endjin.RecommendedPractices.Build/issues/69 is fixed, we have to use an old SDK
+    additionalNetSdkVersions:
+    - '6.x'

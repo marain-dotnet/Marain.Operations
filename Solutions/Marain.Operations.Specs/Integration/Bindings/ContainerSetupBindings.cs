@@ -13,17 +13,13 @@ namespace Marain.Operations.Specs.Integration.Bindings
     using Corvus.Tenancy;
     using Corvus.Testing.SpecFlow;
 
-    using Marain.Operations.Hosting.JsonSerialization;
     using Marain.Operations.Storage;
     using Marain.Services;
+    using Marain.Tenancy.ClientTenantProvider;
 
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json.Serialization;
 
     using TechTalk.SpecFlow;
 
@@ -47,14 +43,8 @@ namespace Marain.Operations.Specs.Integration.Bindings
                         config.AddConsole();
                     });
 
+                    // Marain Tenancy testing support.
                     serviceCollection.AddInMemoryTenantProvider();
-
-                    serviceCollection.AddJsonNetSerializerSettingsProvider();
-                    serviceCollection.AddJsonNetPropertyBag();
-                    serviceCollection.AddJsonNetCultureInfoConverter();
-                    serviceCollection.AddJsonNetDateTimeOffsetToIso8601AndUnixTimeConverter();
-                    serviceCollection.AddSingleton<JsonConverter>(new OperationStatusConverter());
-                    serviceCollection.AddSingleton<JsonConverter>(new StringEnumConverter(new CamelCaseNamingStrategy()));
 
                     serviceCollection.AddTestNameProvider();
                     serviceCollection.AddMarainServiceConfiguration();
@@ -73,11 +63,17 @@ namespace Marain.Operations.Specs.Integration.Bindings
                     var configBuilder = new ConfigurationBuilder();
                     configBuilder.AddConfigurationForTest("appsettings.json", configData);
                     IConfigurationRoot config = configBuilder.Build();
+                    featureContext.Set(config);
 
                     serviceCollection.AddSingleton(config);
                     serviceCollection.AddSingleton<IConfiguration>(config);
 
                     serviceCollection.AddMarainTenantManagementForBlobStorage();
+
+                    string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"]!;
+                    serviceCollection.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
+                    TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>()!;
+                    serviceCollection.AddSingleton(tenancyConfiguration);
                 });
         }
 

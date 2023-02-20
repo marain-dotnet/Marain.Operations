@@ -7,12 +7,13 @@ namespace Marain.TenantManagement.Specs.Mocks
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.Json;
     using System.Threading.Tasks;
-    using Corvus.Extensions.Json;
+
     using Corvus.Json;
+    using Corvus.Json.Serialization;
     using Corvus.Tenancy;
     using Corvus.Tenancy.Exceptions;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// In-memory implementation of ITenantProvider.
@@ -38,12 +39,15 @@ namespace Marain.TenantManagement.Specs.Mocks
     /// </remarks>
     public class InMemoryTenantProvider : ITenantProvider
     {
-        private readonly IJsonSerializerSettingsProvider jsonSerializerSettingsProvider;
+        private readonly IJsonSerializerOptionsProvider jsonSerializerSettingsProvider;
         private readonly IPropertyBagFactory propertyBagFactory;
         private readonly List<StoredTenant> allTenants = new();
         private readonly Dictionary<string, List<string>> tenantsByParent = new();
 
-        public InMemoryTenantProvider(RootTenant rootTenant, IJsonSerializerSettingsProvider jsonSerializerSettingsProvider, IPropertyBagFactory propertyBagFactory)
+        public InMemoryTenantProvider(
+            RootTenant rootTenant,
+            IJsonSerializerOptionsProvider jsonSerializerSettingsProvider,
+            IPropertyBagFactory propertyBagFactory)
         {
             this.Root = rootTenant;
             this.jsonSerializerSettingsProvider = jsonSerializerSettingsProvider;
@@ -158,10 +162,10 @@ namespace Marain.TenantManagement.Specs.Mocks
         /// </summary>
         private class StoredTenant
         {
-            private readonly JsonSerializerSettings settings;
+            private readonly JsonSerializerOptions settings;
             private string tenant = string.Empty;
 
-            public StoredTenant(ITenant tenant, JsonSerializerSettings settings)
+            public StoredTenant(ITenant tenant, JsonSerializerOptions settings)
             {
                 this.settings = settings;
                 this.Id = tenant.Id;
@@ -175,8 +179,8 @@ namespace Marain.TenantManagement.Specs.Mocks
 
             public ITenant Tenant
             {
-                get => JsonConvert.DeserializeObject<Tenant>(this.tenant, this.settings)!;
-                set => this.tenant = JsonConvert.SerializeObject(value, this.settings);
+                get => JsonSerializer.Deserialize<Tenant>(this.tenant, this.settings)!;
+                set => this.tenant = JsonSerializer.Serialize(value, this.settings);
             }
         }
     }

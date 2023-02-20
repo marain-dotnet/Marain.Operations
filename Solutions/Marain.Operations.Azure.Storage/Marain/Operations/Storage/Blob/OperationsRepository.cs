@@ -5,6 +5,7 @@
 namespace Marain.Operations.Storage.Blob
 {
     using System;
+    using System.Text.Json;
     using System.Threading.Tasks;
 
     using Azure;
@@ -12,11 +13,12 @@ namespace Marain.Operations.Storage.Blob
     using Azure.Storage.Blobs.Models;
     using Azure.Storage.Blobs.Specialized;
 
-    using Corvus.Extensions.Json;
+    using CommunityToolkit.HighPerformance.Buffers;
+
     using Corvus.Storage.Azure.BlobStorage.Tenancy;
     using Corvus.Tenancy;
 
-    using Newtonsoft.Json;
+    using Microsoft.Extensions.ObjectPool;
 
     using Operation = Marain.Operations.Domain.Operation;
 
@@ -42,20 +44,23 @@ namespace Marain.Operations.Storage.Blob
         /// </summary>
         public const string OperationsV3ConfigKey = "Marain:Operations:BlobContainerConfiguration:Operations";
 
+        private static readonly ObjectPool<ArrayPoolBufferWriter<byte>> ArrayPoolWriterPool =
+            new DefaultObjectPoolProvider().Create<ArrayPoolBufferWriter<byte>>();
+
         private readonly IBlobContainerSourceWithTenantLegacyTransition containerSource;
-        private readonly JsonSerializerSettings serializerSettings;
+        private readonly JsonSerializerOptions serializerOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OperationsRepository"/> class.
         /// </summary>
         /// <param name="containerFactory">The blob container factory to use to get the container in which operations should be stored.</param>
-        /// <param name="serializerSettingsProvider">The serializer settings factory.</param>
-        public OperationsRepository(
+        /// <param name="serializerOptions">The serializer settings.</param>
+        internal OperationsRepository(
             IBlobContainerSourceWithTenantLegacyTransition containerFactory,
-            IJsonSerializerSettingsProvider serializerSettingsProvider)
+            JsonSerializerOptions serializerOptions)
         {
             this.containerSource = containerFactory;
-            this.serializerSettings = serializerSettingsProvider.Instance;
+            this.serializerOptions = serializerOptions;
         }
 
         /// <inheritdoc />
@@ -80,12 +85,7 @@ namespace Marain.Operations.Storage.Blob
                 return null;
             }
 
-            // Note: although BlobDownloadResult supports direct deserialization from JSON, using System.Text.Json
-            // (meaning it can work directly with UTF-8 content, avoiding the conversion to UTF-16 we're doing
-            // here) we currently depend on the JSON.NET serialization settings mechanism, so we have to use
-            // this more inefficient route for now.
-            string json = response.Value.Content.ToString();
-            return JsonConvert.DeserializeObject<Operation>(json, this.serializerSettings);
+            return response.Value.Content.ToObjectFromJson<Operation>(this.serializerOptions);
         }
 
         /// <inheritdoc />
@@ -100,12 +100,34 @@ namespace Marain.Operations.Storage.Blob
 
             BlobClient blob = container.GetBlobClient(GetBlobName(tenant, operation.Id));
 
-            string json = JsonConvert.SerializeObject(operation, this.serializerSettings);
+            // Note: we could use this:
+            //  BinaryData.FromObjectAsJson(operation, this.serializerOptions);
+            // However, that calls JsonSerializer.SerializeToUtf8Bytes, which returns a byte[]
+            // which is always allocated as a new heap entry. This following code uses an array
+            // pool, meaning that we can reuse the buffer across multiple calls, reducing the
+            // number of heap allocations when this is called multiple times.
+            ArrayPoolBufferWriter<byte>? json = null;
+            try
+            {
+                json = ArrayPoolWriterPool.Get();
+                using (Utf8JsonWriter jw = new(json))
+                {
+                    JsonSerializer.Serialize(jw, operation, this.serializerOptions);
+                }
 
-            await blob.UploadAsync(
-                BinaryData.FromString(json),
-                overwrite: true)
-                .ConfigureAwait(false);
+                await blob.UploadAsync(
+                    BinaryData.FromBytes(json.WrittenMemory),
+                    overwrite: true)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                if (json is not null)
+                {
+                    json.Clear();
+                    ArrayPoolWriterPool.Return(json);
+                }
+            }
         }
 
         private static string GetBlobName(ITenant tenant, Guid operationId) => $"{tenant.Id}/{operationId}";

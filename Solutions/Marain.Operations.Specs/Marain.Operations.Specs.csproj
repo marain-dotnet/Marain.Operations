@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <RootNamespace>Marain.Operations.Specs</RootNamespace>
@@ -23,12 +23,19 @@
 
   <ItemGroup>
     <PackageReference Include="Corvus.Configuration.TestEnvironment" Version="1.2.5" />
+    
+    <!--
+    We seem to need Corvus.Extensions.Newtonsoft.Json because we're using TransientTenantManager,
+    but for some reason NuGet isn't working that out. Adding it explicitly for now, but we
+    should be able to get rid of this once this work is all done.
+    -->
+    <PackageReference Include="Corvus.Extensions.Newtonsoft.Json" Version="3.0.0" />
     <PackageReference Include="Corvus.Testing.AzureFunctions.SpecFlow.NUnit" Version="2.0.0" />
     <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="[6.0.*,)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="[6.0.*,)" />
   </ItemGroup>
   <ItemGroup>

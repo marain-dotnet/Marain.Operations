@@ -15,11 +15,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Corvus.Storage.Azure.BlobStorage.Tenancy" Version="3.5.0" />
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.1.0" />
+    <PackageReference Include="Corvus.Json.Serialization" Version="2.0.0-first-working-version.37" />
+    <PackageReference Include="Corvus.Storage.Azure.BlobStorage.Tenancy" Version="4.0.0-system-text-json.6" />
     <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>

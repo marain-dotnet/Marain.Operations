@@ -4,26 +4,27 @@
 
 namespace Marain.Operations.StatusHost
 {
+    using System.Threading;
     using System.Threading.Tasks;
+
     using Menes;
-    using Menes.Hosting.AspNetCore;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.WebJobs;
-    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Menes.Hosting.AzureFunctionsWorker;
+
+    using Microsoft.Azure.Functions.Worker;
+    using Microsoft.Azure.Functions.Worker.Http;
 
     /// <summary>
     /// The host for the operations control services.
     /// </summary>
     public class OperationsStatusHost
     {
-        private readonly IOpenApiHost<HttpRequest, IActionResult> host;
+        private readonly IOpenApiHost<HttpRequestData, IHttpResponseDataResult> host;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OperationsStatusHost"/> class.
         /// </summary>
         /// <param name="host">The OpenApi host.</param>
-        public OperationsStatusHost(IOpenApiHost<HttpRequest, IActionResult> host)
+        public OperationsStatusHost(IOpenApiHost<HttpRequestData, IHttpResponseDataResult> host)
         {
             this.host = host;
         }
@@ -31,11 +32,14 @@ namespace Marain.Operations.StatusHost
         /// <summary>
         /// Azure Functions entry point.
         /// </summary>
-        /// <param name="req">The <see cref="HttpRequest"/>.</param>
+        /// <param name="req">The <see cref="HttpRequestData"/>.</param>
         /// <param name="executionContext">The context for the function execution.</param>
         /// <returns>An action result which comes from executing the function.</returns>
-        [FunctionName("OperationsStatusHost-OpenApiHostRoot")]
-        public Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{*path}")]HttpRequest req, ExecutionContext executionContext)
+        [Function("OperationsStatusHost-OpenApiHostRoot")]
+        public Task<HttpResponseData> RunAsync(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{*path}")]
+            HttpRequestData req,
+            ExecutionContext executionContext)
         {
             return this.host.HandleRequestAsync(req, new { ExecutionContext = executionContext });
         }

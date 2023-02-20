@@ -21,7 +21,7 @@ using TechTalk.SpecFlow;
 /// Code shared across <c>Marain.Operations.Specs</c> and <c>Marain.Operations.OpenApi.Specs</c> for
 /// setting up blob storage.
 /// </summary>
-public static  class OperationsTestTenantSetup
+public static class OperationsTestTenantSetup
 {
     /// <summary>
     /// Creates test client and service tenants and enrolls the client in the service, creating
