@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
 
   <PropertyGroup>
@@ -37,7 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Corvus.Monitoring.ApplicationInsights" Version="1.3.2" />
+    <PackageReference Include="Corvus.Monitoring.ApplicationInsights" Version="2.0.1" />
     <PackageReference Include="Corvus.Tenancy.Storage.Azure.Blob" Version="2.0.13" />
     <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
