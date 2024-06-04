@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.4">
+    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -26,3 +26,4 @@
     <EmbeddedResource Include="..\Marain.Operations.Deployment\ServiceManifests\OperationsServiceManifest.jsonc" Link="ServiceManifests\OperationsServiceManifest.jsonc" />
   </ItemGroup>
 </Project>
+
