@@ -342,5 +342,7 @@ appsettings.json
 *.ncrunchsolution
 
 # Local build outputs
+_codeCoverage/
 _packages/
+.zf/extensions/
 *.sbom.*
