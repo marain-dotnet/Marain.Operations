@@ -26,10 +26,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddTenancyBlobContainerOperationsRepository(
-            this IServiceCollection services)
+        public static IServiceCollection AddTenancyBlobContainerOperationsRepository(this IServiceCollection services)
         {
-            services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>());
+            services.AddSingleton(sp => sp.GetRequiredService<IConfiguration>().GetSection("TenancyClient").Get<TenancyClientOptions>() ?? throw new InvalidOperationException("TenancyClient Configuration is missing."));
             services.AddBlobContainerV2ToV3Transition();
             services.AddAzureBlobStorageClientSourceFromDynamicConfiguration();
 
@@ -45,9 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The service collection.</param>
         /// <param name="configureHost">The optional action to configure the host.</param>
         /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddTenantedOperationsStatusApiWithAspNetPipelineHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        public static IServiceCollection AddTenantedOperationsStatusApiWithAspNetPipelineHosting(this IServiceCollection services, Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             services.AddOperationsStatusApiWithAspNetPipelineHosting(configureHost);
             services.AddTenancyBlobContainerOperationsRepository();
@@ -61,9 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The service collection.</param>
         /// <param name="configureHost">The optional action to configure the host.</param>
         /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddTenantedOperationsStatusApiWithOpenApiActionResultHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        public static IServiceCollection AddTenantedOperationsStatusApiWithOpenApiActionResultHosting(this IServiceCollection services, Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             services.AddOperationsStatusApiWithOpenApiActionResultHosting(configureHost);
             services.AddTenancyBlobContainerOperationsRepository();
@@ -77,9 +72,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The service collection.</param>
         /// <param name="configureHost">The optional action to configure the host.</param>
         /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddTenantedOperationsControlApiWithAspNetPipelineHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        public static IServiceCollection AddTenantedOperationsControlApiWithAspNetPipelineHosting(this IServiceCollection services, Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             // TODO: Work out exactly why it's necessary to call the methods in this order. Switching the order
             // results in an attempt to register the Tenant content type with the ContentFactory twice, but it wasn't
@@ -96,9 +89,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The service collection.</param>
         /// <param name="configureHost">The optional action to configure the host.</param>
         /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddTenantedOperationsControlApiWithOpenApiActionResultHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        public static IServiceCollection AddTenantedOperationsControlApiWithOpenApiActionResultHosting(this IServiceCollection services, Action<IOpenApiHostConfiguration>? configureHost = null)
         {
             // TODO: Work out exactly why it's necessary to call the methods in this order. Switching the order
             // results in an attempt to register the Tenant content type with the ContentFactory twice, but it wasn't

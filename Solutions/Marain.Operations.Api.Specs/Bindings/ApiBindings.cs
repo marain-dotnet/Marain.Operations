@@ -5,13 +5,16 @@
 namespace Marain.Operations.Api.Specs.Bindings
 {
     using System.Threading.Tasks;
+
     using Corvus.Testing.AzureFunctions;
-    using Corvus.Testing.AzureFunctions.SpecFlow;
+    using Corvus.Testing.AzureFunctions.ReqnRoll;
     using Corvus.Testing.SpecFlow;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using TechTalk.SpecFlow;
+
+    using Reqnroll;
 
     [Binding]
     public static class ApiBindings
@@ -35,12 +38,12 @@ namespace Marain.Operations.Api.Specs.Bindings
             functionConfiguration.EnvironmentVariables.Add("ExternalServices:OperationsStatus", StatusApiBaseUrl);
 
             await Task.WhenAll(
-                functionsController.StartFunctionsInstance(
+                functionsController.StartFunctionsInstanceAsync(
                     "Marain.Operations.ControlHost.Functions",
                     ControlApiPort,
                     "net6.0",
                     configuration: functionConfiguration),
-                functionsController.StartFunctionsInstance(
+                functionsController.StartFunctionsInstanceAsync(
                     "Marain.Operations.StatusHost.Functions",
                     StatusApiPort,
                     "net6.0",
@@ -56,13 +59,13 @@ namespace Marain.Operations.Api.Specs.Bindings
         }
 
         [AfterFeature]
-        public static void StopApis(FeatureContext featureContext)
+        public static async Task StopApis(FeatureContext featureContext)
         {
-            featureContext.RunAndStoreExceptions(
-                () =>
+            await featureContext.RunAndStoreExceptionsAsync(
+                async () =>
                 {
                     FunctionsController functionsController = FunctionsBindings.GetFunctionsController(featureContext);
-                    functionsController.TeardownFunctions();
+                    await functionsController.TeardownFunctionsAsync();
                 });
         }
     }

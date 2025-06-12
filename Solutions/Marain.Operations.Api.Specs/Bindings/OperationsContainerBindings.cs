@@ -48,7 +48,7 @@ namespace Marain.Operations.Api.Specs.Bindings
                     services.AddAzureBlobStorageClientSourceFromDynamicConfiguration();
 
                     // Tenancy service client.
-                    TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>();
+                    TenancyClientOptions tenancyConfiguration = config.GetSection("TenancyClient").Get<TenancyClientOptions>() ?? throw new InvalidOperationException("TenancyClient Configuration is missing.");
 
                     if (tenancyConfiguration?.TenancyServiceBaseUri is null)
                     {
@@ -61,7 +61,7 @@ namespace Marain.Operations.Api.Specs.Bindings
                     services.AddTenantProviderServiceClient(false);
 
                     // Token source, to provide authentication when accessing external services.
-                    string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
+                    string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"] ?? throw new InvalidOperationException("AzureServicesAuthConnectionString configuration is missing.");
                     services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
                     services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
 

@@ -3,7 +3,7 @@
   <Import Project="$(EndjinProjectPropsPath)" Condition="$(EndjinProjectPropsPath) != ''" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace />
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DocumentationFile>$(OutputPath)$(TargetFramework.ToLowerInvariant())\$(AssemblyName).xml</DocumentationFile>
@@ -24,12 +24,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Corvus.Identity.MicrosoftRest" Version="3.2.0" />
-    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.12">
+    <PackageReference Include="Corvus.Identity.MicrosoftRest" Version="3.3.0" />
+    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.18">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[8.0.*,)" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,7 @@
 
 namespace Marain.Operations.StatusHost
 {
+    using System;
     using Microsoft.Azure.Functions.Extensions.DependencyInjection;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -24,10 +25,10 @@ namespace Marain.Operations.StatusHost
             services.AddApplicationInsightsInstrumentationTelemetry();
             services.AddLogging();
 
-            string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
+            string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"] ?? throw new InvalidOperationException("AzureServicesAuthConnectionString configuration is missing.");
+
             services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
             services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
-
             services.AddTenantedOperationsStatusApiWithOpenApiActionResultHosting(config => config.Documents.AddSwaggerEndpoint());
         }
     }

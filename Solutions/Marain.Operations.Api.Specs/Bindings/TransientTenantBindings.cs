@@ -11,7 +11,7 @@ namespace Marain.Operations.Api.Specs.Bindings
     using Corvus.Storage.Azure.BlobStorage;
     using Corvus.Tenancy;
     using Corvus.Testing.AzureFunctions;
-    using Corvus.Testing.AzureFunctions.SpecFlow;
+    using Corvus.Testing.AzureFunctions.ReqnRoll;
     using Corvus.Testing.SpecFlow;
 
     using Marain.Operations.Specs;

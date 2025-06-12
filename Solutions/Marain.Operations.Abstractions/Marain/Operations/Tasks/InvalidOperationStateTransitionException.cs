@@ -7,7 +7,6 @@ namespace Marain.Operations.Tasks
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.Serialization;
     using Corvus.Tenancy;
     using Marain.Operations.Domain;
     using Menes;
@@ -81,18 +80,6 @@ namespace Marain.Operations.Tasks
         /// <param name="message">The exception message.</param>
         protected InvalidOperationStateTransitionException(string message)
             : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Deserialization constructor.
-        /// </summary>
-        /// <param name="info">Serialized information container.</param>
-        /// <param name="context">Additional serialization details.</param>
-        protected InvalidOperationStateTransitionException(
-            SerializationInfo info,
-            StreamingContext context)
-            : base(info, context)
         {
         }
 
