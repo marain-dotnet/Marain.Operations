@@ -2,193 +2,192 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-namespace Marain.Operations.OpenApi
+namespace Marain.Operations.OpenApi;
+
+using System;
+using System.Linq;
+
+using Marain.Operations.Hosting.JsonSerialization;
+using Marain.Operations.Tasks;
+using Menes;
+using Microsoft.Extensions.DependencyInjection;
+
+using Newtonsoft.Json;
+
+/// <summary>
+/// Extension methods for configuring DI for the Operations Open API services.
+/// </summary>
+public static class OperationsServiceCollectionExtensions
 {
-    using System;
-    using System.Linq;
+    /// <summary>
+    /// Add services required by the Operations Status API when hosting in direct ASP.NET Core
+    /// pipeline mode.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configureHost">Optional callback for additional host configuration.</param>
+    /// <returns>The service collection, to enable chaining.</returns>
+    public static IServiceCollection AddOperationsStatusApiWithAspNetPipelineHosting(
+        this IServiceCollection services,
+        Action<IOpenApiHostConfiguration>? configureHost = null)
+    {
+        if (services.Any(s => typeof(IOperationsStatusTasks).IsAssignableFrom(s.ServiceType)))
+        {
+            return services;
+        }
 
-    using Marain.Operations.Hosting.JsonSerialization;
-    using Marain.Operations.Tasks;
-    using Menes;
-    using Microsoft.Extensions.DependencyInjection;
+        services.AddOperationsStatusApiNonHostingTypeSpecific();
 
-    using Newtonsoft.Json;
+        services.AddOpenApiAspNetPipelineHosting<SimpleOpenApiContext>((config) =>
+        {
+            config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
+            OperationsStatusOpenApiService.MapLinks(config.Links);
+            configureHost?.Invoke(config);
+        });
+
+        return services;
+    }
 
     /// <summary>
-    /// Extension methods for configuring DI for the Operations Open API services.
+    /// Add services required by the Operations Status API when hosting in Action Result mode
+    /// (e.g., in Azure Functions).
     /// </summary>
-    public static class OperationsServiceCollectionExtensions
+    /// <param name="services">The service collection.</param>
+    /// <param name="configureHost">Optional callback for additional host configuration.</param>
+    /// <returns>The service collection, to enable chaining.</returns>
+    public static IServiceCollection AddOperationsStatusApiWithOpenApiActionResultHosting(
+        this IServiceCollection services,
+        Action<IOpenApiHostConfiguration>? configureHost = null)
     {
-        /// <summary>
-        /// Add services required by the Operations Status API when hosting in direct ASP.NET Core
-        /// pipeline mode.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="configureHost">Optional callback for additional host configuration.</param>
-        /// <returns>The service collection, to enable chaining.</returns>
-        public static IServiceCollection AddOperationsStatusApiWithAspNetPipelineHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        if (services.Any(s => typeof(IOperationsStatusTasks).IsAssignableFrom(s.ServiceType)))
         {
-            if (services.Any(s => typeof(IOperationsStatusTasks).IsAssignableFrom(s.ServiceType)))
-            {
-                return services;
-            }
-
-            services.AddOperationsStatusApiNonHostingTypeSpecific();
-
-            services.AddOpenApiAspNetPipelineHosting<SimpleOpenApiContext>((config) =>
-            {
-                config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
-                OperationsStatusOpenApiService.MapLinks(config.Links);
-                configureHost?.Invoke(config);
-            });
-
             return services;
         }
 
-        /// <summary>
-        /// Add services required by the Operations Status API when hosting in Action Result mode
-        /// (e.g., in Azure Functions).
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="configureHost">Optional callback for additional host configuration.</param>
-        /// <returns>The service collection, to enable chaining.</returns>
-        public static IServiceCollection AddOperationsStatusApiWithOpenApiActionResultHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        services.AddOperationsStatusApiNonHostingTypeSpecific();
+
+        services.AddOpenApiActionResultHosting<SimpleOpenApiContext>((config) =>
         {
-            if (services.Any(s => typeof(IOperationsStatusTasks).IsAssignableFrom(s.ServiceType)))
-            {
-                return services;
-            }
+            config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
+            OperationsStatusOpenApiService.MapLinks(config.Links);
+            configureHost?.Invoke(config);
+        });
 
-            services.AddOperationsStatusApiNonHostingTypeSpecific();
+        return services;
+    }
 
-            services.AddOpenApiActionResultHosting<SimpleOpenApiContext>((config) =>
-            {
-                config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>();
-                OperationsStatusOpenApiService.MapLinks(config.Links);
-                configureHost?.Invoke(config);
-            });
-
+    /// <summary>
+    /// Add services required by the Operations Control API when hosting in direct ASP.NET Core
+    /// pipeline mode.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configureHost">Optional callback for additional host configuration.</param>
+    /// <returns>The service collection, to enable chaining.</returns>
+    public static IServiceCollection AddOperationsControlApiWithAspNetPipelineHosting(
+        this IServiceCollection services,
+        Action<IOpenApiHostConfiguration>? configureHost = null)
+    {
+        if (services.Any(s => typeof(IOperationsControlTasks).IsAssignableFrom(s.ServiceType)))
+        {
             return services;
         }
 
-        /// <summary>
-        /// Add services required by the Operations Control API when hosting in direct ASP.NET Core
-        /// pipeline mode.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="configureHost">Optional callback for additional host configuration.</param>
-        /// <returns>The service collection, to enable chaining.</returns>
-        public static IServiceCollection AddOperationsControlApiWithAspNetPipelineHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        services.AddOperationsControlApiNonHostingTypeSpecific();
+
+        services.AddOpenApiAspNetPipelineHosting<SimpleOpenApiContext>(config =>
         {
-            if (services.Any(s => typeof(IOperationsControlTasks).IsAssignableFrom(s.ServiceType)))
-            {
-                return services;
-            }
+            config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsControlOpenApiService>();
+            configureHost?.Invoke(config);
+        });
 
-            services.AddOperationsControlApiNonHostingTypeSpecific();
+        return services;
+    }
 
-            services.AddOpenApiAspNetPipelineHosting<SimpleOpenApiContext>(config =>
-            {
-                config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsControlOpenApiService>();
-                configureHost?.Invoke(config);
-            });
-
+    /// <summary>
+    /// Add services required by the Operations Control API when hosting in Action Result mode
+    /// (e.g., in Azure Functions).
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configureHost">Optional callback for additional host configuration.</param>
+    /// <returns>The service collection, to enable chaining.</returns>
+    public static IServiceCollection AddOperationsControlApiWithOpenApiActionResultHosting(
+        this IServiceCollection services,
+        Action<IOpenApiHostConfiguration>? configureHost = null)
+    {
+        if (services.Any(s => typeof(IOperationsControlTasks).IsAssignableFrom(s.ServiceType)))
+        {
             return services;
         }
 
-        /// <summary>
-        /// Add services required by the Operations Control API when hosting in Action Result mode
-        /// (e.g., in Azure Functions).
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="configureHost">Optional callback for additional host configuration.</param>
-        /// <returns>The service collection, to enable chaining.</returns>
-        public static IServiceCollection AddOperationsControlApiWithOpenApiActionResultHosting(
-            this IServiceCollection services,
-            Action<IOpenApiHostConfiguration>? configureHost = null)
+        services.AddOperationsControlApiNonHostingTypeSpecific();
+
+        services.AddOpenApiActionResultHosting<SimpleOpenApiContext>(config =>
         {
-            if (services.Any(s => typeof(IOperationsControlTasks).IsAssignableFrom(s.ServiceType)))
-            {
-                return services;
-            }
+            config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsControlOpenApiService>();
+            configureHost?.Invoke(config);
+        });
 
-            services.AddOperationsControlApiNonHostingTypeSpecific();
+        return services;
+    }
 
-            services.AddOpenApiActionResultHosting<SimpleOpenApiContext>(config =>
-            {
-                config.Documents.RegisterOpenApiServiceWithEmbeddedDefinition<OperationsControlOpenApiService>();
-                configureHost?.Invoke(config);
-            });
+    /// <summary>
+    /// Adds services required for resolving URLs to external services.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection, to enable chaining.</returns>
+    internal static IServiceCollection AddExternalServicesForOperationsControlApi(this IServiceCollection services)
+    {
+        services.AddExternalServices(
+            "ExternalServices",
+            externalServices => externalServices.AddExternalServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>("OperationsStatus"));
 
-            return services;
-        }
+        return services;
+    }
 
-        /// <summary>
-        /// Adds services required for resolving URLs to external services.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <returns>The service collection, to enable chaining.</returns>
-        internal static IServiceCollection AddExternalServicesForOperationsControlApi(this IServiceCollection services)
-        {
-            services.AddExternalServices(
-                "ExternalServices",
-                externalServices => externalServices.AddExternalServiceWithEmbeddedDefinition<OperationsStatusOpenApiService>("OperationsStatus"));
+    /// <summary>
+    /// Adds services required to access tenant information.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection, to enable chaining.</returns>
+    internal static IServiceCollection AddMarainTenancyServices(this IServiceCollection services)
+    {
+        // TODO: Work out exactly why it's necessary to call the methods in this order. Switching the order
+        // results in an attempt to register the Tenant content type with the ContentFactory twice, but it wasn't
+        // obvious from an initial scan through exactly why this is.
+        services.AddTenantProviderServiceClient(true);
+        services.AddMarainServiceConfiguration();
+        services.AddSingleton<JsonConverter>(new OperationStatusConverter());
 
-            return services;
-        }
+        services.AddMarainServicesTenancy();
 
-        /// <summary>
-        /// Adds services required to access tenant information.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <returns>The service collection, to enable chaining.</returns>
-        internal static IServiceCollection AddMarainTenancyServices(this IServiceCollection services)
-        {
-            // TODO: Work out exactly why it's necessary to call the methods in this order. Switching the order
-            // results in an attempt to register the Tenant content type with the ContentFactory twice, but it wasn't
-            // obvious from an initial scan through exactly why this is.
-            services.AddTenantProviderServiceClient(true);
-            services.AddMarainServiceConfiguration();
-            services.AddSingleton<JsonConverter>(new OperationStatusConverter());
+        return services;
+    }
 
-            services.AddMarainServicesTenancy();
+    private static IServiceCollection AddOperationsStatusApiNonHostingTypeSpecific(
+        this IServiceCollection services)
+    {
+        services.AddLogging();
 
-            return services;
-        }
+        services.AddSingleton<OperationsStatusOpenApiService>();
+        services.AddSingleton<IOpenApiService, OperationsStatusOpenApiService>(s => s.GetRequiredService<OperationsStatusOpenApiService>());
 
-        private static IServiceCollection AddOperationsStatusApiNonHostingTypeSpecific(
-            this IServiceCollection services)
-        {
-            services.AddLogging();
+        services.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
+        services.AddMarainTenancyServices();
 
-            services.AddSingleton<OperationsStatusOpenApiService>();
-            services.AddSingleton<IOpenApiService, OperationsStatusOpenApiService>(s => s.GetRequiredService<OperationsStatusOpenApiService>());
+        return services;
+    }
 
-            services.AddTransient<IOperationsStatusTasks, OperationsStatusTasks>();
-            services.AddMarainTenancyServices();
+    private static IServiceCollection AddOperationsControlApiNonHostingTypeSpecific(
+        this IServiceCollection services)
+    {
+        services.AddLogging();
 
-            return services;
-        }
+        services.AddSingleton<OperationsControlOpenApiService>();
+        services.AddSingleton<IOpenApiService, OperationsControlOpenApiService>(s => s.GetRequiredService<OperationsControlOpenApiService>());
+        services.AddTransient<IOperationsControlTasks, OperationsControlTasks>();
 
-        private static IServiceCollection AddOperationsControlApiNonHostingTypeSpecific(
-            this IServiceCollection services)
-        {
-            services.AddLogging();
+        services.AddExternalServicesForOperationsControlApi();
+        services.AddMarainTenancyServices();
 
-            services.AddSingleton<OperationsControlOpenApiService>();
-            services.AddSingleton<IOpenApiService, OperationsControlOpenApiService>(s => s.GetRequiredService<OperationsControlOpenApiService>());
-            services.AddTransient<IOperationsControlTasks, OperationsControlTasks>();
-
-            services.AddExternalServicesForOperationsControlApi();
-            services.AddMarainTenancyServices();
-
-            return services;
-        }
+        return services;
     }
 }
