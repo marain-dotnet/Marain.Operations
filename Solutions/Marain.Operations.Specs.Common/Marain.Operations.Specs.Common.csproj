@@ -9,12 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.12">
+    <PackageReference Include="Corvus.Storage.Azure.BlobStorage.Tenancy" Version="3.7.1" />
+    <PackageReference Include="Endjin.RecommendedPractices.GitHub" Version="2.1.18">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="3.0.0" />
-    <PackageReference Include="Marain.TenantManagement.Azure.BlobStorage" Version="3.0.0" />
+    <PackageReference Include="Marain.Services.Tenancy.Testing" Version="3.1.2" />
+    <PackageReference Include="Marain.TenantManagement.Azure.BlobStorage" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
