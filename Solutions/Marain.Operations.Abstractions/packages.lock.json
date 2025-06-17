@@ -4,22 +4,22 @@
     "net6.0": {
       "Corvus.Tenancy.Abstractions": {
         "type": "Direct",
-        "requested": "[3.4.0, )",
-        "resolved": "3.4.0",
-        "contentHash": "PuJAIcyWCwzDUALJaHOVGAbQEqNXMMl3Yscej0UXAa1SNVa2bccvd2ZnJPORlZKc5W92jn/B5uYpwm1I4ZW4FA==",
+        "requested": "[3.5.0, )",
+        "resolved": "3.5.0",
+        "contentHash": "vndoRi3mABt+YyeP+NyGY8nUkF0XlFQgmKJJXQ12Jv5xeXYfWSzU34R1G0hXovIRu58UYdHEG7fpgu1ZVREZZA==",
         "dependencies": {
-          "Corvus.ContentHandling.Json": "2.0.13",
+          "Corvus.ContentHandling.Json": "3.0.0",
           "Corvus.Extensions": "1.1.10",
           "Microsoft.Extensions.Primitives": "6.0.0"
         }
       },
       "Endjin.RecommendedPractices.GitHub": {
         "type": "Direct",
-        "requested": "[2.1.4, )",
-        "resolved": "2.1.4",
-        "contentHash": "SUBvnwWuKtklIv9NWqY9PI/J1nONyvcOlitIhUTq5Hk8K0QnBoISc1xTZTe0C0tOtUW1JIAZeEYwAAeuzQwtYg==",
+        "requested": "[2.1.12, )",
+        "resolved": "2.1.12",
+        "contentHash": "JEOlUQymdvrI6OeVHPTpakLhOJvkLdvmH+wJNNdjqSq3FtZ2LnqKei+4AMFUzTdJcL6RF3KGD3x0AqUfhYgWcw==",
         "dependencies": {
-          "Endjin.RecommendedPractices": "2.1.4",
+          "Endjin.RecommendedPractices": "2.1.12",
           "Microsoft.SourceLink.GitHub": "1.1.1"
         }
       },
@@ -42,20 +42,11 @@
           "Tavis.UriTemplates": "1.1.1"
         }
       },
-      "Roslynator.Analyzers": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Direct",
-        "requested": "[4.2.0, )",
-        "resolved": "4.2.0",
-        "contentHash": "3N8CNx1Q/Q5VDDL7qgfZRgTURyMqzHAkAB59AZKRnsOXoh2n9xRzhiBMIbJaUtBATmieECBx68GcjRn2xoNDug=="
-      },
-      "StyleCop.Analyzers": {
-        "type": "Direct",
-        "requested": "[1.2.0-beta.435, )",
-        "resolved": "1.2.0-beta.435",
-        "contentHash": "TADk7vdGXtfTnYCV7GyleaaRTQjfoSfZXprQrVMm7cSJtJbFc1QIbWPyLvrgrfGdfHbGmUPvaN4ODKNxg2jgPQ==",
-        "dependencies": {
-          "StyleCop.Analyzers.Unstable": "1.2.0.435"
-        }
+        "requested": "[9.0.6, )",
+        "resolved": "9.0.6",
+        "contentHash": "0Zn6nR/6g+90MxskZyOOMPQvnPnrrGu6bytPwkV+azDcTtCSuQ1+GJUrg8Klmnrjk1i6zMpw2lXijl+tw7Q3kA=="
       },
       "Corvus.ContentHandling": {
         "type": "Transitive",
@@ -69,12 +60,11 @@
       },
       "Corvus.ContentHandling.Json": {
         "type": "Transitive",
-        "resolved": "2.0.13",
-        "contentHash": "y+3TerKbvASv+bDujKxs/gbpBcF8Weib7wpJPRD2jJosk8NEWa/IplGEhkO8yC2sX2hun1NlfMq/9KWQZXrJjg==",
+        "resolved": "3.0.0",
+        "contentHash": "gElkJIFPtPomoVI1dOUE+wVF8VKFIiCV6AWLaJXghnb60y8klpLsk1LD+DR1HPHydNfYSqMMOATf2RIix22rNg==",
         "dependencies": {
-          "Corvus.ContentHandling": "2.0.13",
-          "Corvus.Extensions.Newtonsoft.Json": "2.0.6",
-          "Newtonsoft.Json": "11.0.2"
+          "Corvus.ContentHandling": "3.0.0",
+          "Corvus.Extensions.Newtonsoft.Json": "3.0.0"
         }
       },
       "Corvus.Extensions": {
@@ -110,8 +100,8 @@
       },
       "Endjin.RecommendedPractices": {
         "type": "Transitive",
-        "resolved": "2.1.4",
-        "contentHash": "3B8zpRU3LEwHNZvEU8NHhzFZKZDpVaI4sMhv8bXcEoLQhRvJiBKQ90hibZIz7veX1Zi9PXrsH11HzdZBQMmntQ==",
+        "resolved": "2.1.12",
+        "contentHash": "OZObdtlvF6isizGzO0Vydwmj2IR8GxydcTMGCoA9lmejnlCRWYPuyJXr3ULknlJ23hHDkyLFnu/xNA4duMr2SQ==",
         "dependencies": {
           "Microsoft.Build.Tasks.Git": "1.1.1"
         }
@@ -169,11 +159,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
-      },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "6.0.0",
-        "contentHash": "xlzi2IYREJH3/m6+lUrQlujzX8wDitm4QGnUu6kUXTQAWPuZY8i+ticFJbzfqaetLA6KR/rO6Ew/HuYD+bxifg=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "Transitive",
@@ -353,11 +338,6 @@
         "type": "Transitive",
         "resolved": "2.1.0",
         "contentHash": "2jBenJ6QN0mj8G3ohrNO/uNhA92OJYsQFuI5dJ4zM/HauVoC/oJzK1sCVlUaVUpuXpHUa/k1waXVkkBR2luP/w=="
-      },
-      "StyleCop.Analyzers.Unstable": {
-        "type": "Transitive",
-        "resolved": "1.2.0.435",
-        "contentHash": "ouwPWZxbOV3SmCZxIRqHvljkSzkCyi1tDoMzQtDb/bRP8ctASV/iRJr+A2Gdj0QLaLmWnqTWDrH82/iP+X80Lg=="
       },
       "System.AppContext": {
         "type": "Transitive",
