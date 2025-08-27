@@ -2,81 +2,80 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection;
+
+using System;
+
+using Corvus.Identity.ClientAuthentication.MicrosoftRest;
+
+using Marain.Operations.Client.OperationsControl;
+
+using Microsoft.Rest;
+
+/// <summary>
+/// DI initialization for clients of the Operations control service.
+/// </summary>
+public static class OperationsControlClientServiceCollectionExtensions
 {
-    using System;
+    /// <summary>
+    /// Adds the Operations control client to a service collection.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="getOptions">A callback that can be used to retrieve options for the client.</param>
+    /// <returns>The modified service collection.</returns>
+    public static IServiceCollection AddOperationsControlClient(
+        this IServiceCollection services,
+        Func<IServiceProvider, MarainOperationsControlClientOptions> getOptions)
+    {
+        services.AddSingleton(sp =>
+        {
+            MarainOperationsControlClientOptions options = getOptions(sp);
 
-    using Corvus.Identity.ClientAuthentication.MicrosoftRest;
+            if (options is null || options.OperationsControlServiceBaseUri == null)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot instantiate the Operations Control client without supplying a value for {nameof(MarainOperationsControlClientOptions.OperationsControlServiceBaseUri)}.");
+            }
 
-    using Marain.Operations.Client.OperationsControl;
+            return BuildOperationsControlClient(sp, options.OperationsControlServiceBaseUri, options.ResourceIdForMsiAuthentication);
+        });
 
-    using Microsoft.Rest;
+        return services;
+    }
 
     /// <summary>
-    /// DI initialization for clients of the Operations control service.
+    /// Adds the Operations control client to a service collection.
     /// </summary>
-    public static class OperationsControlClientServiceCollectionExtensions
+    /// <param name="services">The service collection.</param>
+    /// <param name="options">Options for the client.</param>
+    /// <returns>The modified service collection.</returns>
+    public static IServiceCollection AddOperationsControlClient(
+        this IServiceCollection services,
+        MarainOperationsControlClientOptions options)
     {
-        /// <summary>
-        /// Adds the Operations control client to a service collection.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="getOptions">A callback that can be used to retrieve options for the client.</param>
-        /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddOperationsControlClient(
-            this IServiceCollection services,
-            Func<IServiceProvider, MarainOperationsControlClientOptions> getOptions)
-        {
-            services.AddSingleton(sp =>
-            {
-                MarainOperationsControlClientOptions options = getOptions(sp);
+        return services.AddOperationsControlClient(_ => options);
+    }
 
-                if (options is null || options.OperationsControlServiceBaseUri == null)
-                {
-                    throw new InvalidOperationException(
-                        $"Cannot instantiate the Operations Control client without supplying a value for {nameof(MarainOperationsControlClientOptions.OperationsControlServiceBaseUri)}.");
-                }
-
-                return BuildOperationsControlClient(sp, options.OperationsControlServiceBaseUri, options.ResourceIdForMsiAuthentication);
-            });
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds the Operations control client to a service collection.
-        /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="options">Options for the client.</param>
-        /// <returns>The modified service collection.</returns>
-        public static IServiceCollection AddOperationsControlClient(
-            this IServiceCollection services,
-            MarainOperationsControlClientOptions options)
-        {
-            return services.AddOperationsControlClient(_ => options);
-        }
-
-        /// <summary>
-        /// Adds the Operations control client to a service collection.
-        /// </summary>
-        /// <param name="baseUri">The base URI of the Operations control service.</param>
-        /// <param name="resourceIdForMsiAuthentication">
-        /// The resource id to use when obtaining an authentication token representing the
-        /// hosting service's identity. Pass null to run without authentication.
-        /// </param>
-        /// <returns>The modified service collection.</returns>
-        private static IMarainOperationsControl BuildOperationsControlClient(
-            IServiceProvider serviceProvider,
-            Uri baseUri,
-            string resourceIdForMsiAuthentication = null)
-        {
-            return string.IsNullOrEmpty(resourceIdForMsiAuthentication)
-                ? new UnauthenticatedMarainOperationsControl(baseUri)
-                : new MarainOperationsControl(
-                        baseUri,
-                        new TokenCredentials(
-                           serviceProvider.GetRequiredService<IServiceIdentityMicrosoftRestTokenProviderSource>().GetTokenProvider(
-                               $"{resourceIdForMsiAuthentication}/.default")));
-        }
+    /// <summary>
+    /// Adds the Operations control client to a service collection.
+    /// </summary>
+    /// <param name="baseUri">The base URI of the Operations control service.</param>
+    /// <param name="resourceIdForMsiAuthentication">
+    /// The resource id to use when obtaining an authentication token representing the
+    /// hosting service's identity. Pass null to run without authentication.
+    /// </param>
+    /// <returns>The modified service collection.</returns>
+    private static IMarainOperationsControl BuildOperationsControlClient(
+        IServiceProvider serviceProvider,
+        Uri baseUri,
+        string resourceIdForMsiAuthentication = null)
+    {
+        return string.IsNullOrEmpty(resourceIdForMsiAuthentication)
+            ? new UnauthenticatedMarainOperationsControl(baseUri)
+            : new MarainOperationsControl(
+                baseUri,
+                new TokenCredentials(
+                    serviceProvider.GetRequiredService<IServiceIdentityMicrosoftRestTokenProviderSource>().GetTokenProvider(
+                        $"{resourceIdForMsiAuthentication}/.default")));
     }
 }

@@ -2,34 +2,33 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-namespace Marain.Operations.Tasks
+namespace Marain.Operations.Tasks;
+
+using System;
+using System.Threading.Tasks;
+using Corvus.Tenancy;
+using Marain.Operations.Domain;
+using Marain.Operations.Storage;
+
+/// <summary>
+/// The underlying operations for getting and modifying the state of long running operations.
+/// </summary>
+public class OperationsStatusTasks : IOperationsStatusTasks
 {
-    using System;
-    using System.Threading.Tasks;
-    using Corvus.Tenancy;
-    using Marain.Operations.Domain;
-    using Marain.Operations.Storage;
+    private readonly IOperationsRepository operationRepository;
 
     /// <summary>
-    /// The underlying operations for getting and modifying the state of long running operations.
+    /// Creates a new <see cref="OperationsStatusTasks"/>.
     /// </summary>
-    public class OperationsStatusTasks : IOperationsStatusTasks
+    /// <param name="operationRepository">Storage.</param>
+    public OperationsStatusTasks(IOperationsRepository operationRepository)
     {
-        private readonly IOperationsRepository operationRepository;
+        this.operationRepository = operationRepository;
+    }
 
-        /// <summary>
-        /// Creates a new <see cref="OperationsStatusTasks"/>.
-        /// </summary>
-        /// <param name="operationRepository">Storage.</param>
-        public OperationsStatusTasks(IOperationsRepository operationRepository)
-        {
-            this.operationRepository = operationRepository;
-        }
-
-        /// <inheritdoc />
-        public Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
-        {
-            return this.operationRepository.GetAsync(tenant, operationId);
-        }
+    /// <inheritdoc />
+    public Task<Operation?> GetAsync(ITenant tenant, Guid operationId)
+    {
+        return this.operationRepository.GetAsync(tenant, operationId);
     }
 }

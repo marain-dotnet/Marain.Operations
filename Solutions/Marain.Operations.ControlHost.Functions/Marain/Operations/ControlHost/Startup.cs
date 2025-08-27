@@ -4,35 +4,35 @@
 
 [assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(Marain.Operations.ControlHost.Startup))]
 
-namespace Marain.Operations.ControlHost
+namespace Marain.Operations.ControlHost;
+
+using System;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+/// <summary>
+/// Startup code for the Function.
+/// </summary>
+public class Startup : FunctionsStartup
 {
-    using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
-    /// <summary>
-    /// Startup code for the Function.
-    /// </summary>
-    public class Startup : FunctionsStartup
+    /// <inheritdoc/>
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        /// <inheritdoc/>
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            IServiceCollection services = builder.Services;
-            IConfiguration config = builder.GetContext().Configuration;
+        IServiceCollection services = builder.Services;
+        IConfiguration config = builder.GetContext().Configuration;
 
-            services.AddApplicationInsightsInstrumentationTelemetry();
-            services.AddLogging();
+        services.AddApplicationInsightsInstrumentationTelemetry();
+        services.AddLogging();
 
-            // TODO: we really shouldn't need this. Menes.Hosting turns out to have a dependency on
-            // IConfigurationRoot. Yuck.
-            services.AddSingleton((IConfigurationRoot)config);
+        // TODO: we really shouldn't need this. Menes.Hosting turns out to have a dependency on
+        // IConfigurationRoot. Yuck.
+        services.AddSingleton((IConfigurationRoot)config);
 
-            string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"];
-            services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
-            services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
+        string azureServicesAuthConnectionString = config["AzureServicesAuthConnectionString"] ?? throw new InvalidOperationException("AzureServicesAuthConnectionString configuration is missing");
 
-            services.AddTenantedOperationsControlApiWithOpenApiActionResultHosting(config => config.Documents.AddSwaggerEndpoint());
-        }
+        services.AddServiceIdentityAzureTokenCredentialSourceFromLegacyConnectionString(azureServicesAuthConnectionString);
+        services.AddMicrosoftRestAdapterForServiceIdentityAccessTokenSource();
+        services.AddTenantedOperationsControlApiWithOpenApiActionResultHosting(openApiHostConfiguration => openApiHostConfiguration.Documents.AddSwaggerEndpoint());
     }
 }

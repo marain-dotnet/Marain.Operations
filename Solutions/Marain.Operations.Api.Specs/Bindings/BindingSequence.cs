@@ -2,14 +2,13 @@
 // Copyright (c) Endjin Limited. All rights reserved.
 // </copyright>
 
-namespace Marain.Operations.Api.Specs.Bindings
+namespace Marain.Operations.Api.Specs.Bindings;
+
+using Corvus.Testing.SpecFlow;
+
+public static class BindingSequence
 {
-    using Corvus.Testing.SpecFlow;
+    public const int TransientTenantSetup = ContainerBeforeFeatureOrder.ServiceProviderAvailable;
 
-    public static class BindingSequence
-    {
-        public const int TransientTenantSetup = ContainerBeforeFeatureOrder.ServiceProviderAvailable;
-
-        public const int FunctionStartup = TransientTenantSetup + 1;
-    }
+    public const int FunctionStartup = TransientTenantSetup + 1;
 }
